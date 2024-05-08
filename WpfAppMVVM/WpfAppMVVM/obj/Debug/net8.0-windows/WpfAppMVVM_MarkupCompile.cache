@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\Диплом\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\
 WpfAppMVVM
 none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-D:\Диплом\WpfAppMVVM\WpfAppMVVM\App.xaml
-41609711833
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\App.xaml
+4-1499293482
 
-281975264230
+281458588476
 213106807615
-CreatingAccountWindow.xaml;CreatingTransportationWindow.xaml;MainWindow.xaml;WindowReferencesBook.xaml;
+Views\CreatingAccountWindow.xaml;Views\CreatingTransportationWindow.xaml;Views\MainWindow.xaml;Views\WindowReferencesBook.xaml;
 
 False
 

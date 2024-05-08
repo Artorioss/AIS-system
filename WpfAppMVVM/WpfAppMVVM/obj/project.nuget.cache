@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6Dq0UeN4TP1Jq+mSMDsRenh1sJ+hC5CYdsqgkmopKHnZBL6MK1PrSkbQidI1Hfsk11Q/zJZ4MawwdiKMcOjaGQ==",
+  "dgSpecHash": "DKmyePbCeLg9f0VH1z0xQeABGPpOxeq5zJ4JrwWt5VT7QQzF9ge1nDEFDV9syM0a5KHOlzIGIOrCe2RrFzdU6g==",
   "success": true,
-  "projectFilePath": "D:\\Диплом\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
+  "projectFilePath": "C:\\Users\\Artemiy\\Desktop\\Диплом\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Artemiy\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",

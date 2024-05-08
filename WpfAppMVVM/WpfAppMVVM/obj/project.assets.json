@@ -2345,11 +2345,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Диплом\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
+      "projectUniqueName": "C:\\Users\\Artemiy\\Desktop\\Диплом\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
       "projectName": "WpfAppMVVM",
-      "projectPath": "D:\\Диплом\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
+      "projectPath": "C:\\Users\\Artemiy\\Desktop\\Диплом\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
       "packagesPath": "C:\\Users\\Artemiy\\.nuget\\packages\\",
-      "outputPath": "D:\\Диплом\\WpfAppMVVM\\WpfAppMVVM\\obj\\",
+      "outputPath": "C:\\Users\\Artemiy\\Desktop\\Диплом\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Artemiy\\AppData\\Roaming\\NuGet\\NuGet.Config",
