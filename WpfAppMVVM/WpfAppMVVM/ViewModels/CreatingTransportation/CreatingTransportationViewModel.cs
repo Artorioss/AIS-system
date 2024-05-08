@@ -19,11 +19,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
     internal partial class CreatingTransportationViewModel : BaseViewModel
     {
         public Transportation Transportation { get; set; }
-        public Driver Driver { get; set; }
         public Car Car { get; set; }
         public Trailler Trailer { get; set; }
         public TransportCompany TransportCompany { get; set; }
-        public RoutePointLoader RoutePointLoader { get; set; }
+        protected RoutePointLoader RoutePointLoader { get; set; }
 
         public CreatingTransportationViewModel()
         {

@@ -9,7 +9,7 @@ using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.Models
 {
-    class RoutePointLoader
+    public class RoutePointLoader
     {
         private const string _pattern = @"([п,г]\.\s)*[\w\(\)]+(?:\sи\s[\w\(\)]+)?";
         private Regex _regex;

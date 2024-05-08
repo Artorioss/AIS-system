@@ -110,7 +110,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Водитель" Width="auto" Margin="5" Grid.Column="0"></Label>
-                    <ComboBox Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" IsEditable="True" TextBoxBase.TextChanged="comboBoxDriver_TextChanged" IsTextSearchEnabled="False" DisplayMemberPath="Name" PreviewLostKeyboardFocus="ComboboxDriver_PreviewLostKeyboardFocus"></ComboBox>
+                    <ComboBox Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" IsEditable="True" Text="{Binding DriverName}" ItemsSource="{Binding DriversSource}"  IsTextSearchEnabled="False" DisplayMemberPath="Name" PreviewLostKeyboardFocus="ComboboxDriver_PreviewLostKeyboardFocus"></ComboBox>
 
                     <Label Content="Компания от водителя" Margin="5" Grid.Column="2"></Label>
                     <ComboBox Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" IsEditable="True" Grid.ColumnSpan="2" TextBoxBase.TextChanged="comboBoxTransportCompany_TextChanged" LostFocus="comboBoxTransportCompany_LostFocus" IsTextSearchEnabled="False"></ComboBox>
