@@ -27,7 +27,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         public CreatingTransportationViewModel()
         {
             Customers = new ObservableCollection<Customer>();
+            DriversSource = new List<Driver>();
             SetCustomer = new DelegateCommand((obj) => setCustomer());
+            SetDriver = new DelegateCommand((obj) => setDriver());
+            SetCompany = new DelegateCommand((obj) => setCompany());
             RoutePoints = new ObservableCollection<RoutePoint>();
             AddLoadingRoute = new DelegateCommand((obj) => AddLoadingRoutePoint());
             AddLoadingRouteByKeyboard = new DelegateCommand(RouteLoading_KeyDown);
