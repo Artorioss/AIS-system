@@ -11,6 +11,7 @@ using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Models;
 using WpfAppMVVM.Models.QueryObjects;
+using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels

@@ -3,11 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WpfAppMVVM.Views" xmlns:local1="clr-namespace:WpfAppMVVM.Model"
+        xmlns:local1="clr-namespace:WpfAppMVVM.Model"
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.CreatingTransportation"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
             Title="Заявка" Height="700" Width="650" FontSize="16">
 
+    <Window.DataContext>
+        <vm:CreatingTransportationViewModel/>
+    </Window.DataContext>
+    
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
