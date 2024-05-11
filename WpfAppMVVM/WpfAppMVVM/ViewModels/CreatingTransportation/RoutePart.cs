@@ -1,25 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WpfAppMVVM.Model.Command;
-using WpfAppMVVM.Models.Entities;
-using WpfAppMVVM.Models;
 using System.Windows.Input;
+using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Models;
+using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
     internal partial class CreatingTransportationViewModel : BaseViewModel
     {
         private RoutePointLoader _routePointLoader;
-        public ObservableCollection<RoutePoint> RoutePoints { get; set; }
+        public List<RoutePoint> _routePointSource;
+        public List<RoutePoint> RoutePointSource
+        {
+            get => _routePointSource;
+            set 
+            {
+                _routePointSource = value;
+                OnPropertyChanged(nameof(RoutePointSource));
+            }
+        }
         public DelegateCommand AddLoadingRoute { get; private set; }
         public DelegateCommand AddLoadingRouteByKeyboard { get; private set; }
         public DelegateCommand AddDispatcherRoute { get; private set; }
         public DelegateCommand AddDispatcherRouteByKeyboard { get; private set; }
+        public DelegateCommand GetPointRouteLoadings { get; private set; }
+        public DelegateCommand GetPointRouteDispatchers { get; private set; }
 
         private bool _generalRoutFocusable;
         public bool GeneralRoutFocusable
@@ -52,7 +57,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             {
                 _loadingRoutePointName = value;
                 OnPropertyChanged(nameof(LoadingRoutePointName));
-                getPointRouteLoadings();
+                getPointRouteLoadings(_loadingRoutePointName);
             }
         }
 
@@ -64,7 +69,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             {
                 _dispatcherRoutePointName = value;
                 OnPropertyChanged(nameof(DispatcherRoutePointName));
-                getPointRouteDispatchers();
+                getPointRouteDispatchers(_dispatcherRoutePointName);
             }
         }
 
@@ -90,76 +95,24 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private bool _isDropDownOpenLoadings;
-        public bool IsDropDownOpenLoadings
+        private void getPointRouteLoadings(object e)
         {
-            get => _isDropDownOpenLoadings;
-            set
-            {
-                _isDropDownOpenLoadings = value;
-                OnPropertyChanged(nameof(IsDropDownOpenLoadings));
-            }
+            string text = e as string;
+            RoutePointSource = _context.RoutePoints.AsNoTracking()
+                                        .Where(c => c.Name.ToLower().Contains(text.ToLower()))
+                                        .OrderBy(c => c.Name)
+                                        .Take(5)
+                                        .ToList();
         }
 
-        private bool _isDropDownOpenDispatchers;
-        public bool IsDropDownOpenDispatchers
+        private void getPointRouteDispatchers(object e)
         {
-            get => _isDropDownOpenDispatchers;
-            set
-            {
-                _isDropDownOpenDispatchers = value;
-                OnPropertyChanged(nameof(IsDropDownOpenDispatchers));
-            }
-        }
-
-        private void getPointRouteLoadings()
-        {
-            if (string.IsNullOrEmpty(LoadingRoutePointName))
-            {
-                IsDropDownOpenLoadings = false;
-                LoadingRoutePoint = null;
-            }
-            else if (LoadingRoutePoint == null)
-            {
-                var list = _context.RoutePoints.AsNoTracking()
-                                          .Where(c => c.Name.ToLower().Contains(LoadingRoutePointName.ToLower()))
-                                          .OrderBy(c => c.Name)
-                                          .Take(5)
-                                          .ToList();
-
-                RoutePoints.Clear();
-                foreach (var routePoint in list)
-                {
-                    RoutePoints.Add(routePoint);
-                }
-            }
-
-            IsDropDownOpenLoadings = RoutePoints.Count > 0;
-        }
-
-        private void getPointRouteDispatchers()
-        {
-            if (string.IsNullOrEmpty(DispatcherRoutePointName))
-            {
-                IsDropDownOpenDispatchers = false;
-                DispatcherRoutePoint = null;
-            }
-            else if (DispatcherRoutePoint == null)
-            {
-                var list = _context.RoutePoints.AsNoTracking()
-                                          .Where(c => c.Name.ToLower().Contains(DispatcherRoutePointName.ToLower()))
-                                          .OrderBy(c => c.Name)
-                                          .Take(5)
-                                          .ToList();
-
-                RoutePoints.Clear();
-                foreach (var routePoint in list)
-                {
-                    RoutePoints.Add(routePoint);
-                }
-            }
-
-            IsDropDownOpenDispatchers = RoutePoints.Count > 0;
+            string text = e as string;
+            RoutePointSource = _context.RoutePoints.AsNoTracking()
+                                        .Where(c => c.Name.ToLower().Contains(text.ToLower()))
+                                        .OrderBy(c => c.Name)
+                                        .Take(5)
+                                        .ToList();
         }
 
         private void AddLoadingRoutePoint()
@@ -169,7 +122,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _routePointLoader.AddLoading(LoadingRoutePoint);
                 LoadingRoutePoint = null;
                 GeneralRoute = _routePointLoader.ToString();
-                IsDropDownOpenLoadings = false;
             }
             else if (!string.IsNullOrEmpty(LoadingRoutePointName))
             {
@@ -191,7 +143,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _routePointLoader.AddDispatcher(DispatcherRoutePoint);
                 DispatcherRoutePoint = null;
                 GeneralRoute = _routePointLoader.ToString();
-                IsDropDownOpenDispatchers = false;
             }
             else if (!string.IsNullOrEmpty(DispatcherRoutePointName))
             {

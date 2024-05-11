@@ -13,6 +13,7 @@ using System.Windows;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Runtime.Serialization;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -26,16 +27,18 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         public CreatingTransportationViewModel()
         {
-            Customers = new ObservableCollection<Customer>();
+            CustomerSource = new List<Customer>();
             DriversSource = new List<Driver>();
-            SetCustomer = new DelegateCommand((obj) => setCustomer());
-            SetDriver = new DelegateCommand((obj) => setDriver());
-            SetCompany = new DelegateCommand((obj) => setCompany());
-            RoutePoints = new ObservableCollection<RoutePoint>();
+            GetCustomers = new DelegateCommand(getCustomers);
+            GetDrivers = new DelegateCommand(getDrivers);
+            GetCompanies = new DelegateCommand(getCompanies);
+            RoutePointSource = new List<RoutePoint>();
             AddLoadingRoute = new DelegateCommand((obj) => AddLoadingRoutePoint());
             AddLoadingRouteByKeyboard = new DelegateCommand(RouteLoading_KeyDown);
             AddDispatcherRoute = new DelegateCommand((obj) => AddDispatcherRoutePoint());
             AddDispatcherRouteByKeyboard = new DelegateCommand(RouteDispatcher_KeyDown);
+            GetPointRouteLoadings = new DelegateCommand(getPointRouteLoadings);
+            GetPointRouteDispatchers = new DelegateCommand(getPointRouteDispatchers);
             _routePointLoader = new RoutePointLoader();
         }
     }

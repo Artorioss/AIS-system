@@ -43,11 +43,12 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Заказчик" Grid.Row="0" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxCustomers" TextSearch.TextPath="Name" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" IsEditable="True" DisplayMemberPath="Name" IsTextSearchEnabled="False" Text="{Binding CustomerName}" ItemsSource="{Binding Customers}" SelectedItem="{Binding Customer}" IsDropDownOpen="{Binding IsDropDownOpenCustomers}">
+                <local1:CustomComboBox x:Name="comboBoxCustomers" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" DisplayMemberPath="Name" ItemsSource="{Binding CustomerSource}" SelectedItem="{Binding Customer}">
                     <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="LostKeyboardFocus">
+                        <i:EventTrigger EventName="CustomEvent">
                             <i:InvokeCommandAction
-                            Command="{Binding SetCustomer}"/>
+                            Command="{Binding GetCustomers}"
+                            CommandParameter="{Binding Text, ElementName=comboBoxCustomers}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </local1:CustomComboBox>
@@ -59,20 +60,34 @@
                 <TextBox Name="textBoxSum" TextChanged="textBoxSum_TextChanged" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5"></TextBox>
 
                 <Label Content="Точка загрузки" Grid.Row="3" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxRouteLoading" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5" IsEditable="true" TextSearch.TextPath="Name" IsTextSearchEnabled="False" DisplayMemberPath="Name" Text="{Binding LoadingRoutePointName}" ItemsSource="{Binding RoutePoints}" SelectedItem="{Binding LoadingRoutePoint}" IsDropDownOpen="{Binding IsDropDownOpenLoadings}">
+                <local1:CustomComboBox x:Name="comboBoxRouteLoading" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding LoadingRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding LoadingRoutePoint}">
                     <i:Interaction.Behaviors>
                         <local1:KeyUpWithArgsBehavior
                             KeyUpCommand="{Binding AddLoadingRouteByKeyboard}" />
                     </i:Interaction.Behaviors>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                            Command="{Binding GetPointRouteLoadings}"
+                            CommandParameter="{Binding LoadingRoutePointName}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </local1:CustomComboBox>
                 <Button Name="buttonAddRouteLoading" Content="Добавить" Grid.Row="3" Grid.Column="2" Margin="5,5,5,5" Command="{Binding AddLoadingRoute}"></Button>
 
                 <Label Content="Точка выгрузки" Grid.Row="4" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxRouteDispatcher" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" IsEditable="true" TextSearch.TextPath="Name" IsTextSearchEnabled="False" DisplayMemberPath="Name" Text="{Binding DispatcherRoutePointName}" ItemsSource="{Binding RoutePoints}" SelectedItem="{Binding DispatcherRoutePoint}" IsDropDownOpen="{Binding IsDropDownOpenDispatchers}">
+                <local1:CustomComboBox x:Name="comboBoxRouteDispatcher" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding DispatcherRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding DispatcherRoutePoint}">
                     <i:Interaction.Behaviors>
                         <local1:KeyUpWithArgsBehavior
                             KeyUpCommand="{Binding AddDispatcherRouteByKeyboard}" />
                     </i:Interaction.Behaviors>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                                Command="{Binding GetPointRouteDispatchers}"
+                                CommandParameter="{Binding DispatcherRoutePointName}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </local1:CustomComboBox>
                 <Button Name="buttonAddRouteDispatcher" Content="Добавить" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" Command="{Binding AddDispatcherRoute}"></Button>
 
@@ -109,21 +124,23 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Водитель" Width="auto" Margin="5" Grid.Column="0"></Label>
-                    <local1:CustomComboBox x:Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" IsEditable="True" Text="{Binding DriverName}" ItemsSource="{Binding DriversSource}" SelectedItem="{Binding Driver}" IsDropDownOpen="{Binding IsDropDownOpenDrivers}" IsTextSearchEnabled="False" DisplayMemberPath="Name">
+                    <local1:CustomComboBox x:Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" SelectedItem="{Binding Driver}" ItemsSource="{Binding DriversSource}" DisplayMemberPath="Name">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostKeyboardFocus">
+                            <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
-                                    Command="{Binding SetDriver}"/>
+                                    Command="{Binding GetDrivers}"
+                                    CommandParameter="{Binding Text, ElementName=ComboboxDriver}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </local1:CustomComboBox>
 
                     <Label Content="Компания от водителя" Margin="5" Grid.Column="2"></Label>
-                    <local1:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" IsEditable="True" Grid.ColumnSpan="2" Text="{Binding CompanyName}" SelectedItem="{Binding Company}" ItemsSource="{Binding CompaniesSource}" IsDropDownOpen="{Binding IsDropDownOpenCompanies}" IsTextSearchEnabled="False">
+                    <local1:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" Grid.ColumnSpan="2" SelectedItem="{Binding Company}" ItemsSource="{Binding CompaniesSource}">
                         <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="LostKeyboardFocus">
+                            <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
-                                Command="{Binding SetCompany}"/>
+                                Command="{Binding GetCompanies}"
+                                CommandParameter="{Binding Text, ElementName=comboBoxTransportCompany}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </local1:CustomComboBox>
