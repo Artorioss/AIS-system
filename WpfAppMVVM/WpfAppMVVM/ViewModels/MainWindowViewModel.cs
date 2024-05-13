@@ -46,6 +46,7 @@ namespace WpfAppMVVM.ViewModels
                 .TransportationToDTO().ToList();
             ItemsSource = new ObservableCollection<TransportationDTO>(list);
             CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
+            ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
         }
 
         private void showTransportationWindow()
@@ -55,7 +56,7 @@ namespace WpfAppMVVM.ViewModels
             creatingTransportationWindow.ShowDialog();
         }
 
-        private void showWindowReferencesBook(object sender, RoutedEventArgs e)
+        private void showWindowReferencesBook()
         {
             WindowReferencesBook windowReferencesBook = new WindowReferencesBook();
             windowReferencesBook.ShowDialog();

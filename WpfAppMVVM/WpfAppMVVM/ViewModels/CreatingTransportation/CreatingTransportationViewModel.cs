@@ -20,18 +20,23 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
     internal partial class CreatingTransportationViewModel : BaseViewModel
     {
         public Transportation Transportation { get; set; }
-        public Car Car { get; set; }
-        public Trailler Trailer { get; set; }
-        public TransportCompany TransportCompany { get; set; }
         protected RoutePointLoader RoutePointLoader { get; set; }
 
         public CreatingTransportationViewModel()
         {
             CustomerSource = new List<Customer>();
             DriversSource = new List<Driver>();
+            CompaniesSource = new List<TransportCompany>();
+            CarBrandSource = new List<CarBrand>();
+            CarSource = new List<Car>();
+            TraillerSource = new List<Trailler>();
+            TraillerBrandSource = new List<TraillerBrand>();
+            GetCarBrands = new DelegateCommand(getCarBrands);
+            GetTraillerBrands = new DelegateCommand(getTraillers);
             GetCustomers = new DelegateCommand(getCustomers);
             GetDrivers = new DelegateCommand(getDrivers);
             GetCompanies = new DelegateCommand(getCompanies);
+            //GetCars = new DelegateCommand(getCars);
             RoutePointSource = new List<RoutePoint>();
             AddLoadingRoute = new DelegateCommand((obj) => AddLoadingRoutePoint());
             AddLoadingRouteByKeyboard = new DelegateCommand(RouteLoading_KeyDown);

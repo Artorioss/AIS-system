@@ -22,7 +22,7 @@ namespace WpfAppMVVM.Views
 
         private void buttonCars_Click(object sender, RoutedEventArgs e)
         {
-            dataGridView.Columns.Clear();
+            DataGrid dataGrid = new DataGrid(); 
 
             DataGridTextColumn columnCarBrand = new DataGridTextColumn();
             columnCarBrand.Header = "Бренд";
@@ -40,11 +40,11 @@ namespace WpfAppMVVM.Views
             columnIsTrack.Width = new DataGridLength(50, DataGridLengthUnitType.Auto);
 
 
-            dataGridView.Columns.Add(columnCarBrand);
-            dataGridView.Columns.Add(columnNumber);
-            dataGridView.Columns.Add(columnIsTrack);
+            dataGrid.Columns.Add(columnCarBrand);
+            dataGrid.Columns.Add(columnNumber);
+            dataGrid.Columns.Add(columnIsTrack);
 
-            dataGridView.ItemsSource = _context.Cars.Include(car => car.CarBrand).ToList();
+            dataGrid.ItemsSource = _context.Cars.Include(car => car.CarBrand).ToList();
             _sender = sender;
         }
 
@@ -153,21 +153,21 @@ namespace WpfAppMVVM.Views
 
         private void buttonTraillers_Click(object sender, RoutedEventArgs e)
         {
-            dataGridView.Columns.Clear();
+            //dataGridView.Columns.Clear();
 
-            DataGridTextColumn columnBrandName = new DataGridTextColumn();
-            columnBrandName.Header = "Бренд";
-            columnBrandName.Binding = new Binding("CarBrand.Name");
-            columnBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+            //DataGridTextColumn columnBrandName = new DataGridTextColumn();
+            //columnBrandName.Header = "Бренд";
+            //columnBrandName.Binding = new Binding("CarBrand.Name");
+            //columnBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-            DataGridTextColumn columnNumber = new DataGridTextColumn();
-            columnNumber.Header = "Номер";
-            columnNumber.Binding = new Binding("Number");
-            columnNumber.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+            //DataGridTextColumn columnNumber = new DataGridTextColumn();
+            //columnNumber.Header = "Номер";
+            //columnNumber.Binding = new Binding("Number");
+            //columnNumber.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-            dataGridView.Columns.Add(columnBrandName);
-            dataGridView.Columns.Add(columnNumber);
-            dataGridView.ItemsSource = _context.Traillers.Include(trailer => trailer.CarBrand).ToList();
+            //dataGridView.Columns.Add(columnBrandName);
+            //dataGridView.Columns.Add(columnNumber);
+            //dataGridView.ItemsSource = _context.Traillers.Include(trailer => trailer.CarBrand).ToList();
         }
 
         private void buttonTransportCompanies_Click(object sender, RoutedEventArgs e)

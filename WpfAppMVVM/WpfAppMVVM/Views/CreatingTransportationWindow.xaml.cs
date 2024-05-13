@@ -37,15 +37,15 @@ namespace WpfAppMVVM.Views
             {
                 _transportation = new Transportation
                 {
-                    DateLoading = datePickerUpload.SelectedDate.Value.ToString("yyyy-MM-dd"),
+                    //DateLoading = datePickerUpload.SelectedDate.Value.ToString("yyyy-MM-dd"),
                     CustomerId = _customer.CustomerId,
                     DriverId = _driver.DriverId,
                     TransportCompanyId = _transportCompany.TransportCompanyId,
-                    Price = textBoxSum.Text is null ? null : Convert.ToDecimal(textBoxSum.Text),
-                    PaymentToDriver = textBoxPayment.Text is null ? null : Convert.ToDecimal(textBoxPayment.Text),
+                    //Price = textBoxSum.Text is null ? null : Convert.ToDecimal(textBoxSum.Text),
+                    //PaymentToDriver = textBoxPayment.Text is null ? null : Convert.ToDecimal(textBoxPayment.Text),
                     AccountNumber = null,
                     AccountDate = null,
-                    Address = textBoxGeneralRoute.Text,
+                    //Address = textBoxGeneralRoute.Text,
                     StateOrderId = TransportationEntities.StateOrders.Where(state => state.Name == "Обработка").Select(state => state.StateOrderId).Single()
                 };
                 TransportationEntities.Transportations.Add(_transportation);
@@ -190,59 +190,59 @@ namespace WpfAppMVVM.Views
 
         private void setCompanyDriver() 
         {
-            var driverCompany = TransportationEntities.TransportCompanies
-                .Where(comp => comp.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
-                .FirstOrDefault();
-            comboBoxTransportCompany.Text = driverCompany.Name;
+            //var driverCompany = TransportationEntities.TransportCompanies
+            //    .Where(comp => comp.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
+            //    .FirstOrDefault();
+            //comboBoxTransportCompany.Text = driverCompany.Name;
         }
 
         private void trySetTransportByDriver()
         {
-            var cars = TransportationEntities.Cars
-                .Include(car => car.Drivers)
-                .Where(car => car.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
-                .Include(car => car.CarBrand)
-                .Select(car => car);
+            //var cars = TransportationEntities.Cars
+            //    .Include(car => car.Drivers)
+            //    .Where(car => car.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
+            //    .Include(car => car.CarBrand)
+            //    .Select(car => car);
 
-            ComboBoxCarBrand.ItemsSource = cars.Select(car => car.CarBrand).ToList();
-            ComboBoxCarNumber.ItemsSource = cars.ToList();
-            if (cars.Count() == 1)
-            {
-                _car = cars.Single();
-                ComboBoxCarBrand.SelectedItem = _car.CarBrand;
-                ComboBoxCarNumber.SelectedItem = _car;
-            }
-            else
-            {
-                ComboBoxCarBrand.ItemsSource = cars.ToList();
-                ComboBoxCarBrand.Text = null;
-                ComboBoxCarNumber.Text = null;
-            }
+            //ComboBoxCarBrand.ItemsSource = cars.Select(car => car.CarBrand).ToList();
+            //ComboBoxCarNumber.ItemsSource = cars.ToList();
+            //if (cars.Count() == 1)
+            //{
+            //    _car = cars.Single();
+            //    ComboBoxCarBrand.SelectedItem = _car.CarBrand;
+            //    ComboBoxCarNumber.SelectedItem = _car;
+            //}
+            //else
+            //{
+            //    ComboBoxCarBrand.ItemsSource = cars.ToList();
+            //    ComboBoxCarBrand.Text = null;
+            //    ComboBoxCarNumber.Text = null;
+            //}
         }
 
         private void trySetTraillerByDriver()
         {
-            var traillers = TransportationEntities.Traillers
-                .Include(trailler => trailler.Drivers)
-                .Include(trailler => trailler.CarBrand)
-                .Where(trailler => trailler.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
-                .Select(trailler => trailler);
+            //var traillers = TransportationEntities.Traillers
+            //    .Include(trailler => trailler.Drivers)
+            //    .Include(trailler => trailler.CarBrand)
+            //    .Where(trailler => trailler.Drivers.Any(driver => driver.DriverId == _driver.DriverId))
+            //    .Select(trailler => trailler);
 
 
-            comboBoxTrailerBrand.ItemsSource = traillers.ToList();
-            comboBoxTrailerNumber.ItemsSource = traillers.ToList();
-            if (traillers.Count() == 1)
-            {
-                _trailer = traillers.Single();
-                comboBoxTrailerBrand.SelectedItem = _trailer;
-                comboBoxTrailerNumber.SelectedItem = _trailer;
-            }
-            else
-            {
-                comboBoxTrailerBrand.ItemsSource = traillers.ToList();
-                comboBoxTrailerBrand.Text = null;
-                comboBoxTrailerNumber.Text = null;
-            }
+            //comboBoxTrailerBrand.ItemsSource = traillers.ToList();
+            //comboBoxTrailerNumber.ItemsSource = traillers.ToList();
+            //if (traillers.Count() == 1)
+            //{
+                //_trailer = traillers.Single();
+                //comboBoxTrailerBrand.SelectedItem = _trailer;
+                //comboBoxTrailerNumber.SelectedItem = _trailer;
+            //}
+            //else
+            //{
+                //comboBoxTrailerBrand.ItemsSource = traillers.ToList();
+                //comboBoxTrailerBrand.Text = null;
+                //comboBoxTrailerNumber.Text = null;
+            //}
         }
 
         private void comboBoxCar_TextChanged(object sender, TextChangedEventArgs e)
@@ -274,50 +274,50 @@ namespace WpfAppMVVM.Views
 
         private void textBoxGeneralRoute_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (textBoxGeneralRoute.IsFocused)
-            {
-                _routePointLoader.setRoutePoints(textBoxGeneralRoute.Text);
-            }
+            //if (textBoxGeneralRoute.IsFocused)
+            //{
+            //    _routePointLoader.setRoutePoints(textBoxGeneralRoute.Text);
+            //}
         }
 
         private void buttonAddRouteDispatcher_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBoxRouteDispatcher.SelectedItem != null)
-            {
-                _routePointLoader.AddDispatcher(comboBoxRouteDispatcher.SelectedItem as RoutePoint);
-                comboBoxRouteDispatcher.SelectedItem = null;
-                textBoxGeneralRoute.Text = _routePointLoader.ToString();
-                comboBoxRouteDispatcher.IsDropDownOpen = false;
-            }
-            else if (comboBoxRouteDispatcher.Text != string.Empty)
-            {
-                RoutePoint route_Point = TransportationEntities.RoutePoints.Where(s => s.Name.ToLower().Contains(comboBoxRouteDispatcher.Text.ToLower())).FirstOrDefault();
-                if (route_Point is null)
-                    route_Point = new RoutePoint { Name = comboBoxRouteDispatcher.Text };
-                _routePointLoader.AddDispatcher(route_Point);
-                textBoxGeneralRoute.Text = _routePointLoader.ToString();
-                comboBoxRouteDispatcher.Text = string.Empty;
-            }
+            //if (comboBoxRouteDispatcher.SelectedItem != null)
+            //{
+            //    _routePointLoader.AddDispatcher(comboBoxRouteDispatcher.SelectedItem as RoutePoint);
+            //    comboBoxRouteDispatcher.SelectedItem = null;
+            //    textBoxGeneralRoute.Text = _routePointLoader.ToString();
+            //    comboBoxRouteDispatcher.IsDropDownOpen = false;
+            //}
+            //else if (comboBoxRouteDispatcher.Text != string.Empty)
+            //{
+            //    RoutePoint route_Point = TransportationEntities.RoutePoints.Where(s => s.Name.ToLower().Contains(comboBoxRouteDispatcher.Text.ToLower())).FirstOrDefault();
+            //    if (route_Point is null)
+            //        route_Point = new RoutePoint { Name = comboBoxRouteDispatcher.Text };
+            //    _routePointLoader.AddDispatcher(route_Point);
+            //    textBoxGeneralRoute.Text = _routePointLoader.ToString();
+            //    comboBoxRouteDispatcher.Text = string.Empty;
+            //}
         }
 
         private void buttonAddRouteLoading_Click(object sender, RoutedEventArgs e)
         {
-            if (comboBoxRouteLoading.SelectedItem != null)
-            {
-                _routePointLoader.AddLoading(comboBoxRouteLoading.SelectedItem as RoutePoint);
-                comboBoxRouteLoading.SelectedItem = null;
-                textBoxGeneralRoute.Text = _routePointLoader.ToString();
-                comboBoxRouteLoading.IsDropDownOpen = false;
-            }
-            else if (comboBoxRouteLoading.Text != string.Empty)
-            {
-                RoutePoint route_Point = TransportationEntities.RoutePoints.Where(s => s.Name.ToLower().Contains(comboBoxRouteLoading.Text.ToLower())).FirstOrDefault();
-                if (route_Point is null)
-                    route_Point = new RoutePoint { Name = comboBoxRouteLoading.Text };
-                _routePointLoader.AddLoading(route_Point);
-                textBoxGeneralRoute.Text = _routePointLoader.ToString();
-                comboBoxRouteLoading.Text = string.Empty;
-            }
+            //if (comboBoxRouteLoading.SelectedItem != null)
+            //{
+            //    _routePointLoader.AddLoading(comboBoxRouteLoading.SelectedItem as RoutePoint);
+            //    comboBoxRouteLoading.SelectedItem = null;
+            //    textBoxGeneralRoute.Text = _routePointLoader.ToString();
+            //    comboBoxRouteLoading.IsDropDownOpen = false;
+            //}
+            //else if (comboBoxRouteLoading.Text != string.Empty)
+            //{
+            //    RoutePoint route_Point = TransportationEntities.RoutePoints.Where(s => s.Name.ToLower().Contains(comboBoxRouteLoading.Text.ToLower())).FirstOrDefault();
+            //    if (route_Point is null)
+            //        route_Point = new RoutePoint { Name = comboBoxRouteLoading.Text };
+            //    _routePointLoader.AddLoading(route_Point);
+            //    textBoxGeneralRoute.Text = _routePointLoader.ToString();
+            //    comboBoxRouteLoading.Text = string.Empty;
+            //}
         }
 
         private void comboBoxRouteLoading_KeyDown(object sender, KeyEventArgs e)
