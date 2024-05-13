@@ -12,5 +12,6 @@ namespace WpfAppMVVM.Models.Entities
         public string Name { get; set; }
         public int CarBrandId { get; set; }
         public CarBrand СarBrand { get; set; }
+        public TraillerBrand TraillerBrand { get; set; }
     }
 }

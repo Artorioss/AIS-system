@@ -135,7 +135,7 @@
                     </local1:CustomComboBox>
 
                     <Label Content="Компания от водителя" Margin="5" Grid.Column="2"></Label>
-                    <local1:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" Grid.ColumnSpan="2" SelectedItem="{Binding Company}" ItemsSource="{Binding CompaniesSource}">
+                    <local1:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" Grid.ColumnSpan="2" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding CompaniesSource}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
@@ -165,10 +165,26 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5"></Label>
-                            <ComboBox Name="ComboBoxCarBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" IsEditable="True" TextBoxBase.TextChanged="comboBoxCar_TextChanged" DisplayMemberPath="Name" IsTextSearchEnabled="False" ></ComboBox>
+                            <local1:CustomComboBox x:Name="ComboBoxCarBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" SelectedItem="{Binding CarBrand}" ItemsSource="{Binding CarBrandSource}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="CustomEvent">
+                                        <i:InvokeCommandAction
+                                        Command="{Binding GetCarBrands}"
+                                        CommandParameter="{Binding Text, ElementName=ComboBoxCarBrand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </local1:CustomComboBox>
 
                             <Label Content="Номер" Grid.Row="1" Margin="0,5,5,5"></Label>
-                            <ComboBox Name="ComboBoxCarNumber"  Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" IsEditable="True" TextBoxBase.TextChanged="comboBoxCar_TextChanged" DisplayMemberPath="Number" IsTextSearchEnabled="False" ></ComboBox>
+                            <local1:CustomComboBox x:Name="ComboBoxCarNumber"  Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number" SelectedItem="{Binding Car}" ItemsSource="{Binding CarSource}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="CustomEvent">
+                                        <i:InvokeCommandAction
+                                        Command="{Binding TEMP}"
+                                        CommandParameter="{Binding Text, ElementName=ComboBoxCarNumber}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </local1:CustomComboBox>
                         </Grid>
                     </GroupBox>
 
@@ -184,7 +200,15 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5" TextBoxBase.TextChanged="ComboBox_TextChanged"></Label>
-                            <ComboBox Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" IsEditable="True" TextSearch.TextPath="CarBrand.Name" DisplayMemberPath="CarBrand.Name"></ComboBox>
+                            <local1:CustomComboBox x:Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}" DisplayMemberPath="Name">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="CustomEvent">
+                                        <i:InvokeCommandAction
+                                        Command="{Binding GetTraillerBrands}"
+                                        CommandParameter="{Binding Text, ElementName=comboBoxTrailerBrand}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </local1:CustomComboBox>
 
                             <Label Content="Номер" Grid.Row="1" Margin="0,5,5,5"></Label>
                             <ComboBox Name="comboBoxTrailerNumber"  Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" IsEditable="True" TextBoxBase.TextChanged="comboBoxCar_TextChanged" DisplayMemberPath="Number" IsTextSearchEnabled="False" ></ComboBox>
