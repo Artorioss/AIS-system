@@ -1,0 +1,46 @@
+﻿<Window x:Class="WpfAppMVVM.Views.OtherViews.CreateDriverWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
+        xmlns:model="clr-namespace:WpfAppMVVM.Model"
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="{Binding WindowName}" ResizeMode="NoResize" Height="195" Width="450" FontSize="16" Name="Window">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Введите данные" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Инициалы водителя" Margin="5"></Label>
+                <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
+
+                <Label Content="Компания" Margin="5" Grid.Row="1"></Label>
+                <model:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                                Command="{Binding GetCustomers}"
+                                CommandParameter="{Binding Text, ElementName=comboBoxTransportCompanies}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </model:CustomComboBox>
+                
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding CreateDriver}" CommandParameter="{Binding ElementName=Window}"></Button>
+    </Grid>
+</Window>

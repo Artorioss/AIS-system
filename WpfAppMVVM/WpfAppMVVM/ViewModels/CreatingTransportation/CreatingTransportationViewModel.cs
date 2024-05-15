@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Runtime.Serialization;
+using WpfAppMVVM.Model.Entities;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -27,10 +28,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             CustomerSource = new List<Customer>();
             DriversSource = new List<Driver>();
             CompaniesSource = new List<TransportCompany>();
-            CarBrandSource = new List<CarBrand>();
+            CarBrandSource = new List<Brand>();
             CarSource = new List<Car>();
             TraillerSource = new List<Trailler>();
-            TraillerBrandSource = new List<TraillerBrand>();
+            TraillerBrandSource = new List<Brand>();
             GetCarBrands = new DelegateCommand(getCarBrands);
             GetTraillerBrands = new DelegateCommand(getTraillers);
             GetCustomers = new DelegateCommand(getCustomers);

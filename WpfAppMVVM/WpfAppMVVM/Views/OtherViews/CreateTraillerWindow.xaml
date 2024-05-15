@@ -1,0 +1,46 @@
+﻿<Window x:Class="WpfAppMVVM.Views.OtherViews.CreateTraillerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
+        xmlns:model="clr-namespace:WpfAppMVVM.Model"
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="{Binding WindowName}" ResizeMode="NoResize" Height="200" Width="450" FontSize="16" Name="Window">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Введите данные" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+
+                <Label Content="Марка прицепа" Margin="5"></Label>
+                <model:CustomComboBox Grid.Column="1" Margin="5" DisplayMemberPath="Name" x:Name="comboBoxBrands" SelectedItem="{Binding Brand}" ItemsSource="{Binding BrandSource}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                                Command="{Binding GetBrands}"
+                                CommandParameter="{Binding Text, ElementName=comboBoxBrands}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </model:CustomComboBox>
+
+                <Label Content="Номер" Grid.Row="1" Margin="5"></Label>
+                <TextBox Grid.Row="1" Grid.Column="2" Margin="5" Text="{Binding Number}"></TextBox>
+            </Grid>
+        </GroupBox>
+        <Button Grid.Row="1" Height="30" Margin="5" Content="{Binding ButtonText}" Command="{Binding CreateTrailler}" CommandParameter="{Binding ElementName=Window}"></Button>
+    </Grid>
+</Window>

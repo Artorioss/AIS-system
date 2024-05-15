@@ -4,9 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
-        xmlns:local1="clr-namespace:WpfAppMVVM.Model"
+        xmlns:local1="clr-namespace:WpfAppMVVM.Model" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" 
         mc:Ignorable="d"
-        Title="Добавление автомобиля" Height="auto" Width="400" FontSize="16">
+        Title="{Binding WindowName}" ResizeMode="NoResize" Height="240" Width="400" FontSize="16" Name="Window">
+
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
@@ -26,15 +29,23 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="Марка автомобиля" Margin="5"></Label>
-                <local1:CustomComboBox Grid.Column="1" Margin="5"></local1:CustomComboBox>
+                <local1:CustomComboBox x:Name="ComboBoxBrands" Grid.Column="1" Margin="5" DisplayMemberPath="Name" SelectedItem="{Binding Brand}" ItemsSource="{Binding BrandSource}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                            Command="{Binding GetBrands}"
+                            CommandParameter="{Binding Text, ElementName=ComboBoxBrands}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </local1:CustomComboBox>
 
                 <Label Content="Номер" Grid.Row="1" Margin="5"></Label>
-                <TextBox Grid.Row="1" Grid.Column="2" Margin="5"></TextBox>
+                <TextBox Grid.Row="1" Grid.Column="2" Margin="5" Text="{Binding Number}"></TextBox>
 
                 <Label Content="Тягач" Grid.Row="2" Margin="5"></Label>
-                <CheckBox Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" Margin="5"></CheckBox>
+                <CheckBox Grid.Row="2" VerticalAlignment="Center" Grid.Column="1" Margin="5" IsChecked="{Binding IsTrack}"></CheckBox>
             </Grid>
         </GroupBox>
-        <Button Grid.Row="1" Height="30" Margin="5" Content="Добавить запись"></Button>
+        <Button Grid.Row="1" Height="30" Margin="5" Content="{Binding ButtonText}"  Command="{Binding CreateCar}" CommandParameter="{Binding ElementName=Window}"></Button>
     </Grid>
 </Window>

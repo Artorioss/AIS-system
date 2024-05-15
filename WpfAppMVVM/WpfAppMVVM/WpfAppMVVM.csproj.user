@@ -7,10 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Views\OtherViews\CreateCarBrandWindow.xaml.cs">
+    <Compile Update="Views\OtherViews\CreateCarWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\OtherViews\CreateCarWindow.xaml.cs">
+    <Compile Update="Views\OtherViews\CreateTraillerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -18,10 +18,10 @@
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\OtherViews\CreateCarBrandWindow.xaml">
+    <Page Update="Views\OtherViews\CreateCarWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\OtherViews\CreateCarWindow.xaml">
+    <Page Update="Views\OtherViews\CreateTraillerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

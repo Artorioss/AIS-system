@@ -5,9 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views"
         xmlns:local1="clr-namespace:WpfAppMVVM.Model"
-        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels"
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="WindowReferencesBook" Height="550" Width="1200" FontSize="16" >
+        Title="Справочники" Height="550" Width="1200" FontSize="16">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction
+        Command="{Binding SaveChanges}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Window.DataContext>
         <vm:ReferenceBookViewModel/>
@@ -21,18 +28,28 @@
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
             <Button Content="Автомобили" Margin="0,0,0,0" Command="{Binding GetCarsData}"></Button>
-            <Button Content="Бренды" Margin="5,0,0,0" Command="{Binding GetCarBrandsData}"></Button>
+            <Button Content="Бренды" Margin="5,0,0,0" Command="{Binding GetBrandsData}"></Button>
             <Button Content="Клиенты" Margin="5,0,0,0" Command="{Binding GetCustomersData}"></Button>
             <Button Content="Водители" Margin="5,0,0,0" Command="{Binding GetDriversData}"></Button>
             <Button Content="Точки маршрута" Margin="5,0,0,0" Command="{Binding GetRoutePointsData}"></Button>
             <Button Content="Маршруты" Margin="5,0,0,0" Command="{Binding GetRoutesData}"></Button>
-            <Button Content="Русские названия брендов" Margin="5,0,0,0" Command="{Binding GetRussinaBrandNamesData}"></Button>
             <Button Content="Состояния" Margin="5,0,0,0" Command="{Binding GetStateOrdersData}"></Button>
             <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersData}"></Button>
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesData}"></Button>
             
         </ToolBar>
-        <DataGrid Name="dataGridView" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" Margin="5" ItemsSource="{Binding ItemsSource}" local1:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}"></DataGrid>
+        <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" local1:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction
+                    Command="{Binding DataUpdated}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction
+                    Command="{Binding EditData}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </DataGrid>
         
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -40,7 +57,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button Content="Добавить запись" Margin="5" Width="200" HorizontalAlignment="Left" Command="{Binding AddData}"></Button>
+            <Button Content="Добавить запись" Margin="5" Width="200" IsEnabled="{Binding ButtonEnabled}" HorizontalAlignment="Left" Command="{Binding AddData}"></Button>
             <Label Content="Поиск:" Grid.Column="1"></Label>
             <TextBox Grid.Column="3" MinWidth="150" Margin="5"></TextBox>
         </Grid>

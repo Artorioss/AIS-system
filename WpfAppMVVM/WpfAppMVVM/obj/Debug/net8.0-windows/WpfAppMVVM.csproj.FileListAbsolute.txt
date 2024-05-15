@@ -221,7 +221,9 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\CreatingTransportationWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\WindowReferencesBook.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\WindowReferencesBook.baml
-C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarBrandWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarWindow.g.cs
-C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarBrandWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateDriverWindow.g.cs
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateDriverWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateTraillerWindow.g.cs
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateTraillerWindow.baml

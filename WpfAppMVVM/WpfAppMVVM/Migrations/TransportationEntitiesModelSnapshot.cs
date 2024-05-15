@@ -52,6 +52,30 @@ namespace WpfAppMVVM.Migrations
                     b.ToTable("DriverTrailler");
                 });
 
+            modelBuilder.Entity("WpfAppMVVM.Model.Entities.Brand", b =>
+                {
+                    b.Property<int>("BrandId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BrandId"));
+
+                    b.Property<bool>("IsTrailler")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("RussianBrandName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("BrandId");
+
+                    b.ToTable("Brands");
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Car", b =>
                 {
                     b.Property<int>("CarId")
@@ -60,7 +84,7 @@ namespace WpfAppMVVM.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarId"));
 
-                    b.Property<int?>("CarBrandId")
+                    b.Property<int?>("BrandId")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsTruck")
@@ -72,26 +96,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.HasKey("CarId");
 
-                    b.HasIndex("CarBrandId");
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Cars");
-                });
-
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.CarBrand", b =>
-                {
-                    b.Property<int>("CarBrandId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarBrandId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("CarBrandId");
-
-                    b.ToTable("CarBrands");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Customer", b =>
@@ -175,33 +182,6 @@ namespace WpfAppMVVM.Migrations
                     b.ToTable("RoutePoints");
                 });
 
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.RussianBrandName", b =>
-                {
-                    b.Property<int>("RussianBrandNameId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RussianBrandNameId"));
-
-                    b.Property<int>("CarBrandId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("TraillerBrandId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("RussianBrandNameId");
-
-                    b.HasIndex("CarBrandId");
-
-                    b.HasIndex("TraillerBrandId");
-
-                    b.ToTable("RussianBrandNames");
-                });
-
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.StateOrder", b =>
                 {
                     b.Property<int>("StateOrderId")
@@ -227,35 +207,18 @@ namespace WpfAppMVVM.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TraillerId"));
 
+                    b.Property<int?>("BrandId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Number")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("TraillerBrandId")
-                        .HasColumnType("integer");
-
                     b.HasKey("TraillerId");
 
-                    b.HasIndex("TraillerBrandId");
+                    b.HasIndex("BrandId");
 
                     b.ToTable("Traillers");
-                });
-
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.TraillerBrand", b =>
-                {
-                    b.Property<int>("TraillerBrandId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TraillerBrandId"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("TraillerBrandId");
-
-                    b.ToTable("TraillerBrands");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.TransportCompany", b =>
@@ -361,11 +324,11 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Car", b =>
                 {
-                    b.HasOne("WpfAppMVVM.Models.Entities.CarBrand", "CarBrand")
+                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "Brand")
                         .WithMany("Cars")
-                        .HasForeignKey("CarBrandId");
+                        .HasForeignKey("BrandId");
 
-                    b.Navigation("CarBrand");
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Driver", b =>
@@ -390,32 +353,13 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("Transportation");
                 });
 
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.RussianBrandName", b =>
-                {
-                    b.HasOne("WpfAppMVVM.Models.Entities.CarBrand", "СarBrand")
-                        .WithMany("RussianBrandNames")
-                        .HasForeignKey("CarBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WpfAppMVVM.Models.Entities.TraillerBrand", "TraillerBrand")
-                        .WithMany("RussianBrandNames")
-                        .HasForeignKey("TraillerBrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TraillerBrand");
-
-                    b.Navigation("СarBrand");
-                });
-
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Trailler", b =>
                 {
-                    b.HasOne("WpfAppMVVM.Models.Entities.TraillerBrand", "TraillerBrand")
+                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "Brand")
                         .WithMany("Traillers")
-                        .HasForeignKey("TraillerBrandId");
+                        .HasForeignKey("BrandId");
 
-                    b.Navigation("TraillerBrand");
+                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Transportation", b =>
@@ -449,11 +393,11 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("TransportCompany");
                 });
 
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.CarBrand", b =>
+            modelBuilder.Entity("WpfAppMVVM.Model.Entities.Brand", b =>
                 {
                     b.Navigation("Cars");
 
-                    b.Navigation("RussianBrandNames");
+                    b.Navigation("Traillers");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Customer", b =>
@@ -472,13 +416,6 @@ namespace WpfAppMVVM.Migrations
                 {
                     b.Navigation("Transportation")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.TraillerBrand", b =>
-                {
-                    b.Navigation("RussianBrandNames");
-
-                    b.Navigation("Traillers");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.TransportCompany", b =>

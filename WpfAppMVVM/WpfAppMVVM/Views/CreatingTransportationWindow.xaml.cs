@@ -247,29 +247,7 @@ namespace WpfAppMVVM.Views
 
         private void comboBoxCar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            TextBox textBox = (TextBox)e.OriginalSource;
-            ComboBox comboBox = sender as ComboBox;
-            if (textBox.SelectionStart == 0 && comboBox.SelectedItem == null)
-            {
-                comboBox.IsDropDownOpen = false;
-            }
-            else comboBox.SelectedItem = null;
-
-            if (comboBox.Text != null) 
-            {
-                var items = TransportationEntities.CarBrands
-                    .AsNoTracking()
-                    .Include(car => car.RussianBrandNames)
-                    .Where(s => s.Name.ToLower().Contains(comboBox.Text.ToLower()) || s.RussianBrandNames.Count > 0 && s.RussianBrandNames.Any(ruName => ruName.Name.Contains(Name.ToLower())))
-                    .OrderBy(s => s.Name)
-                    .Select(s => s)
-                    .Take(5)
-                    .ToList();
-
-                comboBox.ItemsSource = items; 
-            }
-
-            comboBox.IsDropDownOpen = comboBox.Items.Count > 0;
+       
         }
 
         private void textBoxGeneralRoute_TextChanged(object sender, TextChangedEventArgs e)
