@@ -277,14 +277,8 @@ namespace WpfAppMVVM.ViewModels
             columnRussianBrandName.Binding = new Binding("RussianBrandName") { Mode = BindingMode.TwoWay };
             columnRussianBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-            DataGridCheckBoxColumn columnIsTrailler = new DataGridCheckBoxColumn();
-            columnIsTrailler.Header = "Прицеп";
-            columnIsTrailler.Binding = new Binding("IsTrailler") { Mode = BindingMode.TwoWay };
-            columnIsTrailler.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
-
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(columnRussianBrandName);
-            ColumnCollection.Add(columnIsTrailler);
             ColumnCollection.Add(DataGridColumnDelete);
 
             var data = _context.Brands;

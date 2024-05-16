@@ -98,7 +98,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         private void getBrands(object obj)
         {
             string text = (obj as string).ToLower();
-            BrandSource = _context.Brands.Where(c => c.IsTrailler && c.Name.ToLower().Contains(text) || c.RussianBrandName.ToLower().Contains(text)).Take(5).Select(c => c).ToList();
+            BrandSource = _context.Brands.Where(c => c.Name.ToLower().Contains(text) || c.RussianBrandName.ToLower().Contains(text))
+                                         .Take(5)
+                                         .Select(c => c)
+                                         .ToList();
         }
 
         private void createTrailler(object obj)

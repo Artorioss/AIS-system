@@ -10,5 +10,6 @@ namespace WpfAppMVVM.Models.Entities
     {
         public int RoutePointId { get; set; }
         public string Name { get; set; }
+        public ICollection<Route> Routes { get; set; } 
     }
 }

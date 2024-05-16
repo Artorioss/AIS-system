@@ -14,6 +14,6 @@ namespace WpfAppMVVM.Models.Entities
         public TransportCompany TransportCompany { get; set; }
         public ICollection<Car> Cars { get; set; }
         public ICollection<Trailler> Traillers { get; set; }
-        public Transportation Transportation { get; set; }
+        public ICollection<Transportation> Transportation { get; set; }
     }
 }

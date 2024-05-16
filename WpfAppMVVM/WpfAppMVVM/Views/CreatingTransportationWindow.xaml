@@ -7,7 +7,7 @@
         xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.CreatingTransportation"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-            Title="Заявка" Height="700" Width="650" FontSize="16">
+            Title="Заявка" Height="715" Width="650" FontSize="16" Name="Window">
 
     <Window.DataContext>
         <vm:CreatingTransportationViewModel/>
@@ -54,10 +54,10 @@
                 </local1:CustomComboBox>
 
                 <Label Grid.Row="1" Content="Дата загрузки" Margin="0,5,5,5"></Label>
-                <DatePicker Name="datePickerUpload" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Grid.ColumnSpan="2"></DatePicker>
+                <DatePicker Name="datePickerUpload" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Grid.ColumnSpan="2" SelectedDate="{Binding DateTime, Mode=OneWayToSource}"></DatePicker>
 
                 <Label Content="Сумма от заказчика" Grid.Row="2" Margin="0,5,5,5"></Label>
-                <TextBox Name="textBoxSum" TextChanged="textBoxSum_TextChanged" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5"></TextBox>
+                <TextBox Name="textBoxSum" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" Text="{Binding Payment}"></TextBox>
 
                 <Label Content="Точка загрузки" Grid.Row="3" Margin="0,5,5,5"></Label>
                 <local1:CustomComboBox x:Name="comboBoxRouteLoading" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding LoadingRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding LoadingRoutePoint}">
@@ -180,7 +180,7 @@
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
-                                        Command="{Binding TEMP}"
+                                        Command="{Binding GetCars}"
                                         CommandParameter="{Binding Text, ElementName=ComboBoxCarNumber}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
@@ -199,8 +199,8 @@
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
-                            <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5" TextBoxBase.TextChanged="ComboBox_TextChanged"></Label>
-                            <local1:CustomComboBox x:Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}" DisplayMemberPath="Name">
+                            <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5"></Label>
+                            <local1:CustomComboBox x:Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" ItemsSource="{Binding TraillerBrandSource}" SelectedItem="{Binding TraillerBrand}" DisplayMemberPath="Name">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
@@ -211,7 +211,15 @@
                             </local1:CustomComboBox>
 
                             <Label Content="Номер" Grid.Row="1" Margin="0,5,5,5"></Label>
-                            <ComboBox Name="comboBoxTrailerNumber"  Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" IsEditable="True" TextBoxBase.TextChanged="comboBoxCar_TextChanged" DisplayMemberPath="Number" IsTextSearchEnabled="False" ></ComboBox>
+                            <local1:CustomComboBox x:Name="comboBoxTrailerNumber"  Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number"  SelectedItem="{Binding Trailler}" ItemsSource="{Binding TraillerSource}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="CustomEvent">
+                                        <i:InvokeCommandAction
+                                            Command="{Binding GetTraillers}"
+                                            CommandParameter="{Binding Text, ElementName=ComboBoxTraillerNumber}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </local1:CustomComboBox>
                         </Grid>
                     </GroupBox>
                 </Grid>
@@ -229,7 +237,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Сумма оплаты"></Label>
-                    <TextBox Name="textBoxPayment" MinWidth="150" Margin="0,0,20,0" Grid.Column="1" TextChanged="textBoxPayment_TextChanged"></TextBox>
+                    <TextBox Name="textBoxPayment" MinWidth="150" Margin="0,0,20,0" Grid.Column="1" Text="{Binding PayToDriver}"></TextBox>
 
                     <RadioButton Name="radioButton1" Grid.Column="2" Content="Без НДС" HorizontalAlignment="Left" Margin="5"></RadioButton>
                     <RadioButton Name="radioButton2" Grid.Column="3" HorizontalAlignment="Left" Content="С НДС" Margin="5"></RadioButton>
@@ -247,12 +255,12 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,0,5"></TextBox>
+                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,0,5" Text="{Binding AccountName}"></TextBox>
             </Grid>
         </GroupBox>
 
         <DockPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="5">
-            <Button Content="Добавить погрузку" Click="Button_Click"></Button>
+            <Button Name="ButtonAdd" Content="Добавить погрузку" Command="{Binding CreateTransportation}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
         </DockPanel>
     </Grid>
 </Window>

@@ -86,6 +86,7 @@ namespace WpfAppMVVM.Model
                         if (prop != null)
                         {
                             prop.SetValue(newItem, Text);
+                            
                         }
                         ((IList)ItemsSource).Add(newItem);
                         SelectedItem = newItem;
@@ -99,14 +100,14 @@ namespace WpfAppMVVM.Model
         {
             if (CustomEvent != null && !_freezComboBox) 
             {
-                if (_textBox.SelectionStart == 0 || string.IsNullOrEmpty(Text)) 
+                if (_textBox.SelectionStart == 0 && string.IsNullOrEmpty(Text))
                 {
                     IsDropDownOpen = false;
                     SelectedItem = null;
                 }
                 if (SelectedItem == null) 
                 {
-                    CustomEvent(Text, e);;
+                    CustomEvent(Text, e);
                 }
                 IsDropDownOpen = ItemsSource == null ? false : ItemsSource.Cast<object>().Count() > 0;
                 if (_bufType is null && IsDropDownOpen) _bufType = Items[0].GetType();

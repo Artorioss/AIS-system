@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.Entities;
 using WpfAppMVVM.Models;
@@ -38,6 +39,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set
             {
                 _driver = value;
+                _accountNameBuilder.Driver = value;
+                AccountName = _accountNameBuilder.ToString();
                 if (_driver != null)
                 {
                     setTransportCompanyByDriver();
@@ -50,7 +53,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getDrivers(object e)
         {
             string text = e as string;
-            DriversSource = _context.Drivers.AsNoTracking()
+            DriversSource = _context.Drivers
                             .Where(c => c.Name.ToLower().Contains(text.ToLower()))
                             .OrderBy(c => c.Name)
                             .Take(5)
@@ -59,34 +62,41 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         private void setTransportCompanyByDriver()
         {
-            TransportCompany comp = _context.TransportCompanies.AsNoTracking().FirstOrDefault(s => s.Drivers.Any(driver => driver.DriverId == Driver.DriverId));
-            if (comp != null)
+            var val = _context.TransportCompanies.Find(Driver.TransportCompanyId);
+
+            if (val != null)
             {
-                CompaniesSource.Add(comp);
-                TransportCompany = comp;
+                CompaniesSource = new List<TransportCompany>();
+                CompaniesSource.Add(val);
+                TransportCompany = val;
             }
         }
 
         private void setCarByDriver()
         {
-            CarSource = _context.Cars.AsNoTracking().Include(car => car.Brand)
+            CarSource = _context.Cars.Include(car => car.Brand)
                                                     .Select(s => s)
                                                     .Where(s => s.Drivers.Any(driver => driver.DriverId == Driver.DriverId))
                                                     .ToList();
-            if (CarSource != null)
+
+
+            if (CarSource != null && CarSource.Count > 0)
             {
+                CarBrandSource = CarSource.Select(car => car.Brand).Distinct(new BrandComparer()).ToList();
                 Car = CarSource.FirstOrDefault();
             }
         }
 
         private void setTraillerByDriver()
         {
-            TraillerSource = _context.Traillers.AsNoTracking().Include(trailler => trailler.Brand)
-                                                                 .Select(t => t)
-                                                                 .Where(t => t.Drivers.Any(driver => driver.DriverId == Driver.DriverId))
-                                                                 .ToList();
-            if (TraillerSource != null)
+            TraillerSource = _context.Traillers
+                                               .Include(trailler => trailler.Brand)
+                                               .Where(t => t.Drivers.Any(driver => driver.DriverId == Driver.DriverId))
+                                               .ToList();
+
+            if (TraillerSource != null && TraillerSource.Count > 0)
             {
+                TraillerBrandSource = TraillerSource.Select(trailler => trailler.Brand).Distinct(new BrandComparer()).ToList();
                 Trailler = TraillerSource.FirstOrDefault();
             }
         }
@@ -119,12 +129,32 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getCompanies(object e)
         {
             string text = e as string;
-            CompaniesSource = _context.TransportCompanies.AsNoTracking()
-                            .Where(c => c.Name.ToLower().Contains(text.ToLower()))
-                            .OrderBy(c => c.Name)
-                            .Take(5)
-                            .ToList();
+            CompaniesSource = _context.TransportCompanies
+                                      .Where(c => c.Name.ToLower().Contains(text.ToLower()))
+                                      .OrderBy(c => c.Name)
+                                      .Take(5)
+                                      .ToList();
         }
+
+        //private void setDriversByCompany() 
+        //{
+        //    List<Driver> list = _context.Drivers.AsNoTracking()
+        //                                    .Where(driver => driver.TransportCompanyId == TransportCompany.TransportCompanyId)
+        //                                    .OrderBy(d => d.Name)
+        //                                    .Take(5)
+        //                                    .ToList();
+
+        //    if (Driver != null) 
+        //    {
+        //        var val = list.SingleOrDefault(d => d.DriverId == Driver.DriverId);
+        //        if (val == null) list.Add(Driver);
+        //        else val = Driver;
+        //    }
+                
+        //    DriversSource = list;
+        //}
+
+
 
         //------------------------ CarBrand --------------------------------
         public DelegateCommand GetCarBrands { get; private set; }
@@ -146,6 +176,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set
             {
                 _carBrand = value;
+                _accountNameBuilder.CarBrand = value;
+                AccountName = _accountNameBuilder.ToString();
                 OnPropertyChanged(nameof(CarBrand));
             }
         }
@@ -154,8 +186,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         {
             string text = e as string;
             CarBrandSource = _context.Brands
-                            .AsNoTracking()
-                            .Where(c => !c.IsTrailler && c.Name.ToLower().Contains(text.ToLower()))
+                            .Where(c => c.Name.ToLower().Contains(text.ToLower()) || c.RussianBrandName.ToLower().Contains(text.ToLower()))
                             .OrderBy(c => c.Name)
                             .Take(5)
                             .ToList();
@@ -181,6 +212,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set 
             {
                 _traillerBrand = value;
+                _accountNameBuilder.TraillerBrand = value;
+                AccountName = _accountNameBuilder.ToString();
                 OnPropertyChanged(nameof(TraillerBrand));
             }
         }
@@ -189,14 +222,15 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         {
             string text = e as string;
             TraillerBrandSource = _context.Brands
-                                  .AsNoTracking()
-                                  .Where(tb => tb.IsTrailler && tb.Name.ToLower().Contains(text.ToLower()))
+                                  .Where(tb => (tb.Name.ToLower().Contains(text.ToLower()) || tb.RussianBrandName.ToLower().Contains(text.ToLower())))
                                   .OrderBy(tb => tb.Name)
                                   .Take(5)
                                   .ToList();
         }
 
         //------------------------ Car --------------------------------
+        public DelegateCommand GetCars { get; private set; }
+
         private List<Car> _carSource;
         public List<Car> CarSource 
         {
@@ -215,14 +249,31 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set 
             {
                 _car = value;
-                if (!CarBrandSource.Contains(_car.Brand)) CarBrandSource.Add(_car.Brand);
-                CarBrand = _car.Brand;
+                _accountNameBuilder.Car = value;
+                AccountName = _accountNameBuilder.ToString();
+                if (_car != null) 
+                {
+                    if (!CarBrandSource.Contains(_car.Brand)) CarBrandSource.Add(_car.Brand);
+                    CarBrand = _car.Brand;
+                }
                 OnPropertyChanged(nameof(Car));
             }
         }
 
+        private void getCars(object e)
+        {
+            string text = e as string;
+            CarSource = _context.Cars
+                            .Include(car => car.Brand)
+                            .Where(t => t.Number.ToLower().Contains(text.ToLower()))
+                            .OrderBy(t => t.Number)
+                            .Take(5)
+                            .ToList();
+        }
 
         //------------------------ Trailler --------------------------------
+        public DelegateCommand GetTraillers { get; private set; }
+
         private List<Trailler> _traillerSource;
         public List<Trailler> TraillerSource 
         {
@@ -240,21 +291,29 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set 
             {
                 _trailler = value;
-                if (!TraillerBrandSource.Contains(_trailler.Brand)) TraillerBrandSource.Add(_trailler.Brand);
-                TraillerBrand = _trailler.Brand;
+                _accountNameBuilder.Trailler = _trailler;
+                AccountName = _accountNameBuilder.ToString();
+                if (_trailler != null) 
+                {
+                    if (!TraillerBrandSource.Contains(_trailler.Brand)) TraillerBrandSource.Add(_trailler.Brand);
+                    TraillerBrand = _trailler.Brand;
+                }
+                OnPropertyChanged(nameof(Trailler));
             }
         }
 
         private void getTraillers(object e)
         {
             string text = e as string;
-            TraillerSource = _context.Traillers
-                            .AsNoTracking()
-                            .Include(trailler => trailler.Brand)
-                            .Where(t => t.Brand.Name.ToLower().Contains(text.ToLower()))
-                            .OrderBy(t => TraillerBrand.Name)
-                            .Take(5)
-                            .ToList();
+            if (e != null) 
+            {
+                TraillerSource = _context.Traillers
+                                .Include(trailler => trailler.Brand)
+                                .Where(t => t.Number.ToLower().Contains(text.ToLower()))
+                                .OrderBy(t => t.Number)
+                                .Take(5)
+                                .ToList();
+            }
         }
     }
 }

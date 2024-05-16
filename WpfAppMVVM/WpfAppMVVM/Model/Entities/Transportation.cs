@@ -20,7 +20,7 @@ namespace WpfAppMVVM.Models.Entities
         public string? Address { get; set; }
         public int StateOrderId { get; set; }
         public Customer Customer { get; set; }
-        public Driver? Driver { get; set; }
+        public Driver Driver { get; set; }
         public TransportCompany TransportCompany { get; set; }
         public StateOrder StateOrder { get; set; }
 

@@ -12,6 +12,6 @@ namespace WpfAppMVVM.Models.Entities
         public int OrderId { get; set; }
         public string RouteName { get; set; }
         public Transportation Transportation { get; set; }
-
+        public ICollection<RoutePoint> RoutePoints { get; set; }
     }
 }

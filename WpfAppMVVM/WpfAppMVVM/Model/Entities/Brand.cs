@@ -33,17 +33,6 @@ namespace WpfAppMVVM.Model.Entities
             }
         }
 
-        private bool _isTrailler;
-        public bool IsTrailler
-        {
-            get { return _isTrailler; }
-            set 
-            {
-                _isTrailler = value;
-                //OnPropertyChanged(nameof(IsTrailler));
-            }
-        }
-
         private string _russianBrandName;
         public string RussianBrandName
         {

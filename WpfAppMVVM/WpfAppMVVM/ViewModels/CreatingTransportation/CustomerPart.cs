@@ -39,7 +39,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getCustomers(object e)
         {
             string text = e as string;
-            CustomerSource = _context.Customers.AsNoTracking()
+            CustomerSource = _context.Customers
                             .Where(c => c.Name.ToLower().Contains(text.ToLower()))
                             .OrderBy(c => c.Name)
                             .Take(5)

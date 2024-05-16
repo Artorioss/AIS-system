@@ -8,7 +8,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
     internal partial class CreatingTransportationViewModel : BaseViewModel
     {
-        private RoutePointLoader _routePointLoader;
+        private RoutePointBuilder _routePointBuilder;
         public List<RoutePoint> _routePointSource;
         public List<RoutePoint> RoutePointSource
         {
@@ -44,7 +44,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set
             {
                 _generalRoute = value;
-                if (_generalRoutFocusable) _routePointLoader.setRoutePoints(value);
+                if (_generalRoutFocusable) _routePointBuilder.setRoutePoints(value);
+                _accountNameBuilder.RouteName = value;
+                AccountName = _accountNameBuilder.ToString();
                 OnPropertyChanged(nameof(GeneralRoute));
             }
         }
@@ -57,7 +59,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             {
                 _loadingRoutePointName = value;
                 OnPropertyChanged(nameof(LoadingRoutePointName));
-                getPointRouteLoadings(_loadingRoutePointName);
+                if(LoadingRoutePoint is null) getPointRouteLoadings(_loadingRoutePointName);
             }
         }
 
@@ -69,7 +71,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             {
                 _dispatcherRoutePointName = value;
                 OnPropertyChanged(nameof(DispatcherRoutePointName));
-                getPointRouteDispatchers(_dispatcherRoutePointName);
+                if (DispatcherRoutePoint is null) getPointRouteDispatchers(_dispatcherRoutePointName);
             }
         }
 
@@ -98,7 +100,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getPointRouteLoadings(object e)
         {
             string text = e as string;
-            RoutePointSource = _context.RoutePoints.AsNoTracking()
+            RoutePointSource = _context.RoutePoints
                                         .Where(c => c.Name.ToLower().Contains(text.ToLower()))
                                         .OrderBy(c => c.Name)
                                         .Take(5)
@@ -108,7 +110,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getPointRouteDispatchers(object e)
         {
             string text = e as string;
-            RoutePointSource = _context.RoutePoints.AsNoTracking()
+            RoutePointSource = _context.RoutePoints
                                         .Where(c => c.Name.ToLower().Contains(text.ToLower()))
                                         .OrderBy(c => c.Name)
                                         .Take(5)
@@ -119,9 +121,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         {
             if (LoadingRoutePoint != null)
             {
-                _routePointLoader.AddLoading(LoadingRoutePoint);
+                _routePointBuilder.AddLoading(LoadingRoutePoint);
                 LoadingRoutePoint = null;
-                GeneralRoute = _routePointLoader.ToString();
+                GeneralRoute = _routePointBuilder.ToString();
             }
             else if (!string.IsNullOrEmpty(LoadingRoutePointName))
             {
@@ -130,8 +132,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                     .FirstOrDefault();
                 if (route_Point is null)
                     route_Point = new RoutePoint { Name = LoadingRoutePointName };
-                _routePointLoader.AddLoading(route_Point);
-                GeneralRoute = _routePointLoader.ToString();
+                _routePointBuilder.AddLoading(route_Point);
+                GeneralRoute = _routePointBuilder.ToString();
             }
             LoadingRoutePointName = string.Empty;
         }
@@ -140,9 +142,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         {
             if (DispatcherRoutePoint != null)
             {
-                _routePointLoader.AddDispatcher(DispatcherRoutePoint);
+                _routePointBuilder.AddDispatcher(DispatcherRoutePoint);
                 DispatcherRoutePoint = null;
-                GeneralRoute = _routePointLoader.ToString();
+                GeneralRoute = _routePointBuilder.ToString();
             }
             else if (!string.IsNullOrEmpty(DispatcherRoutePointName))
             {
@@ -151,8 +153,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                     .FirstOrDefault();
                 if (route_Point is null)
                     route_Point = new RoutePoint { Name = DispatcherRoutePointName };
-                _routePointLoader.AddDispatcher(route_Point);
-                GeneralRoute = _routePointLoader.ToString();
+                _routePointBuilder.AddDispatcher(route_Point);
+                GeneralRoute = _routePointBuilder.ToString();
             }
             DispatcherRoutePointName = string.Empty;
         }

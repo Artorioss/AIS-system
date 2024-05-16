@@ -10,6 +10,6 @@ namespace WpfAppMVVM.Models.Entities
     {
         public int CustomerId { get; set; }
         public string Name { get; set; }
-        public Transportation Transportation { get; set; }
+        public ICollection<Transportation> Transportations { get; set; }
     }
 }
