@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -35,6 +36,11 @@ namespace WpfAppMVVM.Models
             string second = string.Join(", ", Route_Points_Dispatcher.Select(s => s.Name));
             string _generalRoute = $"{first} - {second}";
             return _generalRoute;
+        }
+
+        public List<RoutePoint> getRoutes() 
+        {
+            return Route_Points_Loading.Union(Route_Points_Dispatcher).ToList();
         }
 
         public void AddDispatcher(RoutePoint route_Point_dispatcher)

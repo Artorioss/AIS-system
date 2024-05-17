@@ -102,21 +102,56 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         private void createTransportation(object obj) 
         {
+            Route route = CreateRoute();
+
+            _context.Entry(Driver).Collection(d => d.Cars).Load();
+            if(Trailler != null) _context.Entry(Driver).Collection(d => d.Traillers).Load();
+
+            if (Driver.Cars.SingleOrDefault(car => car.CarId == Car.CarId, null) == null) Driver.Cars.Add(Car);
+            if (Trailler != null && Driver.Traillers.SingleOrDefault(trailler => trailler.TraillerId == Trailler.TraillerId, null) == null) Driver.Traillers.Add(Trailler);
+
+            if (Driver.TransportCompanyId != TransportCompany.TransportCompanyId) Driver.TransportCompany = TransportCompany;
+
+            if (Car != null) 
+            {
+                if (Trailler != null) Car.IsTruck = true;
+                else Car.IsTruck = false;
+            }
+                
             Transportation = new Transportation()
             {
                 DateLoading = DateTime.ToShortDateString(),
-                CustomerId = Customer.CustomerId,
-                DriverId = Driver.DriverId,
-                TransportCompanyId = TransportCompany.TransportCompanyId,
+                Customer = Customer,
+                Driver = Driver,
+                Route = route,
+                TransportCompany = TransportCompany,
+                Car = Car,
+                Trailler = Trailler,
                 Price = Payment,
                 PaymentToDriver = PayToDriver,
-                Address = GeneralRoute,
                 StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1),
             };
 
             _context.Add(Transportation);
             _context.SaveChanges();
             (obj as Window).Close();
+        }
+
+        private Route CreateRoute() 
+        {
+            List<RoutePoint> list = new List<RoutePoint>();
+            foreach (var item in _routePointBuilder.getRoutes())
+            {
+                var point = _context.RoutePoints.FirstOrDefault(p => p.Name == item.Name);
+                if (point is null) list.Add(item);
+                else list.Add(point);
+            }
+
+            return new Route()
+            {
+                RouteName = GeneralRoute,
+                RoutePoints = list
+            };
         }
     }
 }

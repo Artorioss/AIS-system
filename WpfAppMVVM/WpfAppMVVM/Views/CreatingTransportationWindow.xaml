@@ -92,7 +92,12 @@
                 <Button Name="buttonAddRouteDispatcher" Content="Добавить" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" Command="{Binding AddDispatcherRoute}"></Button>
 
                 <Label Content="Общий маршрут" Grid.Row="5" Margin="0,5,5,5"></Label>
-                <TextBox Name="textBoxGeneralRoute" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,5,5,5" Text="{Binding GeneralRoute}" Focusable="{Binding GeneralRoutFocusable, Mode=OneWayToSource}"></TextBox>
+                <TextBox Name="textBoxGeneralRoute" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,5,5,5" Text="{Binding GeneralRoute}">
+                    <i:Interaction.Behaviors>
+                        <local1:FocusableChangedBehavior
+                            FocusChangedCommand="{Binding GeneralRoutFocusable}" />
+                    </i:Interaction.Behaviors>
+                </TextBox>
             </Grid>
         </GroupBox>
 
@@ -216,7 +221,7 @@
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
                                             Command="{Binding GetTraillers}"
-                                            CommandParameter="{Binding Text, ElementName=ComboBoxTraillerNumber}"/>
+                                            CommandParameter="{Binding Text, ElementName=comboBoxTrailerNumber}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </local1:CustomComboBox>

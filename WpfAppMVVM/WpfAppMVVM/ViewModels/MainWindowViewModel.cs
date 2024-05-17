@@ -19,9 +19,19 @@ namespace WpfAppMVVM.ViewModels
     internal class MainWindowViewModel : BaseViewModel
     {
         public TransportationEntities _transportationEntities { get; set; }
-        public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
         public DelegateCommand CreateTransportation { get; private set; }
         public DelegateCommand ShowReferencesBook { get; private set; }
+
+        public List<TransportationDTO> _itemsSource;
+        public List<TransportationDTO> ItemsSource 
+        {
+            get => _itemsSource;
+            set
+            {
+                _itemsSource = value;
+                OnPropertyChanged(nameof(ItemsSource));
+            }
+        }
 
         private TransportationDTO _transportation;
         public TransportationDTO TransportationDTO
@@ -37,16 +47,18 @@ namespace WpfAppMVVM.ViewModels
         public MainWindowViewModel()
         {
             _transportationEntities = (Application.Current as App)._context;
-            ItemsSource = new ObservableCollection<TransportationDTO>();
+            loadTransportations();
+            CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
+            ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
+        }
 
-            var list = _transportationEntities.Transportations
+        private void loadTransportations() 
+        {
+            ItemsSource = _transportationEntities.Transportations
                 .Include(t => t.Driver)
                 .Include(t => t.Customer)
                 .Include(t => t.TransportCompany)
                 .TransportationToDTO().ToList();
-            ItemsSource = new ObservableCollection<TransportationDTO>(list);
-            CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
-            ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
         }
 
         private void showTransportationWindow()
@@ -54,6 +66,8 @@ namespace WpfAppMVVM.ViewModels
             CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
             creatingTransportationWindow.DataContext = new CreatingTransportationViewModel();
             creatingTransportationWindow.ShowDialog();
+            loadTransportations();
+
         }
 
         private void showWindowReferencesBook()

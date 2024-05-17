@@ -120,7 +120,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 _context.SaveChanges();
                 (obj as Window).Close();
             }
-            else MessageBox.Show("Заполните все поля","Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+            else MessageBox.Show("Заполните все поля", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

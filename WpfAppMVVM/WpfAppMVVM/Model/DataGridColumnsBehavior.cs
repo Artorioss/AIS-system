@@ -36,7 +36,7 @@ namespace WpfAppMVVM.Model
                 if (ne.Action == NotifyCollectionChangedAction.Reset)
                 {
                     dataGrid.Columns.Clear();
-                    if (ne.NewItems != null) 
+                    if (ne.NewItems != null)
                     {
                         foreach (DataGridColumn column in ne.NewItems)
                         {

@@ -253,8 +253,15 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 AccountName = _accountNameBuilder.ToString();
                 if (_car != null) 
                 {
-                    if (!CarBrandSource.Contains(_car.Brand)) CarBrandSource.Add(_car.Brand);
-                    CarBrand = _car.Brand;
+                    if (_car.Brand != null)
+                    {
+                        if (!CarBrandSource.Contains(_car.Brand)) CarBrandSource.Add(_car.Brand);
+                        CarBrand = _car.Brand;
+                    }
+                    else if(CarBrand != null) 
+                    {
+                        _car.Brand = CarBrand;
+                    }
                 }
                 OnPropertyChanged(nameof(Car));
             }
@@ -293,10 +300,18 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _trailler = value;
                 _accountNameBuilder.Trailler = _trailler;
                 AccountName = _accountNameBuilder.ToString();
-                if (_trailler != null) 
+                if (_trailler != null)
                 {
-                    if (!TraillerBrandSource.Contains(_trailler.Brand)) TraillerBrandSource.Add(_trailler.Brand);
-                    TraillerBrand = _trailler.Brand;
+                    if (_trailler.Brand != null)
+                    {
+                        if (!TraillerBrandSource.Contains(_trailler.Brand)) TraillerBrandSource.Add(_trailler.Brand);
+                        TraillerBrand = _trailler.Brand;
+                    }
+                    else if(TraillerBrand != null)
+                    {
+                        _trailler.Brand = TraillerBrand;
+                    }
+                    
                 }
                 OnPropertyChanged(nameof(Trailler));
             }
@@ -305,15 +320,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getTraillers(object e)
         {
             string text = e as string;
-            if (e != null) 
-            {
-                TraillerSource = _context.Traillers
-                                .Include(trailler => trailler.Brand)
-                                .Where(t => t.Number.ToLower().Contains(text.ToLower()))
-                                .OrderBy(t => t.Number)
-                                .Take(5)
-                                .ToList();
-            }
+            TraillerSource = _context.Traillers
+                            .Include(trailler => trailler.Brand)
+                            .Where(t => t.Number.ToLower().Contains(text.ToLower()))
+                            .OrderBy(t => t.Number)
+                            .Take(5)
+                            .ToList();
         }
     }
 }

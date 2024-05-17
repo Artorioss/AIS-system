@@ -52,6 +52,21 @@ namespace WpfAppMVVM.Migrations
                     b.ToTable("DriverTrailler");
                 });
 
+            modelBuilder.Entity("RouteRoutePoint", b =>
+                {
+                    b.Property<int>("RoutePointsRoutePointId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoutesRouteId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("RoutePointsRoutePointId", "RoutesRouteId");
+
+                    b.HasIndex("RoutesRouteId");
+
+                    b.ToTable("RouteRoutePoint");
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Model.Entities.Brand", b =>
                 {
                     b.Property<int>("BrandId")
@@ -60,15 +75,11 @@ namespace WpfAppMVVM.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("BrandId"));
 
-                    b.Property<bool>("IsTrailler")
-                        .HasColumnType("boolean");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("RussianBrandName")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("BrandId");
@@ -148,19 +159,11 @@ namespace WpfAppMVVM.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RouteId"));
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("RouteName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("TransportationId")
-                        .HasColumnType("integer");
-
                     b.HasKey("RouteId");
-
-                    b.HasIndex("TransportationId");
 
                     b.ToTable("Routes");
                 });
@@ -252,8 +255,8 @@ namespace WpfAppMVVM.Migrations
                     b.Property<int?>("AccountNumber")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("text");
+                    b.Property<int?>("CarId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
@@ -270,7 +273,13 @@ namespace WpfAppMVVM.Migrations
                     b.Property<decimal?>("Price")
                         .HasColumnType("numeric");
 
+                    b.Property<int?>("RouteId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("StateOrderId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("TraillerId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("TransportCompanyId")
@@ -278,14 +287,17 @@ namespace WpfAppMVVM.Migrations
 
                     b.HasKey("TransportationId");
 
-                    b.HasIndex("CustomerId")
-                        .IsUnique();
+                    b.HasIndex("CarId");
 
-                    b.HasIndex("DriverId")
-                        .IsUnique();
+                    b.HasIndex("CustomerId");
 
-                    b.HasIndex("StateOrderId")
-                        .IsUnique();
+                    b.HasIndex("DriverId");
+
+                    b.HasIndex("RouteId");
+
+                    b.HasIndex("StateOrderId");
+
+                    b.HasIndex("TraillerId");
 
                     b.HasIndex("TransportCompanyId");
 
@@ -322,6 +334,21 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RouteRoutePoint", b =>
+                {
+                    b.HasOne("WpfAppMVVM.Models.Entities.RoutePoint", null)
+                        .WithMany()
+                        .HasForeignKey("RoutePointsRoutePointId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WpfAppMVVM.Models.Entities.Route", null)
+                        .WithMany()
+                        .HasForeignKey("RoutesRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Car", b =>
                 {
                     b.HasOne("WpfAppMVVM.Model.Entities.Brand", "Brand")
@@ -342,17 +369,6 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("TransportCompany");
                 });
 
-            modelBuilder.Entity("WpfAppMVVM.Models.Entities.Route", b =>
-                {
-                    b.HasOne("WpfAppMVVM.Models.Entities.Transportation", "Transportation")
-                        .WithMany()
-                        .HasForeignKey("TransportationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Transportation");
-                });
-
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Trailler", b =>
                 {
                     b.HasOne("WpfAppMVVM.Model.Entities.Brand", "Brand")
@@ -364,31 +380,49 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Transportation", b =>
                 {
+                    b.HasOne("WpfAppMVVM.Models.Entities.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId");
+
                     b.HasOne("WpfAppMVVM.Models.Entities.Customer", "Customer")
-                        .WithOne("Transportation")
-                        .HasForeignKey("WpfAppMVVM.Models.Entities.Transportation", "CustomerId")
+                        .WithMany("Transportations")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WpfAppMVVM.Models.Entities.Driver", "Driver")
-                        .WithOne("Transportation")
-                        .HasForeignKey("WpfAppMVVM.Models.Entities.Transportation", "DriverId");
+                        .WithMany("Transportation")
+                        .HasForeignKey("DriverId");
+
+                    b.HasOne("WpfAppMVVM.Models.Entities.Route", "Route")
+                        .WithMany("Transportation")
+                        .HasForeignKey("RouteId");
 
                     b.HasOne("WpfAppMVVM.Models.Entities.StateOrder", "StateOrder")
-                        .WithOne("Transportation")
-                        .HasForeignKey("WpfAppMVVM.Models.Entities.Transportation", "StateOrderId")
+                        .WithMany("Transportation")
+                        .HasForeignKey("StateOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("WpfAppMVVM.Models.Entities.Trailler", "Trailler")
+                        .WithMany()
+                        .HasForeignKey("TraillerId");
 
                     b.HasOne("WpfAppMVVM.Models.Entities.TransportCompany", "TransportCompany")
                         .WithMany()
                         .HasForeignKey("TransportCompanyId");
 
+                    b.Navigation("Car");
+
                     b.Navigation("Customer");
 
                     b.Navigation("Driver");
 
+                    b.Navigation("Route");
+
                     b.Navigation("StateOrder");
+
+                    b.Navigation("Trailler");
 
                     b.Navigation("TransportCompany");
                 });
@@ -402,20 +436,22 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Customer", b =>
                 {
-                    b.Navigation("Transportation")
-                        .IsRequired();
+                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Driver", b =>
                 {
-                    b.Navigation("Transportation")
-                        .IsRequired();
+                    b.Navigation("Transportation");
+                });
+
+            modelBuilder.Entity("WpfAppMVVM.Models.Entities.Route", b =>
+                {
+                    b.Navigation("Transportation");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.StateOrder", b =>
                 {
-                    b.Navigation("Transportation")
-                        .IsRequired();
+                    b.Navigation("Transportation");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.TransportCompany", b =>

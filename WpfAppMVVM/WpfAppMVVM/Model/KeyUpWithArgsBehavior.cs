@@ -33,6 +33,7 @@ namespace WpfAppMVVM.Model
             base.OnDetaching();
         }
 
+
         private void AssociatedObjectKeyUp(object sender, KeyEventArgs e)
         {
             if (KeyUpCommand != null)

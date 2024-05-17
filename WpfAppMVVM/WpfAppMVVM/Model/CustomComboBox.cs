@@ -31,7 +31,7 @@ namespace WpfAppMVVM.Model
             IsEditable = true;
         }
 
-        private void OnDropSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
+        private void OnDropSelectionChanged(object sender, RoutedEventArgs e)
         {
             TextBox txt = (TextBox)sender;
 
@@ -51,7 +51,7 @@ namespace WpfAppMVVM.Model
             setItem();
         }
 
-        private void setItem() 
+        private void setItem()
         {
             if (SelectedItem == null && !string.IsNullOrEmpty(Text))
             {
@@ -86,7 +86,7 @@ namespace WpfAppMVVM.Model
                         if (prop != null)
                         {
                             prop.SetValue(newItem, Text);
-                            
+
                         }
                         ((IList)ItemsSource).Add(newItem);
                         SelectedItem = newItem;
@@ -96,16 +96,16 @@ namespace WpfAppMVVM.Model
             }
         }
 
-        private void OnTextBoxTextChanged(object sender, RoutedEventArgs e) 
+        private void OnTextBoxTextChanged(object sender, RoutedEventArgs e)
         {
-            if (CustomEvent != null && !_freezComboBox) 
+            if (CustomEvent != null && !_freezComboBox)
             {
                 if (_textBox.SelectionStart == 0 && string.IsNullOrEmpty(Text))
                 {
                     IsDropDownOpen = false;
                     SelectedItem = null;
                 }
-                if (SelectedItem == null) 
+                if (SelectedItem == null)
                 {
                     CustomEvent(Text, e);
                 }

@@ -123,7 +123,7 @@ namespace WpfAppMVVM.Model
             {
                 _stringBuilder.Append("п/п ");
                 if(_traillerBrand != null) _stringBuilder.Append(_traillerBrand.Name).Append(' ');
-                if(_trailler != null) _stringBuilder.Append(_trailler.Number).Append(' ');
+                if(_trailler != null) _stringBuilder.Append("№").Append(_trailler.Number).Append(' ');
             }
             if (Driver != null) _stringBuilder.Append(Driver.Name); 
         }
