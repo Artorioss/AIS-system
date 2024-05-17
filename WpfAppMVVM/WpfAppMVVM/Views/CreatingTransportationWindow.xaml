@@ -7,11 +7,14 @@
         xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.CreatingTransportation"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-            Title="Заявка" Height="715" Width="650" FontSize="16" Name="Window">
+            Title="{Binding WindowName}" Height="715" Width="650" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
 
-    <Window.DataContext>
-        <vm:CreatingTransportationViewModel/>
-    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding Loaded}"></i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -54,7 +57,7 @@
                 </local1:CustomComboBox>
 
                 <Label Grid.Row="1" Content="Дата загрузки" Margin="0,5,5,5"></Label>
-                <DatePicker Name="datePickerUpload" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Grid.ColumnSpan="2" SelectedDate="{Binding DateTime, Mode=OneWayToSource}"></DatePicker>
+                <DatePicker Name="datePickerUpload" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Grid.ColumnSpan="2" SelectedDate="{Binding DateTime}"></DatePicker>
 
                 <Label Content="Сумма от заказчика" Grid.Row="2" Margin="0,5,5,5"></Label>
                 <TextBox Name="textBoxSum" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" Text="{Binding Payment}"></TextBox>
@@ -265,7 +268,7 @@
         </GroupBox>
 
         <DockPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="5">
-            <Button Name="ButtonAdd" Content="Добавить погрузку" Command="{Binding CreateTransportation}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
+            <Button Name="ButtonAdd" Content="{Binding ButtonName}" Command="{Binding CreateTransportation}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
         </DockPanel>
     </Grid>
 </Window>

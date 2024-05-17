@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views"
-        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels"
+        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="1000" FontSize="16">
 
@@ -28,7 +28,7 @@
             <Button Content="Справочники" Margin="10,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
         </ToolBar>
 
-        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource}">
+        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding TransportationDTO}" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding DateLoading}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding CustomerName}" Width="*"></DataGridTextColumn>
@@ -45,6 +45,12 @@
                     <MenuItem Header="Выставить счет водителю"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction
+                    Command="{Binding EditData}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </DataGrid>
 
         <Button Content="Добавить перевозку" Margin="5" Grid.Row="2" Command="{Binding CreateTransportation}"></Button>

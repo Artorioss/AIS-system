@@ -21,6 +21,7 @@ namespace WpfAppMVVM.ViewModels
         public TransportationEntities _transportationEntities { get; set; }
         public DelegateCommand CreateTransportation { get; private set; }
         public DelegateCommand ShowReferencesBook { get; private set; }
+        public DelegateCommand EditData { get; private set; }
 
         public List<TransportationDTO> _itemsSource;
         public List<TransportationDTO> ItemsSource 
@@ -50,6 +51,7 @@ namespace WpfAppMVVM.ViewModels
             loadTransportations();
             CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
             ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
+            EditData = new DelegateCommand((obj) => showTransportationForEditWindow());
         }
 
         private void loadTransportations() 
@@ -68,6 +70,14 @@ namespace WpfAppMVVM.ViewModels
             creatingTransportationWindow.ShowDialog();
             loadTransportations();
 
+        }
+
+        private void showTransportationForEditWindow()
+        {
+            CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
+            creatingTransportationWindow.DataContext = new CreatingTransportationViewModel(TransportationDTO.TransportationId);
+            creatingTransportationWindow.ShowDialog();
+            loadTransportations();
         }
 
         private void showWindowReferencesBook()

@@ -47,6 +47,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                     setCarByDriver();
                     setTraillerByDriver();
                 }
+                OnPropertyChanged(nameof(Driver));
             }
         }
 

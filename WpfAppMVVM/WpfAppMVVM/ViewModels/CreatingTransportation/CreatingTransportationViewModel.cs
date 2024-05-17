@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Runtime.Serialization;
 using WpfAppMVVM.Model.Entities;
 using WpfAppMVVM.Model;
+using System.Net;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -25,8 +26,37 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         protected RoutePointBuilder RoutePointLoader { get; set; }
         AccountNameBuilder _accountNameBuilder { get; set; }
         public DelegateCommand CreateTransportation { get; private set; }
+        public DelegateCommand Loaded { get; private set; }
 
         public CreatingTransportationViewModel()
+        {
+            settingsUp();
+            Transportation = new Transportation();
+            _context.Add(Transportation);
+        }
+
+        public CreatingTransportationViewModel(int transportationId)
+        {
+            settingsUp();
+            Transportation = _context.Transportations
+                                     .Include(transp => transp.Driver)
+                                     .Include(transp => transp.Customer)
+                                     .Include(transp => transp.Route)
+                                     .Include(transp => transp.TransportCompany)
+                                     .Include(transp => transp.Car)
+                                     .Include(transp => transp.CarBrand)
+                                     .Include(transp => transp.Trailler)
+                                     .Include(transp => transp.TraillerBrand)
+                                     .SingleOrDefault(s => s.TransportationId == transportationId);
+
+            WindowName = "Редактирование заявки";
+            ButtonName = "Сохранить изменения";
+
+            //Loaded = new DelegateCommand((obj) => setFields());
+            setFields();
+        }
+
+        private void settingsUp() 
         {
             CustomerSource = new List<Customer>();
             DriversSource = new List<Driver>();
@@ -54,6 +84,47 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             _accountNameBuilder = new AccountNameBuilder();
         }
 
+        private void setFields() 
+        {
+            CustomerSource = new List<Customer>() { Transportation.Customer };
+            Customer = Transportation.Customer;
+            DateTime = DateTime.Parse((string)Transportation.DateLoading).Date;
+            Payment = Transportation.Price == null ? 0.00M : (decimal)Transportation.Price;
+            GeneralRoute = Transportation.Route.RouteName;
+
+            DriversSource = new List<Driver>() { Transportation.Driver };
+            _driver = Transportation.Driver;
+            OnPropertyChanged(nameof(Driver));
+
+            CompaniesSource = new List<TransportCompany>() { Transportation.TransportCompany };
+            _company = Transportation.TransportCompany;
+            OnPropertyChanged(nameof(TransportCompany));
+
+            CarBrandSource = new List<Brand>() { Transportation.CarBrand };
+            _carBrand = Transportation.CarBrand;
+            OnPropertyChanged(nameof(CarBrand));
+
+            CarSource = new List<Car>() { Transportation.Car };
+            _car = Transportation.Car;
+            OnPropertyChanged(nameof(Car));
+
+            TraillerBrandSource = new List<Brand>() { Transportation.TraillerBrand };
+            _traillerBrand = Transportation.TraillerBrand;
+            OnPropertyChanged(nameof(TraillerBrand));
+
+            TraillerSource = new List<Trailler>() { Transportation.Trailler };
+            _trailler = Transportation.Trailler;
+            OnPropertyChanged(nameof(Trailler));
+
+            PayToDriver = Transportation.PaymentToDriver == null ? 0.00M : (decimal)Transportation.PaymentToDriver;
+
+            _accountNameBuilder.Driver = _driver;
+            _accountNameBuilder.CarBrand = _carBrand;
+            _accountNameBuilder.Car = _car;
+            _accountNameBuilder.TraillerBrand = _traillerBrand;
+            _accountNameBuilder.Trailler = _trailler;
+        }
+
         string _accountName;
         public string AccountName 
         {
@@ -65,7 +136,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        DateTime _dateTime;
+        DateTime _dateTime = DateTime.Now;
         public DateTime DateTime 
         {
             get => _dateTime;
@@ -100,6 +171,28 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
+        private string _windowName = "Создание заявки";
+        public string WindowName 
+        {
+            get => _windowName;
+            set 
+            {
+                _windowName = value;
+                OnPropertyChanged(nameof(WindowName));
+            }
+        }
+
+        private string _buttonName = "Создать заявку";
+        public string ButtonName 
+        {
+            get => _buttonName;
+            set 
+            {
+                _buttonName = value;
+                OnPropertyChanged(nameof(ButtonName));
+            }
+        }
+
         private void createTransportation(object obj) 
         {
             Route route = CreateRoute();
@@ -117,22 +210,22 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 if (Trailler != null) Car.IsTruck = true;
                 else Car.IsTruck = false;
             }
-                
-            Transportation = new Transportation()
-            {
-                DateLoading = DateTime.ToShortDateString(),
-                Customer = Customer,
-                Driver = Driver,
-                Route = route,
-                TransportCompany = TransportCompany,
-                Car = Car,
-                Trailler = Trailler,
-                Price = Payment,
-                PaymentToDriver = PayToDriver,
-                StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1),
-            };
 
-            _context.Add(Transportation);
+            Transportation.AccountName = AccountName;
+            Transportation.DateLoading = DateTime.ToShortDateString();
+            Transportation.Customer = Customer;
+            Transportation.Driver = Driver;
+            Transportation.Route = route;
+            Transportation.TransportCompany = TransportCompany;
+            Transportation.Car = Car;
+            Transportation.CarBrand = CarBrand;
+            Transportation.Trailler = Trailler;
+            Transportation.TraillerBrand = TraillerBrand;
+            Transportation.Price = Payment;
+            Transportation.PaymentToDriver = PayToDriver;
+            Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
+
+            //_context.Add(Transportation);
             _context.SaveChanges();
             (obj as Window).Close();
         }

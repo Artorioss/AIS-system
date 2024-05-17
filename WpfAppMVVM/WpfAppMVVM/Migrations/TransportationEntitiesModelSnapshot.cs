@@ -252,7 +252,14 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("AccountDate")
                         .HasColumnType("text");
 
+                    b.Property<string>("AccountName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int?>("AccountNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("CarBrandId")
                         .HasColumnType("integer");
 
                     b.Property<int?>("CarId")
@@ -279,6 +286,9 @@ namespace WpfAppMVVM.Migrations
                     b.Property<int>("StateOrderId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("TraillerBrandId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("TraillerId")
                         .HasColumnType("integer");
 
@@ -286,6 +296,8 @@ namespace WpfAppMVVM.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("TransportationId");
+
+                    b.HasIndex("CarBrandId");
 
                     b.HasIndex("CarId");
 
@@ -296,6 +308,8 @@ namespace WpfAppMVVM.Migrations
                     b.HasIndex("RouteId");
 
                     b.HasIndex("StateOrderId");
+
+                    b.HasIndex("TraillerBrandId");
 
                     b.HasIndex("TraillerId");
 
@@ -380,6 +394,10 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Transportation", b =>
                 {
+                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "CarBrand")
+                        .WithMany()
+                        .HasForeignKey("CarBrandId");
+
                     b.HasOne("WpfAppMVVM.Models.Entities.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId");
@@ -404,6 +422,10 @@ namespace WpfAppMVVM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "TraillerBrand")
+                        .WithMany()
+                        .HasForeignKey("TraillerBrandId");
+
                     b.HasOne("WpfAppMVVM.Models.Entities.Trailler", "Trailler")
                         .WithMany()
                         .HasForeignKey("TraillerId");
@@ -414,6 +436,8 @@ namespace WpfAppMVVM.Migrations
 
                     b.Navigation("Car");
 
+                    b.Navigation("CarBrand");
+
                     b.Navigation("Customer");
 
                     b.Navigation("Driver");
@@ -423,6 +447,8 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("StateOrder");
 
                     b.Navigation("Trailler");
+
+                    b.Navigation("TraillerBrand");
 
                     b.Navigation("TransportCompany");
                 });
