@@ -7,7 +7,7 @@
         xmlns:model="clr-namespace:WpfAppMVVM.Model"
         xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="{Binding WindowName}" ResizeMode="NoResize" Height="195" Width="450" FontSize="16" Name="Window">
+        Title="{Binding WindowName}" ResizeMode="NoResize" Height="auto" Width="550" FontSize="16" Name="Window">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,28 +19,75 @@
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
 
-                <Label Content="Инициалы водителя" Margin="5"></Label>
-                <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
+                <Grid Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
 
-                <Label Content="Компания" Margin="5" Grid.Row="1"></Label>
-                <model:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="1" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="CustomEvent">
-                            <i:InvokeCommandAction
-                                Command="{Binding GetCustomers}"
-                                CommandParameter="{Binding Text, ElementName=comboBoxTransportCompanies}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </model:CustomComboBox>
-                
+                    <Label Content="Инициалы водителя" Margin="5" Grid.Column="0"></Label>
+                    <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
+
+                    <Label Content="Компания" Margin="5" Grid.Row="1" Grid.Column="2"></Label>
+                    <model:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="CustomEvent">
+                                <i:InvokeCommandAction
+                                  Command="{Binding GetCustomers}"
+                                  CommandParameter="{Binding Text, ElementName=comboBoxTransportCompanies}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </model:CustomComboBox>
+
+                </Grid>
+                <GroupBox Header="Транспорт водителя" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Номер машины" Grid.Column="0" Margin="5"></Label>
+                        <model:CustomComboBox Margin="5" Grid.Column="1"></model:CustomComboBox>
+
+                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center"></Button>
+
+                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="100">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Номер машины" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Марка машины" Width="*"></DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Удалить" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Удалить"></Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+
             </Grid>
         </GroupBox>
-        <Button Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding CreateDriver}" CommandParameter="{Binding ElementName=Window}"></Button>
+        <Button Height="30" Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding CreateDriver}" CommandParameter="{Binding ElementName=Window}"></Button>
     </Grid>
 </Window>
+
