@@ -28,21 +28,22 @@
             <Button Content="Справочники" Margin="10,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
         </ToolBar>
 
-        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource}" SelectedItem="{Binding TransportationDTO}" >
+        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource, Mode=TwoWay}" SelectedItem="{Binding TransportationDTO}" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата" Binding="{Binding DateLoading}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дата" Binding="{Binding DateLoading}" Width="0.8*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding CustomerName}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding DriverName}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Маршрут" Binding="{Binding Address}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Сумма от заказчика" Binding="{Binding Price}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Оплата" Width="*" Binding="{Binding PaymentToDriver}"></DataGridTextColumn>
-                <DataGridTextColumn Header="Дельта" Width="*" Binding="{Binding Delta}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Маршрут" Binding="{Binding Address}" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Сумма от заказчика" Binding="{Binding Price}" Width="0.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Оплата" Width="0.5*" Binding="{Binding PaymentToDriver}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Дельта" Width="0.5*" Binding="{Binding Delta}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Компания перевозчик" Binding="{Binding TransportCompanyName}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Выставить счет заказчику"/>
                     <MenuItem Header="Выставить счет водителю"/>
+                    <MenuItem Header="Удалить заявку" Command="{Binding DeleteCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <i:Interaction.Triggers>

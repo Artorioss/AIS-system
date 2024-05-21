@@ -24,9 +24,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
     {
         public Transportation Transportation { get; set; }
         protected RoutePointBuilder RoutePointLoader { get; set; }
-        AccountNameBuilder _accountNameBuilder { get; set; }
+        private AccountNameBuilder _accountNameBuilder { get; set; }
         public DelegateCommand CreateTransportation { get; private set; }
         public DelegateCommand Loaded { get; private set; }
+        public bool IsContextChanged { get; private set; } = false;
 
         public CreatingTransportationViewModel()
         {
@@ -51,8 +52,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
             WindowName = "Редактирование заявки";
             ButtonName = "Сохранить изменения";
-
-            //Loaded = new DelegateCommand((obj) => setFields());
             setFields();
         }
 
@@ -224,9 +223,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             Transportation.Price = Payment;
             Transportation.PaymentToDriver = PayToDriver;
             Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
-
-            //_context.Add(Transportation);
+               
             _context.SaveChanges();
+            IsContextChanged = true;
             (obj as Window).Close();
         }
 
