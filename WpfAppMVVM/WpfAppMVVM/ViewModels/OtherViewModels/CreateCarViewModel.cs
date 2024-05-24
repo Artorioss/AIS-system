@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.JavaScript;
@@ -12,13 +13,15 @@ using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CreateCarViewModel: BaseViewModel
+    internal class CreateCarViewModel : BaseViewModel
     {
         public DelegateCommand CreateCar { get; private set; }
         public DelegateCommand GetBrands { get; private set; }
 
         TransportationEntities _context;
         Car _car;
+
+        Mode _mode;
 
         List<Brand> _brandSource;
         public List<Brand> BrandSource 
@@ -51,13 +54,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public bool IsTrack
+        public bool IsTruck
         {
             get => _car.IsTruck;
             set
             {
                 _car.IsTruck = value;
-                OnPropertyChanged(nameof(IsTrack));
+                OnPropertyChanged(nameof(IsTruck));
             }
         }
 
@@ -88,21 +91,23 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             settingsUp();
             _car = new Car();
             _context.Add(_car);
+            _mode = Mode.Additing;
         }
 
         public CreateCarViewModel(Car car)
         {
             settingsUp();
-            _car = car;
+            _car = (Car)car.Clone();
             BrandSource = new List<Brand>() { _car.Brand };
             ButtonText = "Обновить запись";
             WindowName = "Редактирование записи";
+            _mode = Mode.Editing;
         }
 
         private void settingsUp() 
         {
             _context = (Application.Current as App)._context;
-            CreateCar = new DelegateCommand(createCar);
+            CreateCar = new DelegateCommand(CreateCarAction);
             GetBrands = new DelegateCommand(getBrands);
         }
 
@@ -110,17 +115,29 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             string text = obj as string;
             BrandSource = _context.Brands.Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianBrandName.ToLower().Contains(text.ToLower())).Take(5)
-                                         .Select(s => s).ToList();
+                                         .Select(s => s)
+                                         .ToList();
         }
 
-        private void createCar(object obj) 
+        private void CreateCarAction(object obj)
         {
-            if (Brand != null && Number != null)
+            if (Brand != null && !string.IsNullOrWhiteSpace(Number))
             {
+                if (_mode == Mode.Editing)
+                {
+                    var existingCar = _context.Cars.Find(_car.CarId);
+
+                    existingCar.Brand = _context.Brands.Find(Brand.BrandId);
+                    existingCar.Number = Number;
+                    existingCar.IsTruck = IsTruck;
+                }
                 _context.SaveChanges();
-                (obj as Window).Close();
+                (obj as Window)?.Close();
             }
-            else MessageBox.Show("Заполните все поля", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                MessageBox.Show("Неправильно заполнены поля!", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WpfAppMVVM.Models.Entities
 {
-    public class Driver
+    public class Driver: ICloneable
     {
         public int DriverId { get; set; }
         public string Name { get; set; }
@@ -15,5 +15,45 @@ namespace WpfAppMVVM.Models.Entities
         public ICollection<Car> Cars { get; set; }
         public ICollection<Trailler> Traillers { get; set; }
         public ICollection<Transportation> Transportation { get; set; }
+
+        public object Clone()
+        {
+            Driver newDriver = MemberwiseClone() as Driver;
+            if (TransportCompany != null) 
+            {
+                TransportCompany newTransportCompany = new TransportCompany() 
+                {
+                    TransportCompanyId = TransportCompany.TransportCompanyId,
+                    Name = TransportCompany.Name,
+                };
+                newDriver.TransportCompany = newTransportCompany;
+            }
+
+            if (Cars != null && Cars.Count > 0) 
+            {
+                var newCars = new List<Car>();
+
+                foreach (var item in Cars)
+                {
+                    newCars.Add(item.Clone() as Car);
+                }
+
+                newDriver.Cars = newCars;
+            }
+
+            if (Traillers != null && Traillers.Count > 0) 
+            {
+                var newTraillers = new List<Trailler>();
+
+                foreach (var item in Traillers) 
+                {
+                    newTraillers.Add(item.Clone() as Trailler);
+                }
+
+                newDriver.Traillers = newTraillers;
+            }
+
+            return newDriver;
+        }
     }
 }

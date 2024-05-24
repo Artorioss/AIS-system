@@ -18,6 +18,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand GetBrands { get; private set; }
         public DelegateCommand CreateTrailler { get; private set; }
 
+        Mode _mode;
+        
         private List<Brand> _brandSource;
         public List<Brand> BrandSource
         {
@@ -74,10 +76,11 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public CreateTraillerViewModel(Trailler trailler)
         {
             settingsUp();
-            _trailler = trailler;
+            _trailler = trailler.Clone() as Trailler;
             BrandSource = new List<Brand>() { trailler.Brand };
             ButtonText = "Обновить запись";
             WindowName = "Редактировать запись";
+            _mode = Mode.Editing;   
         }
 
         public CreateTraillerViewModel()
@@ -85,13 +88,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             settingsUp();
             _trailler = new Trailler();
             _context.Add(_trailler);
+            _mode = Mode.Additing;
         }
 
         private void settingsUp() 
         {
             _context = (Application.Current as App)._context;
             GetBrands = new DelegateCommand(getBrands);
-            CreateTrailler = new DelegateCommand(createTrailler);
+            CreateTrailler = new DelegateCommand(CreateTraillerAction);
         }
 
 
@@ -104,14 +108,23 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                                          .ToList();
         }
 
-        private void createTrailler(object obj)
+        private void CreateTraillerAction(object obj)
         {
-            if (Brand != null && Number != null)
+            if (Brand != null && !string.IsNullOrWhiteSpace(Number))
             {
+                if (_mode == Mode.Editing)
+                {
+                    var existingTrailler = _context.Traillers.Find(_trailler.TraillerId);
+                    existingTrailler.Brand = _context.Brands.Find(Brand.BrandId);
+                    existingTrailler.Number = Number;
+                }
                 _context.SaveChanges();
-                (obj as Window).Close();
+                (obj as Window)?.Close();
             }
-            else MessageBox.Show("Заполните все поля", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+            else
+            {
+                MessageBox.Show("Неправильно заполнены поля!", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }

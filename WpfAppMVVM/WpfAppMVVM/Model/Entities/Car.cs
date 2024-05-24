@@ -7,7 +7,7 @@ using WpfAppMVVM.Model.Entities;
 
 namespace WpfAppMVVM.Models.Entities
 {
-    public class Car
+    public class Car: ICloneable
     {
         public int CarId { get; set; }
         public int? BrandId { get; set; }
@@ -15,5 +15,19 @@ namespace WpfAppMVVM.Models.Entities
         public bool IsTruck { get; set; }
         public Brand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
+
+        public object Clone()
+        {
+            Car newCar = (Car)MemberwiseClone();
+            if (Brand != null) 
+            {
+                Brand newBrand = new Brand();
+                newBrand.Name = Brand.Name;
+                newBrand.BrandId = Brand.BrandId;
+                newBrand.RussianBrandName = Brand.RussianBrandName;
+                newCar.Brand = newBrand;
+            }
+            return newCar;
+        }
     }
 }
