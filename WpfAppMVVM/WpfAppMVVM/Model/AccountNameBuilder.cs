@@ -24,7 +24,7 @@ namespace WpfAppMVVM.Model
             }
         }
 
-        private DateTime _date;
+        private DateTime _date = DateTime.Now;
         public DateTime Date
         {
             get => _date;

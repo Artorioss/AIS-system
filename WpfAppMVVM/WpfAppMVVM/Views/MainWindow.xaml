@@ -43,6 +43,7 @@
                 <ContextMenu>
                     <MenuItem Header="Выставить счет заказчику"/>
                     <MenuItem Header="Выставить счет водителю"/>
+                    <MenuItem Header="Копировать название счета"/>
                     <MenuItem Header="Удалить заявку" Command="{Binding DeleteCommand}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>

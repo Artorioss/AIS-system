@@ -9,7 +9,7 @@ using WpfAppMVVM.Models;
 
 namespace WpfAppMVVM.ViewModels
 {
-    internal class BaseViewModel : INotifyPropertyChanged
+    internal abstract class BaseViewModel : INotifyPropertyChanged
     {
         protected TransportationEntities _context = (Application.Current as App)._context;
 

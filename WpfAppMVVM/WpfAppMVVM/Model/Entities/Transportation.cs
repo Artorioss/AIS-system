@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace WpfAppMVVM.Models.Entities
         public decimal? PaymentToDriver { get; set; }
         public int? AccountNumber { get; set; }
         public string? AccountDate { get; set; }
+        [MaxLength(512)]
         public string AccountName { get; set; }
         public int StateOrderId { get; set; }
         public Car Car { get; set; }

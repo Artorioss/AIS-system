@@ -77,10 +77,14 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.Property<string>("RussianBrandName")
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.HasKey("BrandId");
 
@@ -103,7 +107,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(9)
+                        .HasColumnType("character varying(9)")
+                        .UseCollation("default");
 
                     b.HasKey("CarId");
 
@@ -122,7 +128,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.HasKey("CustomerId");
 
@@ -139,7 +147,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.Property<int>("TransportCompanyId")
                         .HasColumnType("integer");
@@ -161,7 +171,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("RouteName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
+                        .UseCollation("default");
 
                     b.HasKey("RouteId");
 
@@ -178,7 +190,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
+                        .UseCollation("default");
 
                     b.HasKey("RoutePointId");
 
@@ -195,7 +209,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.HasKey("StateOrderId");
 
@@ -215,7 +231,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Number")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)")
+                        .UseCollation("default");
 
                     b.HasKey("TraillerId");
 
@@ -234,7 +252,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(32)
+                        .HasColumnType("character varying(32)")
+                        .UseCollation("default");
 
                     b.HasKey("TransportCompanyId");
 
@@ -250,11 +270,14 @@ namespace WpfAppMVVM.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransportationId"));
 
                     b.Property<string>("AccountDate")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .UseCollation("default");
 
                     b.Property<string>("AccountName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)")
+                        .UseCollation("default");
 
                     b.Property<int?>("AccountNumber")
                         .HasColumnType("integer");
@@ -269,7 +292,8 @@ namespace WpfAppMVVM.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("DateLoading")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .UseCollation("default");
 
                     b.Property<int?>("DriverId")
                         .HasColumnType("integer");

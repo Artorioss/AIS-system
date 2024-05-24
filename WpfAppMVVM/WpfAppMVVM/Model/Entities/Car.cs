@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace WpfAppMVVM.Models.Entities
     {
         public int CarId { get; set; }
         public int? BrandId { get; set; }
+        [MaxLength(9)]
         public string Number { get; set; }
         public bool IsTruck { get; set; }
         public Brand Brand { get; set; }

@@ -122,6 +122,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             _accountNameBuilder.Car = _car;
             _accountNameBuilder.TraillerBrand = _traillerBrand;
             _accountNameBuilder.Trailler = _trailler;
+            _accountNameBuilder.Date = DateTime;
+
+            AccountName = Transportation.AccountName;
         }
 
         string _accountName;
@@ -210,7 +213,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 else Car.IsTruck = false;
             }
 
-            Transportation.AccountName = AccountName;
+            Transportation.AccountName = _accountNameBuilder.ToString();
             Transportation.DateLoading = DateTime.ToShortDateString();
             Transportation.Customer = Customer;
             Transportation.Driver = Driver;

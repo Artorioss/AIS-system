@@ -18,7 +18,7 @@ using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CreateDriverViewModel : BaseViewModel
+    internal class CreateDriverViewModel : ReferenceBook
     {
         TransportationEntities _context;
         public DelegateCommand GetCustomers { get; private set; }
@@ -35,7 +35,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand CreateDriver { get; private set; }
 
         private Driver _driver;
-        private Mode _mode;
 
         public ObservableCollection<Car> Cars { get; private set; }  //Коллекции для DataGridView
         public ObservableCollection<Trailler> Traillers { get; private set; }
@@ -249,7 +248,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             AddTrailler = new DelegateCommand((obj) => addTrailler());
             AddTraillerByKeyboard = new DelegateCommand(addTraillerByKeyboard);
             DeleteTrailler = new DelegateCommand(deleteTrailler);
-            CreateDriver = new DelegateCommand(CreateDriverAction);
+            CreateDriver = new DelegateCommand(CreateAction);
             GetCarBrands = new DelegateCommand(getCarBrands);
             GetTraillerBrands = new DelegateCommand(getTraillerBrands);
         }
@@ -311,6 +310,11 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private void addCar() 
         {
+            if (string.IsNullOrEmpty(CarText)) 
+            {
+                MessageBox.Show("Укажите номер автомобиля", "Не указан номер автомобиля", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            } 
             if (Car is null) createCar();
             if (Cars.Contains(Car)) MessageBox.Show("Указанное транспортное средство уже числится за этим водителем", "Невозможно выполнить действие", MessageBoxButton.OK, MessageBoxImage.Warning);
             else 
@@ -323,7 +327,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private void addTrailler() 
         {
-            if(Trailler is null) createTrailler();
+            if (string.IsNullOrEmpty(TraillerText))
+            {
+                MessageBox.Show("Укажите номер прицепа", "Не указан номер прицепа", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                return;
+            }
+            if (Trailler is null) createTrailler();
             if (Traillers.Contains(Trailler)) MessageBox.Show("Указанный прицеп уже числится за этим водителем", "Невозможно выполнить действие", MessageBoxButton.OK, MessageBoxImage.Warning);
             else 
             {
@@ -371,47 +380,38 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             Traillers.Remove(obj as Trailler);
         }
 
-
-        private void CreateDriverAction(object obj)
+        protected override bool dataIsCorrect()
         {
-            if (!string.IsNullOrWhiteSpace(Name) != null && TransportCompany != null)
-            {
-                if (_mode == Mode.Editing)
-                {
-                    var existingDriver = _context.Drivers.Find(_driver.DriverId);
-                    existingDriver.TransportCompany = _context.TransportCompanies.Find(TransportCompany.TransportCompanyId);
-                    existingDriver.Name = Name;
-
-                    existingDriver.Cars.Clear();
-                    foreach (var item in Cars) 
-                    {
-                        Car car;
-                        if (item.CarId == 0) car = item;
-                        else car = _context.Cars.Find(item.CarId);
-                        
-                        if (car.BrandId != 0) car.Brand = _context.Brands.Find(item.Brand.BrandId);
-                        existingDriver.Cars.Add(car);
-                    }
-
-                    existingDriver.Traillers.Clear();
-                    foreach (var item in Traillers)
-                    {
-                        Trailler trailler;
-                        if (item.TraillerId == 0) trailler = item;
-                        else trailler = _context.Traillers.Find(item.TraillerId);
-
-                        if (trailler.BrandId != 0) trailler.Brand = _context.Brands.Find(item.Brand.BrandId);
-                        existingDriver.Traillers.Add(trailler);
-                    }
-                }
-                _context.SaveChanges();
-                (obj as Window)?.Close();
-            }
-            else
-            {
-                MessageBox.Show("Неправильно заполнены поля!", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            return !string.IsNullOrWhiteSpace(Name) != null && TransportCompany != null && Cars.FirstOrDefault(c => c.Brand == null) == null;
         }
 
+        protected override void updateEntity()
+        {
+            var existingDriver = _context.Drivers.Find(_driver.DriverId);
+            existingDriver.TransportCompany = _context.TransportCompanies.Find(TransportCompany.TransportCompanyId);
+            existingDriver.Name = Name;
+
+            existingDriver.Cars.Clear();
+            foreach (var item in Cars)
+            {
+                Car car;
+                if (item.CarId == 0) car = item;
+                else car = _context.Cars.Find(item.CarId);
+
+                if (car.BrandId != 0) car.Brand = _context.Brands.Find(item.Brand.BrandId);
+                existingDriver.Cars.Add(car);
+            }
+
+            existingDriver.Traillers.Clear();
+            foreach (var item in Traillers)
+            {
+                Trailler trailler;
+                if (item.TraillerId == 0) trailler = item;
+                else trailler = _context.Traillers.Find(item.TraillerId);
+
+                if (trailler.BrandId != 0) trailler.Brand = _context.Brands.Find(item.Brand.BrandId);
+                existingDriver.Traillers.Add(trailler);
+            }
+        }
     }
 }
