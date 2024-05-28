@@ -22,10 +22,8 @@ namespace WpfAppMVVM.Models.Entities
         public int? TraillerBrandId { get; set; }
         public decimal? Price { get; set; }
         public decimal? PaymentToDriver { get; set; }
-        public int? AccountNumber { get; set; }
-        public string? AccountDate { get; set; }
         [MaxLength(512)]
-        public string AccountName { get; set; }
+        public string RouteName { get; set; }
         public int StateOrderId { get; set; }
         public Car Car { get; set; }
         public Brand CarBrand { get; set; }
