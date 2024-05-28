@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.Models
 {
@@ -16,7 +17,8 @@ namespace WpfAppMVVM.Models
         public decimal? Price { get; set; }
         public decimal? PaymentToDriver { get; set; }
         public decimal? Delta { get; set; }
-        public string? Address { get; set; }
-        public string StateName { get; set; }
+        public string? RouteName { get; set; }
+        public int State { get; set; }
+        public StateOrder StateOrder { get; set; }
     }
 }

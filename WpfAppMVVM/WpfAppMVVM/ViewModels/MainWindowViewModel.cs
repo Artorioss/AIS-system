@@ -95,7 +95,7 @@ namespace WpfAppMVVM.ViewModels
 
         private void onDelete() 
         {
-            MessageBoxResult result = MessageBox.Show($"Заявка - '{TransportationDTO.Address}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            MessageBoxResult result = MessageBox.Show($"Заявка - '{TransportationDTO.RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes) delete();          
         }
 

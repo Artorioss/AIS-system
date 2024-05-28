@@ -33,7 +33,7 @@
                 <DataGridTextColumn Header="Дата" Binding="{Binding DateLoading}" Width="0.8*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding CustomerName}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Водитель" Binding="{Binding DriverName}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Маршрут" Binding="{Binding Address}" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Маршрут" Binding="{Binding RouteName}" Width="2*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Сумма от заказчика" Binding="{Binding Price}" Width="0.5*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Оплата" Width="0.5*" Binding="{Binding PaymentToDriver}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Дельта" Width="0.5*" Binding="{Binding Delta}"></DataGridTextColumn>

@@ -36,6 +36,5 @@ namespace WpfAppMVVM.Models.Entities
         public Driver Driver { get; set; }
         public TransportCompany TransportCompany { get; set; }
         public StateOrder StateOrder { get; set; }
-
     }
 }
