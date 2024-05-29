@@ -21,11 +21,25 @@
 
         <ToolBar Grid.Row="0">
             <Label Content="Фильтр"></Label>
+            <ComboBox MinWidth="150" ItemsSource="{Binding StateOrders}" SelectedItem="{Binding SelectedState}" DisplayMemberPath="Name"></ComboBox>
+            <Separator Margin="10,5,10,5"></Separator>
+            <Button Content="Справочники" Margin="0,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
+            <Separator Margin="10,5,10,5"></Separator>
+            <Label Content="Месяц"></Label>
             <ComboBox MinWidth="150">
-                <ComboBoxItem Content="Все типы заявок"></ComboBoxItem>
-                <ComboBoxItem Content="Не закрытые заявки"></ComboBoxItem>
+                <ComboBoxItem Content="Январь"></ComboBoxItem>
+                <ComboBoxItem Content="Февраль"></ComboBoxItem>
+                <ComboBoxItem Content="Март"></ComboBoxItem>
+                <ComboBoxItem Content="Апрель"></ComboBoxItem>
+                <ComboBoxItem Content="Май"></ComboBoxItem>
+                <ComboBoxItem Content="Июнь"></ComboBoxItem>
+                <ComboBoxItem Content="Июль"></ComboBoxItem>
+                <ComboBoxItem Content="Август"></ComboBoxItem>
+                <ComboBoxItem Content="Сентябрь"></ComboBoxItem>
+                <ComboBoxItem Content="Октябрь"></ComboBoxItem>
+                <ComboBoxItem Content="Ноябрь"></ComboBoxItem>
+                <ComboBoxItem Content="Декабрь"></ComboBoxItem>
             </ComboBox>
-            <Button Content="Справочники" Margin="10,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
         </ToolBar>
 
         <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource, Mode=TwoWay}" SelectedItem="{Binding TransportationDTO}" >

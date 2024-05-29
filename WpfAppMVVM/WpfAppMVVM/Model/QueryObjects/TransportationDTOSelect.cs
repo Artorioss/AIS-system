@@ -14,14 +14,14 @@ namespace WpfAppMVVM.Models.QueryObjects
             return transportations.Select(transportation => new TransportationDTO
             {
                 TransportationId = transportation.TransportationId,
-                DateLoading = transportation.DateLoading,
+                DateLoading = transportation.DateLoading.Value.ToShortDateString(),
                 CustomerName = transportation.Customer.Name,
                 DriverName = transportation.Driver.Name,
                 TransportCompanyName = transportation.TransportCompany.Name,
                 Price = transportation.Price,
                 PaymentToDriver = transportation.PaymentToDriver,
                 Delta = transportation.Price - transportation.PaymentToDriver,
-                RouteName = transportation.AccountName
+                RouteName = transportation.RouteName
             });
         }
     }

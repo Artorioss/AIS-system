@@ -11,7 +11,7 @@ namespace WpfAppMVVM.Models.Entities
     public class Transportation
     {
         public int TransportationId { get; set; }
-        public string? DateLoading { get; set; }
+        public DateTime? DateLoading { get; set; }
         public int CustomerId { get; set; }
         public int? DriverId { get; set; }
         public int? RouteId { get; set; }

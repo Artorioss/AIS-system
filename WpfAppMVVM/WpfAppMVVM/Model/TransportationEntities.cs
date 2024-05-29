@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,16 +30,14 @@ namespace WpfAppMVVM.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
-            {
-                foreach (var property in entityType.GetProperties())
-                {
-                    if (property.ClrType == typeof(string))
-                    {
-                        property.SetCollation("default");
-                    }
-                }
-            }
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            //var converter = new ValueConverter<DateTime, DateTime>
+            //    (
+            //        toDb => toDb.Date,
+            //        fromDb => fromDb
+            //    );
+
+            //modelBuilder.Entity<Transportation>().Property(t => t.DateLoading).HasConversion(converter);
         }
     }
 }

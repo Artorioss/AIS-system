@@ -87,7 +87,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         {
             CustomerSource = new List<Customer>() { Transportation.Customer };
             Customer = Transportation.Customer;
-            DateTime = DateTime.Parse((string)Transportation.DateLoading).Date;
+            DateTime = (DateTime)Transportation.DateLoading;
             Payment = Transportation.Price == null ? 0.00M : (decimal)Transportation.Price;
             GeneralRoute = Transportation.Route.RouteName;
 
@@ -214,7 +214,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
 
             Transportation.RouteName = _accountNameBuilder.ToString();
-            Transportation.DateLoading = DateTime.ToShortDateString();
+            Transportation.DateLoading = DateTime;
             Transportation.Customer = Customer;
             Transportation.Driver = Driver;
             Transportation.Route = route;

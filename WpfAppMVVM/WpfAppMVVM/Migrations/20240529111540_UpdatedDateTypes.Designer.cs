@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WpfAppMVVM.Models;
@@ -11,9 +12,11 @@ using WpfAppMVVM.Models;
 namespace WpfAppMVVM.Migrations
 {
     [DbContext(typeof(TransportationEntities))]
-    partial class TransportationEntitiesModelSnapshot : ModelSnapshot
+    [Migration("20240529111540_UpdatedDateTypes")]
+    partial class UpdatedDateTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

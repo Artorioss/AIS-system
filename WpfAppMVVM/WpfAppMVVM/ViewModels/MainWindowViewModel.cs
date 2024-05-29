@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Models;
@@ -24,7 +25,41 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand ShowReferencesBook { get; private set; }
         public DelegateCommand EditData { get; private set; }
         public DelegateCommand DeleteCommand { get; set; }
+        public DelegateCommand GetItemsByFilter { get; set; }
         public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
+        private List<StateOrder> _stateOrders;
+        public List<StateOrder> StateOrders 
+        {
+            get => _stateOrders;
+            set 
+            {
+                _stateOrders = value;
+                OnPropertyChanged(nameof(StateOrders));
+            }
+        }
+
+        private StateOrder _selectedState;
+        public StateOrder SelectedState
+        {
+            get => _selectedState;
+            set 
+            {
+                _selectedState = value;
+                OnPropertyChanged(nameof(SelectedState));
+                getItemsByFilter();
+            }
+        }
+
+        private List<DateTime> _years;
+        private List<DateTime> Years 
+        {
+            get => _years;
+            set 
+            {
+                _years = value;
+                OnPropertyChanged(nameof(Years));
+            }
+        }
 
         private TransportationDTO _transportation;
         public TransportationDTO TransportationDTO
@@ -42,10 +77,29 @@ namespace WpfAppMVVM.ViewModels
             _transportationEntities = (Application.Current as App)._context;
             ItemsSource = new ObservableCollection<TransportationDTO>();
             loadTransportations();
+            StateOrders = _context.StateOrders.ToList();
+            SelectedState = StateOrders.First();
             CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
             ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
             EditData = new DelegateCommand((obj) => showTransportationForEditWindow());
             DeleteCommand = new DelegateCommand((obj) => onDelete());
+
+            Years = _context.Transportations
+                            .Distinct()
+                            .Select(t => t.DateLoading.Value.Date)
+                            .ToList();
+        }
+
+        private void getItemsByFilter() 
+        {
+            var list = _transportationEntities.Transportations
+                .Where(t => t.StateOrderId == SelectedState.StateOrderId)
+                .Include(t => t.Driver)
+                .Include(t => t.Customer)
+                .Include(t => t.TransportCompany)
+                .TransportationToDTO();
+
+            loadData(list);
         }
 
         private void loadTransportations() 
@@ -56,6 +110,11 @@ namespace WpfAppMVVM.ViewModels
                 .Include(t => t.TransportCompany)
                 .TransportationToDTO();
 
+            loadData(list);
+        }
+
+        private void loadData(IQueryable<TransportationDTO> list) 
+        {
             ItemsSource.Clear();
             foreach (var item in list) ItemsSource.Add(item);
         }
