@@ -50,6 +50,7 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
+<<<<<<< HEAD
         private List<DateTime> _years;
         private List<DateTime> Years 
         {
@@ -60,6 +61,9 @@ namespace WpfAppMVVM.ViewModels
                 OnPropertyChanged(nameof(Years));
             }
         }
+=======
+
+>>>>>>> a45233c46e82ecf4354ae99833b85771c8af5ec4
 
         private TransportationDTO _transportation;
         public TransportationDTO TransportationDTO
@@ -88,6 +92,18 @@ namespace WpfAppMVVM.ViewModels
                             .Distinct()
                             .Select(t => t.DateLoading.Value.Date)
                             .ToList();
+        }
+
+        private void getItemsByFilter() 
+        {
+            var list = _transportationEntities.Transportations
+                .Where(t => t.StateOrderId == SelectedState.StateOrderId)
+                .Include(t => t.Driver)
+                .Include(t => t.Customer)
+                .Include(t => t.TransportCompany)
+                .TransportationToDTO();
+
+            loadData(list);
         }
 
         private void getItemsByFilter() 
