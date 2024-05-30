@@ -56,10 +56,24 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Button Content="Добавить запись" Margin="5" Width="200" IsEnabled="{Binding ButtonEnabled}" HorizontalAlignment="Left" Command="{Binding AddData}"></Button>
             <Label Content="Поиск:" Grid.Column="1"></Label>
-            <TextBox Grid.Column="3" MinWidth="150" Margin="5"></TextBox>
+            <TextBox x:Name="TextBoxSearch" Grid.Column="2" MinWidth="150" Margin="5" Text="{Binding SearchingValue}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="TextChanged">
+                        <i:InvokeCommandAction
+                        Command="{Binding GetDataByValue}"
+                        CommandParameter="{Binding Text, ElementName=TextBoxSearch}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </TextBox>
+            <Button Grid.Column="3" MinWidth="50" Margin="5" Content="&lt;&lt;"></Button>
+            <TextBlock Grid.Column="4" Text="страница 1/3" Margin="5"></TextBlock>
+            <Button Grid.Column="5" MinWidth="50" Margin="5" Content="&gt;&gt;" HorizontalAlignment="Right"></Button>
         </Grid>
 
     </Grid>

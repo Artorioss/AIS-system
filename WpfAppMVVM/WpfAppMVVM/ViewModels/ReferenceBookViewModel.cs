@@ -24,7 +24,6 @@ using WpfAppMVVM.Models;
 using WpfAppMVVM.Models.Entities;
 using WpfAppMVVM.ViewModels.OtherViewModels;
 using WpfAppMVVM.Views.OtherViews;
-using static WpfAppMVVM.Model.CustomComboBox;
 
 namespace WpfAppMVVM.ViewModels
 {
@@ -46,9 +45,12 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand EditData { get; private set; }
         public DelegateCommand SaveChanges { get; private set; }
         public DelegateCommand DataUpdated { get; private set; }
+        public DelegateCommand GetDataByValue { get; private set; } 
 
         public delegate void ShowWindowFunction();
+        private delegate void GetData(string text);
         private ShowWindowFunction ShowWindow;
+        private GetData getData; //Для поиска
         private TransportationEntities _context;
         private Type _currentTypeEntity;
         private bool _existСhanges = false;
@@ -56,6 +58,7 @@ namespace WpfAppMVVM.ViewModels
         private List<object> deletedItems;
         private DataGridTemplateColumn DataGridColumnDelete;
         private Dictionary<Type, Action<object>> editingWindows;
+
         public ReferenceBookViewModel() 
         {
             _context = (Application.Current as App)._context;
@@ -75,6 +78,8 @@ namespace WpfAppMVVM.ViewModels
             SaveChanges = new DelegateCommand((obj) => saveChangesBeforeClosing());
             AddData = new DelegateCommand((obj) => addData());
             EditData = new DelegateCommand((obj) => editData());
+            GetDataByValue = new DelegateCommand(getDataByValue);
+
 
             editingWindows = new Dictionary<Type, Action<object>>
             {
@@ -98,7 +103,6 @@ namespace WpfAppMVVM.ViewModels
             buttonFactory.SetValue(Button.ContentProperty, "Удалить");
             buttonFactory.AddHandler(Button.ClickEvent, new RoutedEventHandler(deleteItem));
 
-            // Установка шаблона для кнопки
             DataTemplate buttonTemplate = new DataTemplate();
             buttonTemplate.VisualTree = buttonFactory;
             DataGridColumnDelete.CellTemplate = buttonTemplate;
@@ -128,6 +132,17 @@ namespace WpfAppMVVM.ViewModels
             {
                 _selectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
+            }
+        }
+
+        private string _searchingValue;
+        public string SearchingValue 
+        {
+            get => _searchingValue;
+            set 
+            {
+                _searchingValue = value;
+                OnPropertyChanged(nameof(SearchingValue));
             }
         }
 
@@ -188,7 +203,7 @@ namespace WpfAppMVVM.ViewModels
             createCarWindow.ShowDialog();
         }
 
-        private void showDriverWindow() 
+        private void showDriverWindow()
         {
             CreateDriverViewModel createDriverViewModel = new CreateDriverViewModel();
             CreateDriverWindow createDriverWindow = new CreateDriverWindow();
@@ -204,7 +219,7 @@ namespace WpfAppMVVM.ViewModels
             createDriverWindow.ShowDialog();
         }
 
-        private void showTraillerWindow() 
+        private void showTraillerWindow()
         {
             CreateTraillerViewModel createTraillerViewModel = new CreateTraillerViewModel();
             CreateTraillerWindow createTraillerWindow = new CreateTraillerWindow();
@@ -233,6 +248,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showCarWindow;
+            getData = getCars;
             ColumnCollection.Clear();
             var data = _context.Cars.Include(car => car.Brand);
 
@@ -264,6 +280,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = getBrands;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnName = new DataGridTextColumn();
@@ -280,7 +297,7 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnRussianBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Brands;
+            var data = _context.Brands.Take(100);
             LoadDataInCollection(data);
         }
 
@@ -289,6 +306,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = getCustomers;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnName = new DataGridTextColumn();
@@ -308,6 +326,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showDriverWindow;
+            getData = getDrivers;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnName = new DataGridTextColumn();
@@ -352,6 +371,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = getRoutes;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnRouteName = new DataGridTextColumn();
@@ -371,6 +391,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = null;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnName = new DataGridTextColumn();
@@ -390,6 +411,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showTraillerWindow;
+            getData = getTraillers;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
@@ -415,6 +437,7 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = getTransportCompanies;
             ColumnCollection.Clear();
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
@@ -449,9 +472,88 @@ namespace WpfAppMVVM.ViewModels
         {
             if (ShowWindow != null)
             {
-                editingWindows[_currentTypeEntity].Invoke(SelectedItem);
+                editingWindows[_currentTypeEntity]?.Invoke(SelectedItem);
                 LoadDataInCollection();
             }
         }
+
+        //Поиск
+        private void getDataByValue(object obj) 
+        {
+            string text = obj as string;
+            getData.Invoke(text);
+        }
+
+
+        private void getCars(string text)
+        {
+            var list = _context.Cars.Include(car => car.Brand)
+                                    .Where(b => b.Number.ToLower().Contains(text.ToLower())
+                                             || b.Brand.Name.ToLower().Contains(text.ToLower())
+                                             || b.Brand.RussianBrandName.ToLower().Contains(text.ToLower()))
+                                     .Take(100);
+
+            LoadDataInCollection(list);
+        }
+
+
+        private void getBrands(string text) 
+        {
+            var list = _context.Brands.Where(b => b.Name.ToLower().Contains(text.ToLower())
+                                    || b.RussianBrandName.ToLower().Contains(text.ToLower()))
+                                      .Take(100);
+
+            LoadDataInCollection(list);
+        }
+
+
+        private void getCustomers(string text) 
+        {
+            var list = _context.Customers.Where(b => b.Name.ToLower().Contains(text.ToLower()))
+                                         .Take(100);
+
+            LoadDataInCollection(list);
+        }
+
+        private void getDrivers(string text)
+        {
+            var list = _context.Drivers.Include(d => d.TransportCompany)
+                                       .Where(b => b.Name.ToLower().Contains(text.ToLower())
+                                                || b.TransportCompany.Name.ToLower().Contains(text.ToLower()))
+                                       .Take(100);
+
+            LoadDataInCollection(list);
+        }
+
+        private void getRoutes(string text) 
+        {
+            var list = _context.Routes.Where(b => b.RouteName.ToLower().Contains(text.ToLower()))
+                                      .Take(100);
+
+            LoadDataInCollection(list);
+        }
+
+        private void getTraillers(string text) 
+        {
+            var list = _context.Traillers.Include(t => t.Brand)
+                                         .Where(b => b.Number.ToLower().Contains(text.ToLower())
+                                                  || b.Brand.Name.ToLower().Contains(text.ToLower())
+                                                  || b.Brand.RussianBrandName.ToLower().Contains(text.ToLower()));
+
+            LoadDataInCollection(list);
+        }
+
+        private void getTransportCompanies(string text)
+        {
+            var list = _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(text.ToLower()));
+
+            LoadDataInCollection(list);
+        }
+
+        //Пагинация
+        int countPages;
+        const int pageSize = 100;
+
+
     }
 }
