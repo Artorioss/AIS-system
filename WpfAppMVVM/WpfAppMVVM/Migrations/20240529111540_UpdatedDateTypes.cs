@@ -27,10 +27,10 @@ namespace WpfAppMVVM.Migrations
             migrationBuilder.AlterColumn<DateTime>(
                 name: "DateLoading",
                 table: "Transportations",
-                type: "date",
+                type: "timestamp with time zone",
                 nullable: true,
                 oldClrType: typeof(string),
-                oldType: "text",
+                oldType: "date",
                 oldNullable: true);
         }
 
@@ -45,10 +45,10 @@ namespace WpfAppMVVM.Migrations
             migrationBuilder.AlterColumn<string>(
                 name: "DateLoading",
                 table: "Transportations",
-                type: "text",
+                type: "date",
                 nullable: true,
                 oldClrType: typeof(DateTime),
-                oldType: "date",
+                oldType: "timestamp with time zone",
                 oldNullable: true);
 
             migrationBuilder.AddColumn<string>(

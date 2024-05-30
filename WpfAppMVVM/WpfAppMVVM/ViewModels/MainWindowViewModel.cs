@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -46,18 +47,42 @@ namespace WpfAppMVVM.ViewModels
             {
                 _selectedState = value;
                 OnPropertyChanged(nameof(SelectedState));
-                getItemsByFilter();
+                getItems();
             }
         }
 
-        private List<DateTime> _years;
-        private List<DateTime> Years 
+        private List<int> _years;
+        public List<int> Years 
         {
             get => _years;
             set 
             {
                 _years = value;
                 OnPropertyChanged(nameof(Years));
+            }
+        }
+
+        private int _selectedYear = DateTime.Now.Year;
+        public int SelectedYear 
+        {
+            get => _selectedYear;
+            set 
+            {
+                _selectedYear = value;
+                OnPropertyChanged(nameof(SelectedYear));
+                getItems();
+            }
+        }
+
+        private int _selectedMonth = DateTime.Now.Month - 1;
+        public int SelectedMonth
+        {
+            get => _selectedMonth;
+            set
+            {
+                _selectedMonth = value;
+                OnPropertyChanged(nameof(SelectedMonth));
+                getItems();
             }
         }
 
@@ -72,11 +97,18 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
+        private void setDate(DateTime dateTime) 
+        {
+            _selectedMonth = dateTime.Month - 1;
+            OnPropertyChanged(nameof(SelectedMonth));
+            _selectedYear = dateTime.Year;
+            OnPropertyChanged(nameof(SelectedYear));
+        }
+
         public MainWindowViewModel()
         {
             _transportationEntities = (Application.Current as App)._context;
             ItemsSource = new ObservableCollection<TransportationDTO>();
-            loadTransportations();
             StateOrders = _context.StateOrders.ToList();
             SelectedState = StateOrders.First();
             CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
@@ -86,28 +118,32 @@ namespace WpfAppMVVM.ViewModels
 
             Years = _context.Transportations
                             .Distinct()
-                            .Select(t => t.DateLoading.Value.Date)
+                            .Select(t => t.DateLoading.Value.Date.Year)
+                            .Distinct()
                             .ToList();
         }
 
-        private void getItemsByFilter() 
+        private void getItems() 
         {
-            var list = _transportationEntities.Transportations
-                .Where(t => t.StateOrderId == SelectedState.StateOrderId)
-                .Include(t => t.Driver)
-                .Include(t => t.Customer)
-                .Include(t => t.TransportCompany)
-                .TransportationToDTO();
+            var transportations = _context.Transportations
+                                                         .Where(t => t.DateLoading.Value.Month == 5)
+                                                         .Select(t => new { t.DateLoading, t.DateLoading.Value.Month })
+                                                         .ToList();
 
-            loadData(list);
-        }
 
-        private void loadTransportations() 
-        {
+
+            var startDate = new DateTime(SelectedYear, SelectedMonth + 1, 1);
+            var endDate = startDate.AddMonths(1);
+
             var list = _transportationEntities.Transportations
                 .Include(t => t.Driver)
                 .Include(t => t.Customer)
                 .Include(t => t.TransportCompany)
+                .Include(t => t.StateOrder)
+                .Where(t => t.DateLoading.HasValue &&
+                            t.DateLoading.Value >= startDate &&
+                            t.DateLoading.Value < endDate &&
+                            t.StateOrderId == SelectedState.StateOrderId)
                 .TransportationToDTO();
 
             loadData(list);
@@ -126,8 +162,16 @@ namespace WpfAppMVVM.ViewModels
             creatingTransportationWindow.DataContext = creatingTransportationViewModel;
             creatingTransportationWindow.ShowDialog();
 
-            if (creatingTransportationViewModel.IsContextChanged) 
-                ItemsSource.Add(_context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId));
+            if (creatingTransportationViewModel.IsContextChanged)
+            {
+                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != SelectedMonth + 1 || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear) 
+                {
+                    DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                    setDate(date);
+                    getItems();
+                }
+                else ItemsSource.Add(_context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId));
+            }
         }
 
         private void showTransportationForEditWindow()
@@ -140,8 +184,14 @@ namespace WpfAppMVVM.ViewModels
             if (creatingTransportationViewModel.IsContextChanged) 
             {
                 var entity = _context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
                 ItemsSource.Remove(TransportationDTO);
+                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != SelectedMonth + 1 || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                {
+                    DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                    setDate(date);
+                    getItems();                   
+                }
+                else ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
                 TransportationDTO = entity;
             }       
         }

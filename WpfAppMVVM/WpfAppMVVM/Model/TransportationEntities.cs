@@ -30,14 +30,17 @@ namespace WpfAppMVVM.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            //var converter = new ValueConverter<DateTime, DateTime>
-            //    (
-            //        toDb => toDb.Date,
-            //        fromDb => fromDb
-            //    );
+            var dateTimeConverter = new ValueConverter<DateTime, DateTime>(
+            v => v.Kind == DateTimeKind.Utc ? v : v.ToUniversalTime(),
+            v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
-            //modelBuilder.Entity<Transportation>().Property(t => t.DateLoading).HasConversion(converter);
+            var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
+                v => v.HasValue ? (v.Value.Kind == DateTimeKind.Utc ? v : v.Value.ToUniversalTime()) : v,
+                v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
+
+            modelBuilder.Entity<Transportation>()
+                .Property(t => t.DateLoading)
+                .HasConversion(nullableDateTimeConverter);
         }
     }
 }

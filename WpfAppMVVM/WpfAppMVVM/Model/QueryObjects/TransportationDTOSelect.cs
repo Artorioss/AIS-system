@@ -21,7 +21,8 @@ namespace WpfAppMVVM.Models.QueryObjects
                 Price = transportation.Price,
                 PaymentToDriver = transportation.PaymentToDriver,
                 Delta = transportation.Price - transportation.PaymentToDriver,
-                RouteName = transportation.RouteName
+                RouteName = transportation.RouteName,
+                State = transportation.StateOrder.StateOrderId
             });
         }
     }
