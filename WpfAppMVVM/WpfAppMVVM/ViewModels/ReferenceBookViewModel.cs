@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.Entities;
 using WpfAppMVVM.Models;
@@ -46,6 +47,8 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand SaveChanges { get; private set; }
         public DelegateCommand DataUpdated { get; private set; }
         public DelegateCommand GetDataByValue { get; private set; } 
+        public DelegateCommand GetNextPage { get; private set; }
+        public DelegateCommand GetPreviosPage { get; private set; }
 
         public delegate void ShowWindowFunction();
         private delegate void GetData(string text);
@@ -58,12 +61,14 @@ namespace WpfAppMVVM.ViewModels
         private List<object> deletedItems;
         private DataGridTemplateColumn DataGridColumnDelete;
         private Dictionary<Type, Action<object>> editingWindows;
+        private PaginationService _paginationService;
 
         public ReferenceBookViewModel() 
         {
             _context = (Application.Current as App)._context;
             ColumnCollection = new ObservableCollection<DataGridColumn>();
             ItemsSource = new ObservableCollection<object>();
+            _paginationService = new PaginationService();
 
             GetCarsData = new DelegateCommand((obj) => getCarsData());
             GetBrandsData = new DelegateCommand((obj) => getBrandsData());
@@ -79,7 +84,9 @@ namespace WpfAppMVVM.ViewModels
             AddData = new DelegateCommand((obj) => addData());
             EditData = new DelegateCommand((obj) => editData());
             GetDataByValue = new DelegateCommand(getDataByValue);
-
+            GetNextPage = new DelegateCommand((obj) => getNextPage());
+            GetPreviosPage = new DelegateCommand((obj) => getPreviosPage());
+            
 
             editingWindows = new Dictionary<Type, Action<object>>
             {
@@ -146,7 +153,41 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
-        private void LoadDataInCollection(IQueryable query) 
+        public bool CanGetNextPage 
+        {
+            get => _paginationService.CanGetNext;
+        }
+
+        public bool CanGetPreviosPage 
+        {
+            get => _paginationService.CanGetPrevios;
+        }
+
+        public string CountPages 
+        {
+            get => $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}";
+        } 
+
+        private void getNextPage() 
+        {
+            LoadDataInCollection(_paginationService.GetNextPage());
+            notifyElements();
+        }
+
+        private void getPreviosPage() 
+        {
+            LoadDataInCollection(_paginationService.GetPreviosPage());
+            notifyElements();
+        }
+
+        private void notifyElements() 
+        {
+            OnPropertyChanged(nameof(CountPages));
+            OnPropertyChanged(nameof(CanGetNextPage));
+            OnPropertyChanged(nameof(CanGetPreviosPage));
+        }
+
+        private void LoadDataInCollection(IEnumerable query) 
         {
             ItemsSource.Clear();
             foreach (var items in query)
@@ -154,13 +195,12 @@ namespace WpfAppMVVM.ViewModels
                 ItemsSource.Add(items);
             }
             _currentTypeEntity = query.GetType().GenericTypeArguments[0];
-            bufQuery = query;
         }
 
         private void LoadDataInCollection()
         {
             ItemsSource.Clear();
-            foreach (var items in bufQuery)
+            foreach (var items in _paginationService.GetCurrentPage())
             {
                 ItemsSource.Add(items);
             }
@@ -250,7 +290,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = showCarWindow;
             getData = getCars;
             ColumnCollection.Clear();
-            var data = _context.Cars.Include(car => car.Brand);
+            _paginationService.SetQuery(_context.Cars.Include(car => car.Brand));
 
             DataGridTextColumn columnCarBrand = new DataGridTextColumn();
             columnCarBrand.Header = "Бренд";
@@ -272,7 +312,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnIsTrack);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getBrandsData()
@@ -282,6 +323,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = getBrands;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.Brands);
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -297,8 +339,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnRussianBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Brands.Take(100);
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getCustomersData()
@@ -308,6 +350,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = getCustomers;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.Customers);
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -318,7 +361,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(DataGridColumnDelete);
 
             var data = _context.Customers;
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getDriversData()
@@ -328,6 +372,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = showDriverWindow;
             getData = getDrivers;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.Drivers.Include(driver => driver.TransportCompany));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -343,8 +388,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnTransportCompany);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Drivers.Include(driver => driver.TransportCompany);
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getRoutePointsData()
@@ -352,7 +397,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = false;
             ShowWindow = null;
+            getData = getRoutePoints;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.RoutePoints);
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -362,8 +409,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.RoutePoints;
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getRoutesData()
@@ -373,6 +420,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = getRoutes;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.Routes);
 
             DataGridTextColumn columnRouteName = new DataGridTextColumn();
             columnRouteName.Header = "Маршрут";
@@ -382,8 +430,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnRouteName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Routes;
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getStateOrdersData()
@@ -393,6 +441,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = null;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.StateOrders);
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -402,8 +451,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.StateOrders;
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getTraillersData()
@@ -413,6 +462,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = showTraillerWindow;
             getData = getTraillers;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
             columnBrandName.Header = "Бренд";
@@ -428,8 +478,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnNumber);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Traillers.Include(trailer => trailer.Brand);
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void getTransportCompaniesData()
@@ -439,6 +489,7 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = getTransportCompanies;
             ColumnCollection.Clear();
+            _paginationService.SetQuery(_context.TransportCompanies);
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
             columnBrandName.Header = "Наименование";
@@ -448,8 +499,8 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.TransportCompanies;
-            LoadDataInCollection(data);
+            LoadDataInCollection(_paginationService.GetCurrentPage());
+            notifyElements();
         }
 
         private void addData() 
@@ -481,7 +532,7 @@ namespace WpfAppMVVM.ViewModels
         private void getDataByValue(object obj) 
         {
             string text = obj as string;
-            getData.Invoke(text);
+            getData?.Invoke(text);
         }
 
 
@@ -533,6 +584,13 @@ namespace WpfAppMVVM.ViewModels
             LoadDataInCollection(list);
         }
 
+        private void getRoutePoints(string text) 
+        {
+            var list = _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(text.ToLower()));
+
+            LoadDataInCollection(list);
+        }
+
         private void getTraillers(string text) 
         {
             var list = _context.Traillers.Include(t => t.Brand)
@@ -551,8 +609,7 @@ namespace WpfAppMVVM.ViewModels
         }
 
         //Пагинация
-        int countPages;
-        const int pageSize = 100;
+       
 
 
     }

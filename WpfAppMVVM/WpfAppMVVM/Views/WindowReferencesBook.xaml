@@ -71,9 +71,9 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBox>
-            <Button Grid.Column="3" MinWidth="50" Margin="5" Content="&lt;&lt;"></Button>
-            <TextBlock Grid.Column="4" Text="страница 1/3" Margin="5"></TextBlock>
-            <Button Grid.Column="5" MinWidth="50" Margin="5" Content="&gt;&gt;" HorizontalAlignment="Right"></Button>
+            <Button Grid.Column="3" MinWidth="50" Margin="5" Content="&lt;&lt;" IsEnabled="{Binding CanGetPreviosPage, Mode=OneWay}" Command="{Binding GetPreviosPage}"></Button>
+            <TextBlock Grid.Column="4" Text="{Binding CountPages, Mode=OneWay}" Margin="5"></TextBlock>
+            <Button Grid.Column="5" MinWidth="50" Margin="5" Content="&gt;&gt;" HorizontalAlignment="Right" IsEnabled="{Binding CanGetNextPage, Mode=OneWay}" Command="{Binding GetNextPage}"></Button>
         </Grid>
 
     </Grid>
