@@ -125,7 +125,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             {
                 if (_mode == Mode.Editing)
                 {
-                    var existingCar = _context.Cars.Find(_car.CarId);
+                    var existingCar = _context.Cars.Find(_car.Number);
 
                     existingCar.Brand = _context.Brands.Find(Brand.BrandId);
                     existingCar.Number = Number;

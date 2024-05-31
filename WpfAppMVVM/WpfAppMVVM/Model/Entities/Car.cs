@@ -10,10 +10,9 @@ namespace WpfAppMVVM.Models.Entities
 {
     public class Car: ICloneable
     {
-        public int CarId { get; set; }
-        public int? BrandId { get; set; }
-        [MaxLength(9)]
+        [Key, Required, MaxLength(9)]
         public string Number { get; set; }
+        public int? BrandId { get; set; }
         public bool IsTruck { get; set; }
         public Brand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }

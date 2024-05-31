@@ -45,9 +45,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                                      .Include(transp => transp.Route)
                                      .Include(transp => transp.TransportCompany)
                                      .Include(transp => transp.Car)
-                                     .Include(transp => transp.CarBrand)
+                                     .ThenInclude(car => car.Brand)
                                      .Include(transp => transp.Trailler)
-                                     .Include(transp => transp.TraillerBrand)
+                                     .ThenInclude(Car => Car.Brand)
                                      .SingleOrDefault(s => s.TransportationId == transportationId);
 
             WindowName = "Редактирование заявки";
@@ -99,21 +99,38 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             _company = Transportation.TransportCompany;
             OnPropertyChanged(nameof(TransportCompany));
 
-            CarBrandSource = new List<Brand>() { Transportation.CarBrand };
-            _carBrand = Transportation.CarBrand;
-            OnPropertyChanged(nameof(CarBrand));
+            CarSource = new List<Car>();
+            if (Transportation.Car != null) 
+            {
+                CarSource.Add(Transportation.Car);
+                _car = Transportation.Car;
+                OnPropertyChanged(nameof(Car));
 
-            CarSource = new List<Car>() { Transportation.Car };
-            _car = Transportation.Car;
-            OnPropertyChanged(nameof(Car));
+                CarBrandSource = new List<Brand>();
+                if (Transportation.Car.Brand != null) 
+                {
+                    CarBrandSource.Add(Transportation.Car.Brand);
+                    _carBrand = Transportation.Car.Brand;
+                    OnPropertyChanged(nameof(CarBrand));
+                }
+            }
 
-            TraillerBrandSource = new List<Brand>() { Transportation.TraillerBrand };
-            _traillerBrand = Transportation.TraillerBrand;
-            OnPropertyChanged(nameof(TraillerBrand));
+            TraillerSource = new List<Trailler>();
+            if (Transportation.Trailler != null) 
+            {
+                TraillerSource.Add(Transportation.Trailler);
+                _trailler = Transportation.Trailler;
+                OnPropertyChanged(nameof(Trailler));
 
-            TraillerSource = new List<Trailler>() { Transportation.Trailler };
-            _trailler = Transportation.Trailler;
-            OnPropertyChanged(nameof(Trailler));
+                TraillerBrandSource = new List<Brand>();
+                if (Transportation.Trailler.Brand != null) 
+                {
+                    TraillerBrandSource.Add(Transportation.Trailler.Brand);
+                    _traillerBrand = Transportation.Trailler.Brand;
+                    OnPropertyChanged(nameof(TraillerBrand));
+                }
+            }
+            
 
             PayToDriver = Transportation.PaymentToDriver == null ? 0.00M : (decimal)Transportation.PaymentToDriver;
 
@@ -202,8 +219,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             _context.Entry(Driver).Collection(d => d.Cars).Load();
             if(Trailler != null) _context.Entry(Driver).Collection(d => d.Traillers).Load();
 
-            if (Driver.Cars.SingleOrDefault(car => car.CarId == Car.CarId, null) == null) Driver.Cars.Add(Car);
-            if (Trailler != null && Driver.Traillers.SingleOrDefault(trailler => trailler.TraillerId == Trailler.TraillerId, null) == null) Driver.Traillers.Add(Trailler);
+            if (Driver.Cars.SingleOrDefault(car => car.Number == Car.Number, null) == null) Driver.Cars.Add(Car);
+            if (Trailler != null && Driver.Traillers.SingleOrDefault(trailler => trailler.Number == Trailler.Number, null) == null) Driver.Traillers.Add(Trailler);
 
             if (Driver.TransportCompanyId != TransportCompany.TransportCompanyId) Driver.TransportCompany = TransportCompany;
 
@@ -220,9 +237,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             Transportation.Route = route;
             Transportation.TransportCompany = TransportCompany;
             Transportation.Car = Car;
-            Transportation.CarBrand = CarBrand;
             Transportation.Trailler = Trailler;
-            Transportation.TraillerBrand = TraillerBrand;
             Transportation.Price = Payment;
             Transportation.PaymentToDriver = PayToDriver;
             Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);

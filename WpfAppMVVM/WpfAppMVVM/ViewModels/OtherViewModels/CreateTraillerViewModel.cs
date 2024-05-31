@@ -114,7 +114,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             {
                 if (_mode == Mode.Editing)
                 {
-                    var existingTrailler = _context.Traillers.Find(_trailler.TraillerId);
+                    var existingTrailler = _context.Traillers.Find(_trailler.Number);
                     existingTrailler.Brand = _context.Brands.Find(Brand.BrandId);
                     existingTrailler.Number = Number;
                 }

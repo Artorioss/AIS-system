@@ -179,7 +179,6 @@ namespace WpfAppMVVM.ViewModels
             if (creatingTransportationViewModel.IsContextChanged) 
             {
                 var entity = _context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                ItemsSource.Remove(TransportationDTO);
                 if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != SelectedMonth + 1 || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
                 {
                     DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
@@ -187,6 +186,7 @@ namespace WpfAppMVVM.ViewModels
                     getItems();                   
                 }
                 else ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
+                ItemsSource.Remove(TransportationDTO);
                 TransportationDTO = entity;
             }       
         }

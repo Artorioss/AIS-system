@@ -395,8 +395,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in Cars)
             {
                 Car car;
-                if (item.CarId == 0) car = item;
-                else car = _context.Cars.Find(item.CarId);
+                if (item.Number is null) car = item;
+                else car = _context.Cars.Find(item.Number);
 
                 if (car.BrandId != 0) car.Brand = _context.Brands.Find(item.Brand.BrandId);
                 existingDriver.Cars.Add(car);
@@ -406,8 +406,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in Traillers)
             {
                 Trailler trailler;
-                if (item.TraillerId == 0) trailler = item;
-                else trailler = _context.Traillers.Find(item.TraillerId);
+                if (item.Number is null) trailler = item;
+                else trailler = _context.Traillers.Find(item.Number);
 
                 if (trailler.BrandId != 0) trailler.Brand = _context.Brands.Find(item.Brand.BrandId);
                 existingDriver.Traillers.Add(trailler);

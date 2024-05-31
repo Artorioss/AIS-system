@@ -10,18 +10,15 @@ namespace WpfAppMVVM.Models.Entities
 {
     public class Trailler: ICloneable
     {
-        public int TraillerId { get; set; }
-        public int? BrandId { get; set; }
-        [MaxLength(8)]
+        [Key, Required, MaxLength(8)]
         public string Number { get; set; }
+        public int? BrandId { get; set; }
         public Brand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
 
         public object Clone()
         {
-            Trailler newTrailler = new Trailler();
-            newTrailler.TraillerId = TraillerId;
-            newTrailler.Number = Number;
+            Trailler newTrailler = (Trailler)MemberwiseClone();
             if (Brand != null) 
             {
                 Brand newBrand = new Brand() 
