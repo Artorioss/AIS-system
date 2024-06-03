@@ -24,13 +24,13 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("CarDriver", b =>
                 {
-                    b.Property<int>("CarsCarId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CarsNumber")
+                        .HasColumnType("character varying(9)");
 
                     b.Property<int>("DriversDriverId")
                         .HasColumnType("integer");
 
-                    b.HasKey("CarsCarId", "DriversDriverId");
+                    b.HasKey("CarsNumber", "DriversDriverId");
 
                     b.HasIndex("DriversDriverId");
 
@@ -42,12 +42,12 @@ namespace WpfAppMVVM.Migrations
                     b.Property<int>("DriversDriverId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("TraillersTraillerId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TraillersNumber")
+                        .HasColumnType("character varying(8)");
 
-                    b.HasKey("DriversDriverId", "TraillersTraillerId");
+                    b.HasKey("DriversDriverId", "TraillersNumber");
 
-                    b.HasIndex("TraillersTraillerId");
+                    b.HasIndex("TraillersNumber");
 
                     b.ToTable("DriverTrailler");
                 });
@@ -78,13 +78,11 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<string>("RussianBrandName")
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.HasKey("BrandId");
 
@@ -93,11 +91,9 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Car", b =>
                 {
-                    b.Property<int>("CarId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CarId"));
+                    b.Property<string>("Number")
+                        .HasMaxLength(9)
+                        .HasColumnType("character varying(9)");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer");
@@ -105,13 +101,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<bool>("IsTruck")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("character varying(9)")
-                        .UseCollation("default");
-
-                    b.HasKey("CarId");
+                    b.HasKey("Number");
 
                     b.HasIndex("BrandId");
 
@@ -129,8 +119,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.HasKey("CustomerId");
 
@@ -148,8 +137,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.Property<int>("TransportCompanyId")
                         .HasColumnType("integer");
@@ -172,8 +160,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("RouteName")
                         .IsRequired()
                         .HasMaxLength(128)
-                        .HasColumnType("character varying(128)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(128)");
 
                     b.HasKey("RouteId");
 
@@ -191,8 +178,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(64)");
 
                     b.HasKey("RoutePointId");
 
@@ -210,8 +196,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.HasKey("StateOrderId");
 
@@ -220,22 +205,14 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Trailler", b =>
                 {
-                    b.Property<int>("TraillerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TraillerId"));
+                    b.Property<string>("Number")
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)");
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Number")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)")
-                        .UseCollation("default");
-
-                    b.HasKey("TraillerId");
+                    b.HasKey("Number");
 
                     b.HasIndex("BrandId");
 
@@ -253,8 +230,7 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .HasColumnType("character varying(32)")
-                        .UseCollation("default");
+                        .HasColumnType("character varying(32)");
 
                     b.HasKey("TransportCompanyId");
 
@@ -269,31 +245,14 @@ namespace WpfAppMVVM.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TransportationId"));
 
-                    b.Property<string>("AccountDate")
-                        .HasColumnType("text")
-                        .UseCollation("default");
-
-                    b.Property<string>("AccountName")
-                        .IsRequired()
-                        .HasMaxLength(512)
-                        .HasColumnType("character varying(512)")
-                        .UseCollation("default");
-
-                    b.Property<int?>("AccountNumber")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CarBrandId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CarId")
-                        .HasColumnType("integer");
+                    b.Property<string>("CarNumber")
+                        .HasColumnType("character varying(9)");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("DateLoading")
-                        .HasColumnType("text")
-                        .UseCollation("default");
+                    b.Property<DateTime?>("DateLoading")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int?>("DriverId")
                         .HasColumnType("integer");
@@ -307,23 +266,23 @@ namespace WpfAppMVVM.Migrations
                     b.Property<int?>("RouteId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("RouteName")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("character varying(512)");
+
                     b.Property<int>("StateOrderId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("TraillerBrandId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("TraillerId")
-                        .HasColumnType("integer");
+                    b.Property<string>("TraillerNumber")
+                        .HasColumnType("character varying(8)");
 
                     b.Property<int?>("TransportCompanyId")
                         .HasColumnType("integer");
 
                     b.HasKey("TransportationId");
 
-                    b.HasIndex("CarBrandId");
-
-                    b.HasIndex("CarId");
+                    b.HasIndex("CarNumber");
 
                     b.HasIndex("CustomerId");
 
@@ -333,9 +292,7 @@ namespace WpfAppMVVM.Migrations
 
                     b.HasIndex("StateOrderId");
 
-                    b.HasIndex("TraillerBrandId");
-
-                    b.HasIndex("TraillerId");
+                    b.HasIndex("TraillerNumber");
 
                     b.HasIndex("TransportCompanyId");
 
@@ -346,7 +303,7 @@ namespace WpfAppMVVM.Migrations
                 {
                     b.HasOne("WpfAppMVVM.Models.Entities.Car", null)
                         .WithMany()
-                        .HasForeignKey("CarsCarId")
+                        .HasForeignKey("CarsNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -367,7 +324,7 @@ namespace WpfAppMVVM.Migrations
 
                     b.HasOne("WpfAppMVVM.Models.Entities.Trailler", null)
                         .WithMany()
-                        .HasForeignKey("TraillersTraillerId")
+                        .HasForeignKey("TraillersNumber")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -418,13 +375,9 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Models.Entities.Transportation", b =>
                 {
-                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "CarBrand")
-                        .WithMany()
-                        .HasForeignKey("CarBrandId");
-
                     b.HasOne("WpfAppMVVM.Models.Entities.Car", "Car")
                         .WithMany()
-                        .HasForeignKey("CarId");
+                        .HasForeignKey("CarNumber");
 
                     b.HasOne("WpfAppMVVM.Models.Entities.Customer", "Customer")
                         .WithMany("Transportations")
@@ -446,21 +399,15 @@ namespace WpfAppMVVM.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WpfAppMVVM.Model.Entities.Brand", "TraillerBrand")
-                        .WithMany()
-                        .HasForeignKey("TraillerBrandId");
-
                     b.HasOne("WpfAppMVVM.Models.Entities.Trailler", "Trailler")
                         .WithMany()
-                        .HasForeignKey("TraillerId");
+                        .HasForeignKey("TraillerNumber");
 
                     b.HasOne("WpfAppMVVM.Models.Entities.TransportCompany", "TransportCompany")
                         .WithMany()
                         .HasForeignKey("TransportCompanyId");
 
                     b.Navigation("Car");
-
-                    b.Navigation("CarBrand");
 
                     b.Navigation("Customer");
 
@@ -471,8 +418,6 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("StateOrder");
 
                     b.Navigation("Trailler");
-
-                    b.Navigation("TraillerBrand");
 
                     b.Navigation("TransportCompany");
                 });

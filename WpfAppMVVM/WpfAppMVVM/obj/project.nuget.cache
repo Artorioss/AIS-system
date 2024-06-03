@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DKmyePbCeLg9f0VH1z0xQeABGPpOxeq5zJ4JrwWt5VT7QQzF9ge1nDEFDV9syM0a5KHOlzIGIOrCe2RrFzdU6g==",
+  "dgSpecHash": "bTeLYeB0z5LDBMUKyuhJGI8wffe5E8jhDngfIeFLFDsmeiKZZUu9mt6nf/IQqdqWg7UZUULumqQx3jN3jBwGiQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Artemiy\\Desktop\\Диплом\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
   "expectedPackageFiles": [
@@ -29,8 +29,8 @@
     "C:\\Users\\Artemiy\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.77\\microsoft.xaml.behaviors.wpf.1.1.77.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
-    "C:\\Users\\Artemiy\\.nuget\\packages\\npgsql\\8.0.2\\npgsql.8.0.2.nupkg.sha512",
-    "C:\\Users\\Artemiy\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\8.0.2\\npgsql.entityframeworkcore.postgresql.8.0.2.nupkg.sha512",
+    "C:\\Users\\Artemiy\\.nuget\\packages\\npgsql\\8.0.3\\npgsql.8.0.3.nupkg.sha512",
+    "C:\\Users\\Artemiy\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\8.0.4\\npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\system.collections.immutable\\6.0.0\\system.collections.immutable.6.0.0.nupkg.sha512",
     "C:\\Users\\Artemiy\\.nuget\\packages\\system.composition\\6.0.0\\system.composition.6.0.0.nupkg.sha512",

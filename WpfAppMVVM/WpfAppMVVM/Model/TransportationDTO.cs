@@ -19,6 +19,5 @@ namespace WpfAppMVVM.Models
         public decimal? Delta { get; set; }
         public string? RouteName { get; set; }
         public int State { get; set; }
-        public StateOrder StateOrder { get; set; }
     }
 }

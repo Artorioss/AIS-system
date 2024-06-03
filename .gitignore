@@ -1,6 +1,12 @@
 .vs/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
 bin/
 obj/
-*.dll
-*.exe
-*.pdb
+*.AssemblyInfoInputs
