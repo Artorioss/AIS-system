@@ -42,25 +42,9 @@ namespace WpfAppMVVM.Models
             Route_Points_Dispatcher.Add(route_Point_dispatcher);
         }
 
-        public void AddDispatcher(string route_Point_dispatcher)
-        {
-            Route_Points_Dispatcher.Add(new RoutePoint
-            {
-                Name = route_Point_dispatcher
-            });
-        }
-
         public void AddLoading(RoutePoint route_Point_loading)
         {
             Route_Points_Loading.Add(route_Point_loading);
-        }
-
-        public void AddLoading(string route_Point_loading)
-        {
-            Route_Points_Loading.Add(new RoutePoint
-            {
-                Name = route_Point_loading
-            });
         }
 
         private void loadPoints(string text)

@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Models;

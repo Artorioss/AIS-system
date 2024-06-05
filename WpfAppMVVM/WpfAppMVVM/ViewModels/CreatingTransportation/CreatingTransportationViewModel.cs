@@ -212,23 +212,45 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private void createTransportation(object obj) 
+        private void checkValidate() 
         {
-            Route route = CreateRoute();
+            
+        }
 
-            _context.Entry(Driver).Collection(d => d.Cars).Load();
-            if(Trailler != null) _context.Entry(Driver).Collection(d => d.Traillers).Load();
-
-            if (Driver.Cars.SingleOrDefault(car => car.Number == Car.Number, null) == null) Driver.Cars.Add(Car);
-            if (Trailler != null && Driver.Traillers.SingleOrDefault(trailler => trailler.Number == Trailler.Number, null) == null) Driver.Traillers.Add(Trailler);
-
-            if (Driver.TransportCompanyId != TransportCompany.TransportCompanyId) Driver.TransportCompany = TransportCompany;
-
-            if (Car != null) 
+        private void createTransportation(object obj)
+        {
+            if (Customer is null)
             {
-                if (Trailler != null) Car.IsTruck = true;
-                else Car.IsTruck = false;
+                MessageBox.Show("Укажите заказчика.", "Неверно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
             }
+            Route route = CreateRoute();
+            if (route is null) 
+            {
+                MessageBox.Show("Укажите маршрут.", "Неверно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (Driver != null) 
+            {
+                if (Car != null) 
+                {
+                    _context.Entry(Driver).Collection(d => d.Cars).Load();
+                    if (Driver.Cars.SingleOrDefault(car => car.Number == Car.Number, null) == null) Driver.Cars.Add(Car);
+                }
+                if (Trailler != null) 
+                {
+                    _context.Entry(Driver).Collection(d => d.Traillers).Load();
+                    if (Driver.Traillers.SingleOrDefault(trailler => trailler.Number == Trailler.Number, null) == null) Driver.Traillers.Add(Trailler);
+                }
+
+                if (Driver.TransportCompanyId != TransportCompany.TransportCompanyId) Driver.TransportCompany = TransportCompany;
+            }  
+
+            //if (Car != null) 
+            //{
+            //    if (Trailler != null) Car.IsTruck = true;
+            //    else Car.IsTruck = false;
+            //}
 
             Transportation.RouteName = _accountNameBuilder.ToString();
             Transportation.DateLoading = DateTime;
@@ -249,6 +271,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         private Route CreateRoute() 
         {
+            Route route = null;
             List<RoutePoint> list = new List<RoutePoint>();
             foreach (var item in _routePointBuilder.getRoutes())
             {
@@ -257,11 +280,13 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 else list.Add(point);
             }
 
-            return new Route()
+            if (list.Count > 0) route = new Route()
             {
                 RouteName = GeneralRoute,
                 RoutePoints = list
             };
+
+            return route;
         }
     }
 }
