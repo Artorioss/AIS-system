@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfAppMVVM.Model.Entities;
 
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class Trailler: ICloneable
+    public class Trailler : ICloneable
     {
         [Key, Required, MaxLength(8)]
         public string Number { get; set; }
@@ -19,9 +18,9 @@ namespace WpfAppMVVM.Models.Entities
         public object Clone()
         {
             Trailler newTrailler = (Trailler)MemberwiseClone();
-            if (Brand != null) 
+            if (Brand != null)
             {
-                Brand newBrand = new Brand() 
+                Brand newBrand = new Brand()
                 {
                     BrandId = Brand.BrandId,
                     Name = Brand.Name,

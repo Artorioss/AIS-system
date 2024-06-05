@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-namespace WpfAppMVVM.Model
+namespace WpfAppMVVM.Behaviors
 {
-    internal class FocusableChangedBehavior : Behavior<UIElement>
+    public class FocusableChangedBehavior : Behavior<UIElement>
     {
         public ICommand FocusChangedCommand
         {

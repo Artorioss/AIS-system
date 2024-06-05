@@ -4,10 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using WpfAppMVVM.Model.Entities;
-
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class Transportation
     {

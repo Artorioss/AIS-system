@@ -20,9 +20,8 @@ using System.Windows.Data;
 using System.Windows.Media.Animation;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
-using WpfAppMVVM.Model.Entities;
-using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
+using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.OtherViewModels;
 using WpfAppMVVM.Views.OtherViews;
 

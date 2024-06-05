@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfAppMVVM.Model.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
     internal class Account
     {

@@ -4,11 +4,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfAppMVVM.Model.Entities;
 
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class Car: ICloneable
+    public class Car : ICloneable
     {
         [Key, Required, MaxLength(9)]
         public string Number { get; set; }
@@ -20,7 +19,7 @@ namespace WpfAppMVVM.Models.Entities
         public object Clone()
         {
             Car newCar = (Car)MemberwiseClone();
-            if (Brand != null) 
+            if (Brand != null)
             {
                 Brand newBrand = new Brand();
                 newBrand.Name = Brand.Name;

@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using WpfAppMVVM.Models;
+using WpfAppMVVM.Model.EfCode;
 
 namespace WpfAppMVVM.Views
 {

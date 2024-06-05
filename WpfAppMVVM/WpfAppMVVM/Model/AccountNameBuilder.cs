@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfAppMVVM.Model.Entities;
-using WpfAppMVVM.Models.Entities;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.Model
 {

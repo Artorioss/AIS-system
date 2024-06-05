@@ -7,9 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using WpfAppMVVM.Model.Command;
-using WpfAppMVVM.Model.Entities;
-using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
+using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {

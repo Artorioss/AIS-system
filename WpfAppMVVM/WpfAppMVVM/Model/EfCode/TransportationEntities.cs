@@ -6,12 +6,11 @@ using System.Linq;
 using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
-using WpfAppMVVM.Model.Entities;
-using WpfAppMVVM.Models.Entities;
+using WpfAppMVVM.Model.EfCode.Entities;
 
-namespace WpfAppMVVM.Models
+namespace WpfAppMVVM.Model.EfCode
 {
-    public class TransportationEntities: DbContext
+    public class TransportationEntities : DbContext
     {
         public DbSet<Car> Cars { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -35,7 +34,7 @@ namespace WpfAppMVVM.Models
             v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
 
             var nullableDateTimeConverter = new ValueConverter<DateTime?, DateTime?>(
-                v => v.HasValue ? (v.Value.Kind == DateTimeKind.Utc ? v : v.Value.ToUniversalTime()) : v,
+                v => v.HasValue ? v.Value.Kind == DateTimeKind.Utc ? v : v.Value.ToUniversalTime() : v,
                 v => v.HasValue ? DateTime.SpecifyKind(v.Value, DateTimeKind.Utc) : v);
 
             modelBuilder.Entity<Transportation>()

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
         xmlns:model="clr-namespace:WpfAppMVVM.Model"
+        xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
         xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="{Binding WindowName}" ResizeMode="NoResize" Height="600" Width="600" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
@@ -41,7 +43,7 @@
                     <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
 
                     <Label Content="Компания" Margin="5" Grid.Row="1" Grid.Column="2"></Label>
-                    <model:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}">
+                    <CustomComponents:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
@@ -49,7 +51,7 @@
                                   CommandParameter="{Binding Text, ElementName=comboBoxTransportCompanies}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </model:CustomComboBox>
+                    </CustomComponents:CustomComboBox>
 
                 </Grid>
                 <GroupBox Header="Транспорт водителя" Grid.Row="1" Grid.ColumnSpan="2">
@@ -65,7 +67,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Номер машины" Grid.Column="0" Margin="5"></Label>
-                        <model:CustomComboBox x:Name="comboBoxCars" Margin="5" Grid.Column="1" DisplayMemberPath="Number" Text="{Binding CarText}" ItemsSource="{Binding CarSource}" SelectedItem="{Binding Car}">
+                        <CustomComponents:CustomComboBox x:Name="comboBoxCars" Margin="5" Grid.Column="1" DisplayMemberPath="Number" Text="{Binding CarText}" ItemsSource="{Binding CarSource}" SelectedItem="{Binding Car}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
@@ -74,10 +76,10 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <i:Interaction.Behaviors>
-                                <model:KeyUpWithArgsBehavior
+                                <Behaviors:KeyUpWithArgsBehavior
                                 KeyUpCommand="{Binding AddCarByKeyboard}" />
                             </i:Interaction.Behaviors>
-                        </model:CustomComboBox>
+                        </CustomComponents:CustomComboBox>
 
                         <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddCar}"></Button>
 
@@ -88,7 +90,7 @@
                                 <DataGridTemplateColumn Header="Марка машины" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <model:CustomComboBox x:Name="comboBoxColumnCarBrands" SelectedItem="{Binding DataContext.SelectedCarBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.CarBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
+                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnCarBrands" SelectedItem="{Binding DataContext.SelectedCarBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.CarBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="CustomEvent">
                                                         <i:InvokeCommandAction
@@ -96,7 +98,7 @@
                                                            CommandParameter="{Binding Text, ElementName=comboBoxColumnCarBrands}"/>
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                            </model:CustomComboBox>
+                                            </CustomComponents:CustomComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -127,7 +129,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Номер прицепа" Grid.Column="0" Margin="5"></Label>
-                        <model:CustomComboBox Margin="5" Grid.Column="1" x:Name="ComboBoxTraillers" DisplayMemberPath="Number" Text="{Binding TraillerText}" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}">
+                        <CustomComponents:CustomComboBox Margin="5" Grid.Column="1" x:Name="ComboBoxTraillers" DisplayMemberPath="Number" Text="{Binding TraillerText}" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
@@ -136,10 +138,10 @@
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>
                             <i:Interaction.Behaviors>
-                                <model:KeyUpWithArgsBehavior
+                                <Behaviors:KeyUpWithArgsBehavior
                                 KeyUpCommand="{Binding AddTraillerByKeyboard}" />
                             </i:Interaction.Behaviors>
-                        </model:CustomComboBox>
+                        </CustomComponents:CustomComboBox>
                         <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddTrailler}"></Button>
 
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Trailler}" ItemsSource="{Binding Traillers}" AutoGenerateColumns="False" CanUserAddRows="False">
@@ -149,7 +151,7 @@
                                 <DataGridTemplateColumn Header="Марка прицепа" Width="*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <model:CustomComboBox x:Name="comboBoxColumnTraillerBrands" SelectedItem="{Binding DataContext.SelectedTraillerBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.TraillerBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
+                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnTraillerBrands" SelectedItem="{Binding DataContext.SelectedTraillerBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.TraillerBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
                                                 <i:Interaction.Triggers>
                                                     <i:EventTrigger EventName="CustomEvent">
                                                         <i:InvokeCommandAction
@@ -157,7 +159,7 @@
                                                            CommandParameter="{Binding Text, ElementName=comboBoxColumnTraillerBrands}"/>
                                                     </i:EventTrigger>
                                                 </i:Interaction.Triggers>
-                                            </model:CustomComboBox>
+                                            </CustomComponents:CustomComboBox>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

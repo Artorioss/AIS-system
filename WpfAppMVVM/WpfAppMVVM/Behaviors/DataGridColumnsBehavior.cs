@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Collections.Specialized;
 
-namespace WpfAppMVVM.Model
+namespace WpfAppMVVM.Behaviors
 {
     public class DataGridColumnsBehavior
     {

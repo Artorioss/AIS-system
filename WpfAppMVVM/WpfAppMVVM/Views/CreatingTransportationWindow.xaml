@@ -3,8 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local1="clr-namespace:WpfAppMVVM.Model"
-        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.CreatingTransportation"
+        xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
+        
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
             Title="{Binding WindowName}" Height="740" Width="650" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
@@ -46,7 +47,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Заказчик" Grid.Row="0" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxCustomers" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" DisplayMemberPath="Name" ItemsSource="{Binding CustomerSource}" SelectedItem="{Binding Customer}">
+                <CustomComponents:CustomComboBox x:Name="comboBoxCustomers" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" DisplayMemberPath="Name" ItemsSource="{Binding CustomerSource}" SelectedItem="{Binding Customer}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CustomEvent">
                             <i:InvokeCommandAction
@@ -54,7 +55,7 @@
                             CommandParameter="{Binding Text, ElementName=comboBoxCustomers}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </local1:CustomComboBox>
+                </CustomComponents:CustomComboBox>
 
                 <Label Grid.Row="1" Content="Дата загрузки" Margin="0,5,5,5"></Label>
                 <DatePicker Name="datePickerUpload" Grid.Row="1" Grid.Column="1" Margin="0,5,5,5" Grid.ColumnSpan="2" SelectedDate="{Binding DateTime}"></DatePicker>
@@ -63,9 +64,9 @@
                 <TextBox Name="textBoxSum" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,5,5,5" Text="{Binding Payment}"></TextBox>
 
                 <Label Content="Точка загрузки" Grid.Row="3" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxRouteLoading" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding LoadingRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding LoadingRoutePoint}">
+                <CustomComponents:CustomComboBox x:Name="comboBoxRouteLoading" Grid.Row="3" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding LoadingRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding LoadingRoutePoint}">
                     <i:Interaction.Behaviors>
-                        <local1:KeyUpWithArgsBehavior
+                        <Behaviors:KeyUpWithArgsBehavior
                             KeyUpCommand="{Binding AddLoadingRouteByKeyboard}" />
                     </i:Interaction.Behaviors>
                     <i:Interaction.Triggers>
@@ -75,13 +76,13 @@
                             CommandParameter="{Binding LoadingRoutePointName}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </local1:CustomComboBox>
+                </CustomComponents:CustomComboBox>
                 <Button Name="buttonAddRouteLoading" Content="Добавить" Grid.Row="3" Grid.Column="2" Margin="5,5,5,5" Command="{Binding AddLoadingRoute}"></Button>
 
                 <Label Content="Точка выгрузки" Grid.Row="4" Margin="0,5,5,5"></Label>
-                <local1:CustomComboBox x:Name="comboBoxRouteDispatcher" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding DispatcherRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding DispatcherRoutePoint}">
+                <CustomComponents:CustomComboBox x:Name="comboBoxRouteDispatcher" Grid.Row="4" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" Text="{Binding DispatcherRoutePointName}" ItemsSource="{Binding RoutePointSource}" SelectedItem="{Binding DispatcherRoutePoint}">
                     <i:Interaction.Behaviors>
-                        <local1:KeyUpWithArgsBehavior
+                        <Behaviors:KeyUpWithArgsBehavior
                             KeyUpCommand="{Binding AddDispatcherRouteByKeyboard}" />
                     </i:Interaction.Behaviors>
                     <i:Interaction.Triggers>
@@ -91,13 +92,13 @@
                                 CommandParameter="{Binding DispatcherRoutePointName}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </local1:CustomComboBox>
+                </CustomComponents:CustomComboBox>
                 <Button Name="buttonAddRouteDispatcher" Content="Добавить" Grid.Row="4" Grid.Column="2" Margin="5,5,5,5" Command="{Binding AddDispatcherRoute}"></Button>
 
                 <Label Content="Общий маршрут" Grid.Row="5" Margin="0,5,5,5"></Label>
                 <TextBox Name="textBoxGeneralRoute" Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" Margin="0,5,5,5" Text="{Binding GeneralRoute}">
                     <i:Interaction.Behaviors>
-                        <local1:FocusableChangedBehavior
+                        <Behaviors:FocusableChangedBehavior
                             FocusChangedCommand="{Binding GeneralRoutFocusable}" />
                     </i:Interaction.Behaviors>
                 </TextBox>
@@ -132,7 +133,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Водитель" Width="auto" Margin="5" Grid.Column="0"></Label>
-                    <local1:CustomComboBox x:Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" SelectedItem="{Binding Driver}" ItemsSource="{Binding DriversSource}" DisplayMemberPath="Name">
+                    <CustomComponents:CustomComboBox x:Name="ComboboxDriver" Width="auto" Margin="5" Grid.Column="1" SelectedItem="{Binding Driver}" ItemsSource="{Binding DriversSource}" DisplayMemberPath="Name">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
@@ -140,10 +141,10 @@
                                     CommandParameter="{Binding Text, ElementName=ComboboxDriver}"></i:InvokeCommandAction>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </local1:CustomComboBox>
+                    </CustomComponents:CustomComboBox>
 
                     <Label Content="Компания от водителя" Margin="5" Grid.Column="2"></Label>
-                    <local1:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" Grid.ColumnSpan="2" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding CompaniesSource}">
+                    <CustomComponents:CustomComboBox x:Name="comboBoxTransportCompany" Margin="5" DisplayMemberPath="Name" Grid.Column="3" Grid.ColumnSpan="2" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding CompaniesSource}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
@@ -151,7 +152,7 @@
                                 CommandParameter="{Binding Text, ElementName=comboBoxTransportCompany}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
-                    </local1:CustomComboBox>
+                    </CustomComponents:CustomComboBox>
                 </Grid>
 
                 <Grid Grid.Row="1" Grid.ColumnSpan="2">
@@ -173,7 +174,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5"></Label>
-                            <local1:CustomComboBox x:Name="ComboBoxCarBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" SelectedItem="{Binding CarBrand}" ItemsSource="{Binding CarBrandSource}">
+                            <CustomComponents:CustomComboBox x:Name="ComboBoxCarBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Name" SelectedItem="{Binding CarBrand}" ItemsSource="{Binding CarBrandSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
@@ -181,10 +182,10 @@
                                         CommandParameter="{Binding Text, ElementName=ComboBoxCarBrand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </local1:CustomComboBox>
+                            </CustomComponents:CustomComboBox>
 
                             <Label Content="Номер" Grid.Row="1" Margin="0,5,5,5"></Label>
-                            <local1:CustomComboBox x:Name="ComboBoxCarNumber"  Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number" SelectedItem="{Binding Car}" ItemsSource="{Binding CarSource}">
+                            <CustomComponents:CustomComboBox x:Name="ComboBoxCarNumber"  Grid.Row="1" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number" SelectedItem="{Binding Car}" ItemsSource="{Binding CarSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
@@ -192,7 +193,7 @@
                                         CommandParameter="{Binding Text, ElementName=ComboBoxCarNumber}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </local1:CustomComboBox>
+                            </CustomComponents:CustomComboBox>
                         </Grid>
                     </GroupBox>
 
@@ -208,7 +209,7 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Content="Марка" Grid.Row="0" Margin="0,5,5,5"></Label>
-                            <local1:CustomComboBox x:Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" ItemsSource="{Binding TraillerBrandSource}" SelectedItem="{Binding TraillerBrand}" DisplayMemberPath="Name">
+                            <CustomComponents:CustomComboBox x:Name="comboBoxTrailerBrand" Grid.Row="0" Grid.Column="1" Margin="0,5,0,5" ItemsSource="{Binding TraillerBrandSource}" SelectedItem="{Binding TraillerBrand}" DisplayMemberPath="Name">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
@@ -216,10 +217,10 @@
                                         CommandParameter="{Binding Text, ElementName=comboBoxTrailerBrand}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </local1:CustomComboBox>
+                            </CustomComponents:CustomComboBox>
 
                             <Label Content="Номер" Grid.Row="1" Margin="0,5,5,5"></Label>
-                            <local1:CustomComboBox x:Name="comboBoxTrailerNumber"  Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number"  SelectedItem="{Binding Trailler}" ItemsSource="{Binding TraillerSource}">
+                            <CustomComponents:CustomComboBox x:Name="comboBoxTrailerNumber"  Grid.Row="2" Grid.Column="1" Margin="0,5,0,5" DisplayMemberPath="Number"  SelectedItem="{Binding Trailler}" ItemsSource="{Binding TraillerSource}">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="CustomEvent">
                                         <i:InvokeCommandAction
@@ -227,7 +228,7 @@
                                             CommandParameter="{Binding Text, ElementName=comboBoxTrailerNumber}"/>
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
-                            </local1:CustomComboBox>
+                            </CustomComponents:CustomComboBox>
                         </Grid>
                     </GroupBox>
                 </Grid>

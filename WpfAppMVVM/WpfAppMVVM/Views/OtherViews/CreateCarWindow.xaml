@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
         xmlns:local1="clr-namespace:WpfAppMVVM.Model" xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
-        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" 
+        xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
+        
         mc:Ignorable="d"
         Title="{Binding WindowName}" ResizeMode="NoResize" Height="240" Width="400" FontSize="16" Name="Window">
 
@@ -29,7 +31,7 @@
                 </Grid.RowDefinitions>
 
                 <Label Content="Марка автомобиля" Margin="5"></Label>
-                <local1:CustomComboBox x:Name="ComboBoxBrands" Grid.Column="1" Margin="5" DisplayMemberPath="Name" SelectedItem="{Binding Brand}" ItemsSource="{Binding BrandSource}">
+                <CustomComponents:CustomComboBox x:Name="ComboBoxBrands" Grid.Column="1" Margin="5" DisplayMemberPath="Name" SelectedItem="{Binding Brand}" ItemsSource="{Binding BrandSource}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="CustomEvent">
                             <i:InvokeCommandAction
@@ -37,7 +39,7 @@
                             CommandParameter="{Binding Text, ElementName=ComboBoxBrands}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                </local1:CustomComboBox>
+                </CustomComponents:CustomComboBox>
 
                 <Label Content="Номер" Grid.Row="1" Margin="5"></Label>
                 <TextBox Grid.Row="1" Grid.Column="2" Margin="5" Text="{Binding Number}"></TextBox>

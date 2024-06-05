@@ -2,8 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
 using WpfAppMVVM.ViewModels;
 
 namespace WpfAppMVVM.Views
@@ -17,11 +15,6 @@ namespace WpfAppMVVM.Views
         public CreatingTransportationWindow()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-           
         }
     }
 }

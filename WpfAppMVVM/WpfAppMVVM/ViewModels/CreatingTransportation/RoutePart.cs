@@ -2,8 +2,8 @@
 using System.Linq;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {

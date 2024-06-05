@@ -11,9 +11,8 @@ using System.Windows;
 using System.Windows.Controls;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
-using WpfAppMVVM.Model.Entities;
+using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation

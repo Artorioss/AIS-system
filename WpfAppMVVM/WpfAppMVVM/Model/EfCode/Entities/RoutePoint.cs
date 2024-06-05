@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class Customer
+    public class RoutePoint
     {
-        public int CustomerId { get; set; }
-        [MaxLength(32)]
+        public int RoutePointId { get; set; }
+        [MaxLength(64)]
         public string Name { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ICollection<Route> Routes { get; set; }
     }
 }

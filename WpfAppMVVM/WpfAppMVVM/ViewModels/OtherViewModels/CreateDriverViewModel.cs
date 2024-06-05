@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
-using WpfAppMVVM.Model.Entities;
-using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.Entities;
+using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {

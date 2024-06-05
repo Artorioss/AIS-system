@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfAppMVVM.Views"
-        xmlns:local1="clr-namespace:WpfAppMVVM.Model"
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
         xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        
         mc:Ignorable="d"
         Title="Справочники" Height="550" Width="1200" FontSize="16">
 
@@ -38,7 +39,7 @@
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesData}"></Button>
             
         </ToolBar>
-        <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" local1:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
+        <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CellEditEnding">
                     <i:InvokeCommandAction

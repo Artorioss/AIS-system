@@ -1,6 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using WpfAppMVVM.Models.Entities;
-
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.Models
 {

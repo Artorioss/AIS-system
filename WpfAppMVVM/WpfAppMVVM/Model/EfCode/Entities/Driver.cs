@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class Driver: ICloneable
+    public class Driver : ICloneable
     {
         public int DriverId { get; set; }
         [MaxLength(32)]
@@ -21,9 +21,9 @@ namespace WpfAppMVVM.Models.Entities
         public object Clone()
         {
             Driver newDriver = MemberwiseClone() as Driver;
-            if (TransportCompany != null) 
+            if (TransportCompany != null)
             {
-                TransportCompany newTransportCompany = new TransportCompany() 
+                TransportCompany newTransportCompany = new TransportCompany()
                 {
                     TransportCompanyId = TransportCompany.TransportCompanyId,
                     Name = TransportCompany.Name,
@@ -31,7 +31,7 @@ namespace WpfAppMVVM.Models.Entities
                 newDriver.TransportCompany = newTransportCompany;
             }
 
-            if (Cars != null && Cars.Count > 0) 
+            if (Cars != null && Cars.Count > 0)
             {
                 var newCars = new List<Car>();
 
@@ -43,11 +43,11 @@ namespace WpfAppMVVM.Models.Entities
                 newDriver.Cars = newCars;
             }
 
-            if (Traillers != null && Traillers.Count > 0) 
+            if (Traillers != null && Traillers.Count > 0)
             {
                 var newTraillers = new List<Trailler>();
 
-                foreach (var item in Traillers) 
+                foreach (var item in Traillers)
                 {
                     newTraillers.Add(item.Clone() as Trailler);
                 }

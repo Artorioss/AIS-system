@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WpfAppMVVM.Models.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class RoutePoint
+    public class StateOrder
     {
-        public int RoutePointId { get; set; }
-        [MaxLength(64)]
+        public int StateOrderId { get; set; }
+        [MaxLength(32)]
         public string Name { get; set; }
-        public ICollection<Route> Routes { get; set; } 
+        public ICollection<Transportation> Transportation { get; set; }
     }
 }

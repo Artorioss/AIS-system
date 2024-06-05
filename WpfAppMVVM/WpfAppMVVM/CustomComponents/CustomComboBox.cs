@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfAppMVVM.Model
+namespace WpfAppMVVM.CustomComponents
 {
     public class CustomComboBox : ComboBox
     {

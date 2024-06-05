@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WpfAppMVVM.Models.Entities;
 using WpfAppMVVM.Models;
 using WpfAppMVVM.Model.Command;
 using System.Windows.Controls;
@@ -14,9 +13,9 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using System.Runtime.Serialization;
-using WpfAppMVVM.Model.Entities;
 using WpfAppMVVM.Model;
 using System.Net;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {

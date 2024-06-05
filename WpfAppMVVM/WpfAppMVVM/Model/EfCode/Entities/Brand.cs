@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WpfAppMVVM.Models.Entities;
 
-namespace WpfAppMVVM.Model.Entities
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class Brand
     {
