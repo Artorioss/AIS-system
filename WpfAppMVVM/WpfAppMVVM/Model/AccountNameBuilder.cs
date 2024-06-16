@@ -109,22 +109,22 @@ namespace WpfAppMVVM.Model
         {
             _stringBuilder.Clear();
             _stringBuilder.Append(_prefix);
-            if(_routeName != null) _stringBuilder.Append(_routeName).Append(' ');
-            if(_date != null) _stringBuilder.Append(_date.ToString("d")).Append(' ');
-            if (_car != null || _carBrand != null) 
+            if (_routeName != null) _stringBuilder.Append(_routeName).Append(' ');
+            if (_date != null) _stringBuilder.Append(_date.ToString("d")).Append(' ');
+            if (_car != null || _carBrand != null)
             {
                 _stringBuilder.Append("а/м ");
                 if (_carBrand != null) _stringBuilder.Append(_carBrand.Name).Append(' ');
                 if (_car != null) _stringBuilder.Append("№").Append(_car.Number).Append(' ');
             }
-            
-            if (_trailler != null || _traillerBrand != null) 
+
+            if (_trailler != null || _traillerBrand != null)
             {
                 _stringBuilder.Append("п/п ");
-                if(_traillerBrand != null) _stringBuilder.Append(_traillerBrand.Name).Append(' ');
-                if(_trailler != null) _stringBuilder.Append("№").Append(_trailler.Number).Append(' ');
+                if (_traillerBrand != null) _stringBuilder.Append(_traillerBrand.Name).Append(' ');
+                if (_trailler != null) _stringBuilder.Append("№").Append(_trailler.Number).Append(' ');
             }
-            if (Driver != null) _stringBuilder.Append(Driver.Name); 
+            if (Driver != null) _stringBuilder.Append(Driver.Name);
         }
 
         public override string ToString()

@@ -3,6 +3,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace WpfAppMVVM.CustomComponents
 {
@@ -11,10 +12,21 @@ namespace WpfAppMVVM.CustomComponents
         public delegate void CustomEventHandler(object sender, EventArgs e);
         public event CustomEventHandler CustomEvent;
 
-        private int caretPosition;
-        private bool _freezComboBox;
         private TextBox _textBox;
         private Type _bufType;
+        private DispatcherTimer _timer;
+
+        public CustomComboBox()
+        {
+            InitializeTimer();
+        }
+
+        private void InitializeTimer()
+        {
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(0.5); // Интервал полсекунды
+            _timer.Tick += Timer_Tick;
+        }
 
         public override void OnApplyTemplate()
         {
@@ -37,21 +49,16 @@ namespace WpfAppMVVM.CustomComponents
 
             if (IsDropDownOpen && txt.SelectionLength > 0)
             {
-                caretPosition = txt.SelectionLength;
-                txt.CaretIndex = caretPosition;
-            }
-            if (txt.SelectionLength == 0 && txt.CaretIndex != 0)
-            {
-                caretPosition = txt.CaretIndex;
+                txt.CaretIndex = txt.SelectionLength;
             }
         }
 
         private void OnTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            setItem();
+            SetItem();
         }
 
-        private void setItem()
+        private void SetItem()
         {
             if (SelectedItem == null && !string.IsNullOrEmpty(Text))
             {
@@ -59,7 +66,6 @@ namespace WpfAppMVVM.CustomComponents
 
                 if (items != null && _bufType != null)
                 {
-                    _freezComboBox = true;
                     var item = items.FirstOrDefault(s =>
                     {
                         PropertyInfo prop = _bufType.GetProperty(DisplayMemberPath);
@@ -86,32 +92,33 @@ namespace WpfAppMVVM.CustomComponents
                         if (prop != null)
                         {
                             prop.SetValue(newItem, Text);
-
                         }
                         ((IList)ItemsSource).Add(newItem);
                         SelectedItem = newItem;
                     }
-                    _freezComboBox = false;
                 }
             }
         }
 
         private void OnTextBoxTextChanged(object sender, RoutedEventArgs e)
         {
-            if (CustomEvent != null && !_freezComboBox)
+            if (_timer != null)
             {
-                if (_textBox.SelectionStart == 0 && string.IsNullOrEmpty(Text))
-                {
-                    IsDropDownOpen = false;
-                    SelectedItem = null;
-                }
-                if (SelectedItem == null)
-                {
-                    CustomEvent(Text, e);
-                }
-                IsDropDownOpen = ItemsSource == null ? false : ItemsSource.Cast<object>().Count() > 0;
-                if (_bufType is null && IsDropDownOpen) _bufType = Items[0].GetType();
+                _timer.Stop();
+                _timer.Start();
+            }
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            _timer.Stop();
+
+            // Вызываем событие или выполняем запрос в базу данных
+            if (CustomEvent != null)
+            {
+                CustomEvent(this, EventArgs.Empty);
             }
         }
     }
+
 }

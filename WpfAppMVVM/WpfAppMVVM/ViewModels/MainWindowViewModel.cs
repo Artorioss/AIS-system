@@ -29,6 +29,7 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand EditData { get; private set; }
         public DelegateCommand DeleteCommand { get; set; }
         public DelegateCommand GetItemsByFilter { get; set; }
+        public DelegateCommand CopyCommand { get; set; }
         public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
         private List<StateOrder> _stateOrders;
         public List<StateOrder> StateOrders 
@@ -118,6 +119,7 @@ namespace WpfAppMVVM.ViewModels
             ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
             EditData = new DelegateCommand((obj) => showTransportationForEditWindow());
             DeleteCommand = new DelegateCommand((obj) => onDelete());
+            CopyCommand = new DelegateCommand((obj) => copy());
 
             Years = _context.Transportations
                             .Distinct()
@@ -210,6 +212,11 @@ namespace WpfAppMVVM.ViewModels
             _context.SaveChanges();
             ItemsSource.Remove(TransportationDTO);
             OnPropertyChanged(nameof(ItemsSource));
+        }
+
+        private void copy() 
+        {
+            Clipboard.SetText(TransportationDTO.RouteName);
         }
     }
 }

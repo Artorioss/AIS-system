@@ -1,0 +1,62 @@
+﻿<Window x:Class="WpfAppMVVM.Views.OtherViews.CarWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
+        xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
+        mc:Ignorable="d"
+        Title="Создание автомобиля" Height="auto" Width="500" FontSize="16">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Введите данные" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Номер машины" Margin="5" Grid.Column="0"></Label>
+                <TextBox Grid.Column="1" Margin="5"></TextBox>
+
+                <Label Content="Бренд машины" Margin="5" Grid.Row="1"></Label>
+                <CustomComponents:CustomComboBox Grid.Column="1" Margin="5" Grid.Row="1"></CustomComponents:CustomComboBox>
+
+                <GroupBox Header="Водители" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Инициалы водителя" Grid.Column="0" Grid.Row="0" Margin="5"></Label>
+                        <CustomComponents:CustomComboBox Grid.Column="1" Grid.Row="0" Margin="5"></CustomComponents:CustomComboBox>
+                        <Button Content="Добавить" Grid.Column="2" Margin="5" MinHeight="30"></Button>
+
+                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Driver}" ItemsSource="{Binding Drivers}" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Инициалы" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Компания водителя" Width="*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+
+        <Button Content="Добавить" Grid.Row="3" Height="30" Margin="5" Grid.ColumnSpan="2"></Button>
+    </Grid>
+</Window>

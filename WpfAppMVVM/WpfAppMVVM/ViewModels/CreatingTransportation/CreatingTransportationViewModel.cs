@@ -150,6 +150,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set 
             {
                 _accountName = value;
+                //_accountNameBuilder.setRoutName(value); //TODO
                 OnPropertyChanged(nameof(AccountName));
             }
         }
@@ -211,11 +212,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private void checkValidate() 
-        {
-            
-        }
-
         private void createTransportation(object obj)
         {
             if (Customer is null)
@@ -251,7 +247,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             //    else Car.IsTruck = false;
             //}
 
-            Transportation.RouteName = _accountNameBuilder.ToString();
+            Transportation.RouteName = AccountName;
             Transportation.DateLoading = DateTime;
             Transportation.Customer = Customer;
             Transportation.Driver = Driver;
@@ -262,7 +258,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             Transportation.Price = Payment;
             Transportation.PaymentToDriver = PayToDriver;
             Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
-               
+            
             _context.SaveChanges();
             IsContextChanged = true;
             (obj as Window).Close();

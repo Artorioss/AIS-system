@@ -7,6 +7,12 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Views\OtherViews\CarWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\OtherViews\CreateBrandWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\OtherViews\CreateCarWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -16,6 +22,12 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\CarWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\CreateBrandWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\CreateCarWindow.xaml">
