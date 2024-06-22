@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Net;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,26 +11,27 @@ namespace WpfAppMVVM.CustomComponents
         public delegate void CustomEventHandler(object sender, EventArgs e);
         public event CustomEventHandler CustomEvent;
 
+        private int caretPosition;
+        private bool _freezComboBox;
         private TextBox _textBox;
         private Type _bufType;
-        private DispatcherTimer _timer;
+        private DispatcherTimer _updateTimer;
+        private bool _timerEnabled = false;
 
         public CustomComboBox()
         {
-            InitializeTimer();
-        }
-
-        private void InitializeTimer()
-        {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(0.5); // Интервал полсекунды
-            _timer.Tick += Timer_Tick;
+            _updateTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300),
+            };
+            _updateTimer.Tick += UpdateTimer_Tick;
         }
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
             var element = GetTemplateChild("PART_EditableTextBox");
+            SelectionChanged += SelectedItemChanged;
             if (element != null)
             {
                 _textBox = (TextBox)element;
@@ -49,16 +49,21 @@ namespace WpfAppMVVM.CustomComponents
 
             if (IsDropDownOpen && txt.SelectionLength > 0)
             {
-                txt.CaretIndex = txt.SelectionLength;
+                caretPosition = txt.SelectionLength;
+                txt.CaretIndex = caretPosition;
+            }
+            if (txt.SelectionLength == 0 && txt.CaretIndex != 0)
+            {
+                caretPosition = txt.CaretIndex;
             }
         }
 
         private void OnTextBoxLostFocus(object sender, RoutedEventArgs e)
         {
-            SetItem();
+            setItem();
         }
 
-        private void SetItem()
+        private void setItem()
         {
             if (SelectedItem == null && !string.IsNullOrEmpty(Text))
             {
@@ -66,6 +71,7 @@ namespace WpfAppMVVM.CustomComponents
 
                 if (items != null && _bufType != null)
                 {
+                    _freezComboBox = true;
                     var item = items.FirstOrDefault(s =>
                     {
                         PropertyInfo prop = _bufType.GetProperty(DisplayMemberPath);
@@ -92,33 +98,75 @@ namespace WpfAppMVVM.CustomComponents
                         if (prop != null)
                         {
                             prop.SetValue(newItem, Text);
+
                         }
                         ((IList)ItemsSource).Add(newItem);
                         SelectedItem = newItem;
                     }
+                    _freezComboBox = false;
                 }
             }
         }
 
-        private void OnTextBoxTextChanged(object sender, RoutedEventArgs e)
+        private void updateItemsSource(object sender, EventArgs e)
         {
-            if (_timer != null)
+            if (CustomEvent != null && !_freezComboBox)
             {
-                _timer.Stop();
-                _timer.Start();
+                if (_textBox.SelectionStart == 0 && string.IsNullOrEmpty(Text))
+                {
+                    IsDropDownOpen = false;
+                    SelectedItem = null;
+                }
+                else 
+                {
+                    if (SelectedItem != null) 
+                    {
+                        _textBox.TextChanged -= OnTextBoxTextChanged;
+                        string text = Text;
+                        SelectedItem = null;
+                        Text = text;
+                        _textBox.CaretIndex = text.Length;
+                        _textBox.TextChanged += OnTextBoxTextChanged;
+                    }
+                    CustomEvent?.Invoke(Text, e);
+                    IsDropDownOpen = existElements();
+                }
+
+                if (_bufType == null && IsDropDownOpen && Items.Count > 0)
+                {
+                    _bufType = Items[0].GetType();
+                }
             }
         }
 
-        private void Timer_Tick(object sender, EventArgs e)
+        private bool existElements() 
         {
-            _timer.Stop();
+            return ItemsSource != null && ItemsSource.Cast<object>().Any();
+        }
 
-            // Вызываем событие или выполняем запрос в базу данных
-            if (CustomEvent != null)
+        private void OnTextBoxTextChanged(object sender, RoutedEventArgs e)
+        {
+            if (_timerEnabled)
             {
-                CustomEvent(this, EventArgs.Empty);
+                _updateTimer.Stop();
+                _updateTimer.Start();
+            }
+            else _timerEnabled = true;
+        }
+
+        private void UpdateTimer_Tick(object sender, EventArgs e)
+        {
+            _updateTimer.Stop();
+            updateItemsSource(sender, e);
+        }
+
+        private void SelectedItemChanged(object sender, EventArgs e) 
+        {
+            if (SelectedItem != null) 
+            {
+                _updateTimer.Stop();
+                _timerEnabled = false;
             }
         }
     }
-
 }
