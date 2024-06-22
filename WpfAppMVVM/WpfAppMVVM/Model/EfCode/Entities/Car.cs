@@ -13,7 +13,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public string Number { get; set; }
         public int? BrandId { get; set; }
         public bool IsTruck { get; set; }
-        public Brand Brand { get; set; }
+        public CarBrand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
 
         public object Clone()
@@ -21,10 +21,10 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Car newCar = (Car)MemberwiseClone();
             if (Brand != null)
             {
-                Brand newBrand = new Brand();
+                CarBrand newBrand = new CarBrand();
                 newBrand.Name = Brand.Name;
-                newBrand.BrandId = Brand.BrandId;
-                newBrand.RussianBrandName = Brand.RussianBrandName;
+                newBrand.CarBrandId = Brand.CarBrandId;
+                newBrand.RussianName = Brand.RussianName;
                 newCar.Brand = newBrand;
             }
             return newCar;

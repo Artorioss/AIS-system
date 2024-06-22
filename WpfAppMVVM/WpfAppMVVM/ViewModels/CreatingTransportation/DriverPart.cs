@@ -13,7 +13,6 @@ using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -82,7 +81,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
             if (CarSource != null && CarSource.Count > 0)
             {
-                CarBrandSource = CarSource.Select(car => car.Brand).Distinct(new BrandComparer()).ToList();
+                CarBrandSource = CarSource.Select(car => car.Brand).Distinct(new CarBrandComparer()).ToList();
                 Car = CarSource.FirstOrDefault();
             }
         }
@@ -96,7 +95,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
             if (TraillerSource != null && TraillerSource.Count > 0)
             {
-                TraillerBrandSource = TraillerSource.Select(trailler => trailler.Brand).Distinct(new BrandComparer()).ToList();
+                TraillerBrandSource = TraillerSource.Select(trailler => trailler.Brand).Distinct(new TraillerBrandComparer()).ToList();
                 Trailler = TraillerSource.FirstOrDefault();
             }
         }
@@ -122,6 +121,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             set
             {
                 _company = value;
+                if (Driver != null) Driver.TransportCompany = _company;
                 OnPropertyChanged(nameof(TransportCompany));
             }
         }
@@ -158,8 +158,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         //------------------------ CarBrand --------------------------------
         public DelegateCommand GetCarBrands { get; private set; }
-        private List<Brand> _carBrandSource;
-        public List<Brand> CarBrandSource
+        private List<CarBrand> _carBrandSource;
+        public List<CarBrand> CarBrandSource
         {
             get => _carBrandSource;
             set
@@ -169,8 +169,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private Brand _carBrand;
-        public Brand CarBrand
+        private CarBrand _carBrand;
+        public CarBrand CarBrand
         {
             get => _carBrand;
             set
@@ -185,8 +185,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getCarBrands(object e)
         {
             string text = e as string;
-            CarBrandSource = _context.Brands
-                            .Where(c => c.Name.ToLower().Contains(text.ToLower()) || c.RussianBrandName.ToLower().Contains(text.ToLower()))
+            CarBrandSource = _context.CarBrands
+                            .Where(c => c.Name.ToLower().Contains(text.ToLower()) || c.RussianName.ToLower().Contains(text.ToLower()))
                             .OrderBy(c => c.Name)
                             .Take(5)
                             .ToList();
@@ -194,8 +194,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         //------------------------ TraillerBrand --------------------------------
         public DelegateCommand GetTraillerBrands { get; private set; }
-        private List<Brand> _traillerBrandSource;
-        public List<Brand> TraillerBrandSource
+        private List<TraillerBrand> _traillerBrandSource;
+        public List<TraillerBrand> TraillerBrandSource
         {
             get => _traillerBrandSource;
             set
@@ -205,8 +205,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private Brand _traillerBrand;
-        public Brand TraillerBrand 
+        private TraillerBrand _traillerBrand;
+        public TraillerBrand TraillerBrand 
         {
             get => _traillerBrand;
             set 
@@ -221,8 +221,8 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void getTraillerBrands(object e) 
         {
             string text = e as string;
-            TraillerBrandSource = _context.Brands
-                                  .Where(tb => (tb.Name.ToLower().Contains(text.ToLower()) || tb.RussianBrandName.ToLower().Contains(text.ToLower())))
+            TraillerBrandSource = _context.TraillerBrands
+                                  .Where(tb => (tb.Name.ToLower().Contains(text.ToLower()) || tb.RussianName.ToLower().Contains(text.ToLower())))
                                   .OrderBy(tb => tb.Name)
                                   .Take(5)
                                   .ToList();

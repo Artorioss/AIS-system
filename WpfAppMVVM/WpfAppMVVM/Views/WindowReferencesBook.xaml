@@ -29,7 +29,8 @@
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
             <Button Content="Автомобили" Margin="0,0,0,0" Command="{Binding GetCarsData}"></Button>
-            <Button Content="Бренды" Margin="5,0,0,0" Command="{Binding GetBrandsData}"></Button>
+            <Button Content="Бренды автомобилей" Margin="5,0,0,0" Command="{Binding GetCarBrandsData}"></Button>
+            <Button Content="Бренды прицепов" Margin="5,0,0,0" Command="{Binding GetTraillerBrandsData}"></Button>
             <Button Content="Клиенты" Margin="5,0,0,0" Command="{Binding GetCustomersData}"></Button>
             <Button Content="Водители" Margin="5,0,0,0" Command="{Binding GetDriversData}"></Button>
             <Button Content="Точки маршрута" Margin="5,0,0,0" Command="{Binding GetRoutePointsData}"></Button>

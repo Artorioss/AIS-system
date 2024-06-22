@@ -22,8 +22,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         Mode _mode;
 
-        List<Brand> _brandSource;
-        public List<Brand> BrandSource 
+        List<CarBrand> _brandSource;
+        public List<CarBrand> BrandSource 
         {
             get => _brandSource;
             set 
@@ -33,7 +33,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public Brand Brand 
+        public CarBrand Brand 
         {
             get => _car.Brand;
             set 
@@ -97,7 +97,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             settingsUp();
             _car = (Car)car.Clone();
-            BrandSource = new List<Brand>() { _car.Brand };
+            BrandSource = new List<CarBrand>() { _car.Brand };
             ButtonText = "Обновить запись";
             WindowName = "Редактирование записи";
             _mode = Mode.Editing;
@@ -113,7 +113,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         private void getBrands(object obj) 
         {
             string text = obj as string;
-            BrandSource = _context.Brands.Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianBrandName.ToLower().Contains(text.ToLower())).Take(5)
+            BrandSource = _context.CarBrands.Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianName.ToLower().Contains(text.ToLower())).Take(5)
                                          .Select(s => s)
                                          .ToList();
         }
@@ -126,7 +126,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 {
                     var existingCar = _context.Cars.Find(_car.Number);
 
-                    existingCar.Brand = _context.Brands.Find(Brand.BrandId);
+                    existingCar.Brand = _context.CarBrands.Find(Brand.CarBrandId);
                     existingCar.Number = Number;
                     existingCar.IsTruck = IsTruck;
                 }

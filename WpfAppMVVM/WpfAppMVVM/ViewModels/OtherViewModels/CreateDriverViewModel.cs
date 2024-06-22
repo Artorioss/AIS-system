@@ -71,8 +71,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private List<Brand> _carBrandSource;
-        public List<Brand> CarBrandSource //Коллекция для CustomComboBox вcтроенной в DataGridViewCars
+        private List<CarBrand> _carBrandSource;
+        public List<CarBrand> CarBrandSource //Коллекция для CustomComboBox вcтроенной в DataGridViewCars
         {
             get => _carBrandSource;
             set 
@@ -82,7 +82,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public Brand SelectedCarBrand 
+        public CarBrand SelectedCarBrand 
         {
             get => Car.Brand;
             set 
@@ -96,8 +96,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private List<Brand> _traillerBrandSource;
-        public List<Brand> TraillerBrandSource 
+        private List<TraillerBrand> _traillerBrandSource;
+        public List<TraillerBrand> TraillerBrandSource 
         {
             get => _traillerBrandSource;
             set 
@@ -107,7 +107,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public Brand SelectedTraillerBrand
+        public TraillerBrand SelectedTraillerBrand
         {
             get => Trailler.Brand;
             set
@@ -255,21 +255,30 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         private void getCarBrands(object obj) 
         {
             string text = obj as string;
-            CarBrandSource = getBrands(text);
+            CarBrandSource = getCarBrands(text);
         }
 
         private void getTraillerBrands(object obj)
         {
             string text = obj as string;
-            TraillerBrandSource = getBrands(text);
+            TraillerBrandSource = getTraillerBrands(text);
         }
 
-        private List<Brand> getBrands(string text) 
+        private List<CarBrand> getCarBrands(string text) 
         {
-            return _context.Brands
-                                .Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianBrandName.ToLower().Contains(text.ToLower()))
-                                .Take(5)
-                                .ToList();
+            return _context.CarBrands
+                           .Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianName.ToLower().Contains(text.ToLower()))
+                           .Take(5)
+                           .ToList();
+        }
+
+
+        private List<TraillerBrand> getTraillerBrands(string text) 
+        {
+            return _context.TraillerBrands
+                           .Where(b => b.Name.ToLower().Contains(text.ToLower()) || b.RussianName.ToLower().Contains(text.ToLower()))
+                           .Take(5)
+                           .ToList();
         }
 
         private void getCustomers(object obj)
@@ -397,7 +406,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 if (item.Number is null) car = item;
                 else car = _context.Cars.Find(item.Number);
 
-                if (car.BrandId != 0) car.Brand = _context.Brands.Find(item.Brand.BrandId);
+                if (car.BrandId != 0) car.Brand = _context.CarBrands.Find(item.Brand.CarBrandId);
                 existingDriver.Cars.Add(car);
             }
 
@@ -408,7 +417,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 if (item.Number is null) trailler = item;
                 else trailler = _context.Traillers.Find(item.Number);
 
-                if (trailler.BrandId != 0) trailler.Brand = _context.Brands.Find(item.Brand.BrandId);
+                if (trailler.BrandId != 0) trailler.Brand = _context.TraillerBrands.Find(item.Brand.TraillerBrandId);
                 existingDriver.Traillers.Add(trailler);
             }
         }

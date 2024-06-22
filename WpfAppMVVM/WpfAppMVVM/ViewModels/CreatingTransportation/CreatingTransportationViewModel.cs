@@ -40,13 +40,13 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             settingsUp();
             Transportation = _context.Transportations
                                      .Include(transp => transp.Driver)
+                                     .ThenInclude(driver => driver.TransportCompany)
                                      .Include(transp => transp.Customer)
                                      .Include(transp => transp.Route)
-                                     .Include(transp => transp.TransportCompany)
                                      .Include(transp => transp.Car)
                                      .ThenInclude(car => car.Brand)
                                      .Include(transp => transp.Trailler)
-                                     .ThenInclude(Car => Car.Brand)
+                                     .ThenInclude(trailler => trailler.Brand)
                                      .SingleOrDefault(s => s.TransportationId == transportationId);
 
             WindowName = "Редактирование заявки";
@@ -59,10 +59,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             CustomerSource = new List<Customer>();
             DriversSource = new List<Driver>();
             CompaniesSource = new List<TransportCompany>();
-            CarBrandSource = new List<Brand>();
+            CarBrandSource = new List<CarBrand>();
             CarSource = new List<Car>();
             TraillerSource = new List<Trailler>();
-            TraillerBrandSource = new List<Brand>();
+            TraillerBrandSource = new List<TraillerBrand>();
             GetCarBrands = new DelegateCommand(getCarBrands);
             GetTraillerBrands = new DelegateCommand(getTraillerBrands);
             GetCustomers = new DelegateCommand(getCustomers);
@@ -94,8 +94,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             _driver = Transportation.Driver;
             OnPropertyChanged(nameof(Driver));
 
-            CompaniesSource = new List<TransportCompany>() { Transportation.TransportCompany };
-            _company = Transportation.TransportCompany;
+            if (_driver != null && _driver.TransportCompany != null) 
+            {
+                CompaniesSource = new List<TransportCompany>() { Transportation.Driver.TransportCompany };
+                _company = Transportation.Driver.TransportCompany;
+            } 
+            else CompaniesSource = new List<TransportCompany>();         
             OnPropertyChanged(nameof(TransportCompany));
 
             CarSource = new List<Car>();
@@ -105,7 +109,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _car = Transportation.Car;
                 OnPropertyChanged(nameof(Car));
 
-                CarBrandSource = new List<Brand>();
+                CarBrandSource = new List<CarBrand>();
                 if (Transportation.Car.Brand != null) 
                 {
                     CarBrandSource.Add(Transportation.Car.Brand);
@@ -121,7 +125,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _trailler = Transportation.Trailler;
                 OnPropertyChanged(nameof(Trailler));
 
-                TraillerBrandSource = new List<Brand>();
+                TraillerBrandSource = new List<TraillerBrand>();
                 if (Transportation.Trailler.Brand != null) 
                 {
                     TraillerBrandSource.Add(Transportation.Trailler.Brand);
@@ -129,7 +133,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                     OnPropertyChanged(nameof(TraillerBrand));
                 }
             }
-            
 
             PayToDriver = Transportation.PaymentToDriver == null ? 0.00M : (decimal)Transportation.PaymentToDriver;
 
@@ -241,18 +244,11 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 if (Driver.TransportCompanyId != TransportCompany.TransportCompanyId) Driver.TransportCompany = TransportCompany;
             }  
 
-            //if (Car != null) 
-            //{
-            //    if (Trailler != null) Car.IsTruck = true;
-            //    else Car.IsTruck = false;
-            //}
-
             Transportation.RouteName = AccountName;
             Transportation.DateLoading = DateTime;
             Transportation.Customer = Customer;
             Transportation.Driver = Driver;
             Transportation.Route = route;
-            Transportation.TransportCompany = TransportCompany;
             Transportation.Car = Car;
             Transportation.Trailler = Trailler;
             Transportation.Price = Payment;

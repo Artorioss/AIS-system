@@ -45,8 +45,8 @@ namespace WpfAppMVVM.Model
             }
         }
 
-        private Brand _carBrand;
-        public Brand CarBrand
+        private CarBrand _carBrand;
+        public CarBrand CarBrand
         {
             get => _carBrand;
             set
@@ -67,8 +67,8 @@ namespace WpfAppMVVM.Model
             }
         }
 
-        private Brand _traillerBrand;
-        public Brand TraillerBrand
+        private TraillerBrand _traillerBrand;
+        public TraillerBrand TraillerBrand
         {
             get => _traillerBrand;
             set

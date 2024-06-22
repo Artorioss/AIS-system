@@ -136,7 +136,6 @@ namespace WpfAppMVVM.ViewModels
             var list = _transportationEntities.Transportations
                 .Include(t => t.Driver)
                 .Include(t => t.Customer)
-                .Include(t => t.TransportCompany)
                 .Include(t => t.StateOrder)
                 .Where(t => t.DateLoading.HasValue &&
                             t.DateLoading.Value >= startDate &&

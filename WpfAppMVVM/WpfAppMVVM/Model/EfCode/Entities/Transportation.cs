@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class Transportation
@@ -13,7 +9,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public int CustomerId { get; set; }
         public int? DriverId { get; set; }
         public int? RouteId { get; set; }
-        public int? TransportCompanyId { get; set; }
+        //public int? TransportCompanyId { get; set; }
         [ForeignKey("Car")]
         public string? CarNumber { get; set; }
         [ForeignKey("Trailler")]
@@ -28,7 +24,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public Route Route { get; set; }
         public Customer Customer { get; set; }
         public Driver Driver { get; set; }
-        public TransportCompany TransportCompany { get; set; }
+        //public TransportCompany TransportCompany { get; set; }
         public StateOrder StateOrder { get; set; }
     }
 }

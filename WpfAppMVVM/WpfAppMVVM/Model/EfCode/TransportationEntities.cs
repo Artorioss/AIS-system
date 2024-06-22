@@ -13,7 +13,8 @@ namespace WpfAppMVVM.Model.EfCode
     public class TransportationEntities : DbContext
     {
         public DbSet<Car> Cars { get; set; }
-        public DbSet<Brand> Brands { get; set; }
+        public DbSet<CarBrand> CarBrands { get; set; }
+        public DbSet<TraillerBrand> TraillerBrands { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Driver> Drivers { get; set; }
         public DbSet<Route> Routes { get; set; }

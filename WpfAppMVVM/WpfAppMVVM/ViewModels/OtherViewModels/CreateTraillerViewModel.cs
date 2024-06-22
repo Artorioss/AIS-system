@@ -19,8 +19,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         Mode _mode;
         
-        private List<Brand> _brandSource;
-        public List<Brand> BrandSource
+        private List<TraillerBrand> _brandSource;
+        public List<TraillerBrand> BrandSource
         {
             get => _brandSource;
             set
@@ -30,7 +30,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public Brand Brand
+        public TraillerBrand Brand
         {
             get => _trailler.Brand;
             set
@@ -76,7 +76,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             settingsUp();
             _trailler = trailler.Clone() as Trailler;
-            BrandSource = new List<Brand>() { trailler.Brand };
+            BrandSource = new List<TraillerBrand>() { trailler.Brand };
             ButtonText = "Обновить запись";
             WindowName = "Редактировать запись";
             _mode = Mode.Editing;   
@@ -101,7 +101,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         private void getBrands(object obj)
         {
             string text = (obj as string).ToLower();
-            BrandSource = _context.Brands.Where(c => c.Name.ToLower().Contains(text) || c.RussianBrandName.ToLower().Contains(text))
+            BrandSource = _context.TraillerBrands.Where(c => c.Name.ToLower().Contains(text) || c.RussianName.ToLower().Contains(text))
                                          .Take(5)
                                          .Select(c => c)
                                          .ToList();
@@ -114,7 +114,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 if (_mode == Mode.Editing)
                 {
                     var existingTrailler = _context.Traillers.Find(_trailler.Number);
-                    existingTrailler.Brand = _context.Brands.Find(Brand.BrandId);
+                    existingTrailler.Brand = _context.TraillerBrands.Find(Brand.TraillerBrandId);
                     existingTrailler.Number = Number;
                 }
                 _context.SaveChanges();

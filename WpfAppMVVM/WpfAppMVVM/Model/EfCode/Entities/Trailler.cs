@@ -12,7 +12,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [Key, Required, MaxLength(8)]
         public string Number { get; set; }
         public int? BrandId { get; set; }
-        public Brand Brand { get; set; }
+        public TraillerBrand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
 
         public object Clone()
@@ -20,11 +20,11 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Trailler newTrailler = (Trailler)MemberwiseClone();
             if (Brand != null)
             {
-                Brand newBrand = new Brand()
+                TraillerBrand newBrand = new TraillerBrand()
                 {
-                    BrandId = Brand.BrandId,
+                    TraillerBrandId = Brand.TraillerBrandId,
                     Name = Brand.Name,
-                    RussianBrandName = Brand.RussianBrandName
+                    RussianName = Brand.RussianName
                 };
                 newTrailler.Brand = newBrand;
             }
