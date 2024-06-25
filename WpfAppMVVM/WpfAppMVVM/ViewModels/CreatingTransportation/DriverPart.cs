@@ -327,5 +327,25 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                             .Take(5)
                             .ToList();
         }
+
+        //------------------------ PaymentMethod --------------------------------
+
+        public bool PaymentIncludingVAT
+        {
+            get => Transportation.PaymentMethodId.HasValue ? Transportation.PaymentMethodId.Value == 1 : false;
+            set 
+            {
+                if (value) Transportation.PaymentMethodId = 1;
+            }
+        }
+
+        public bool PaymentWithNoVAR 
+        {
+            get => Transportation.PaymentMethodId.HasValue ? Transportation.PaymentMethodId.Value == 2 : false;
+            set 
+            {
+                if (value) Transportation.PaymentMethodId = 2;
+            }
+        }
     }
 }

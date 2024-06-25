@@ -30,12 +30,15 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand DeleteCommand { get; set; }
         public DelegateCommand GetItemsByFilter { get; set; }
         public DelegateCommand CopyCommand { get; set; }
+        public DelegateCommand SortCommand {get; set;}
+
+        private MonthService _monthService;
         public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
         private List<StateOrder> _stateOrders;
-        public List<StateOrder> StateOrders 
+        public List<StateOrder> StateOrders
         {
             get => _stateOrders;
-            set 
+            set
             {
                 _stateOrders = value;
                 OnPropertyChanged(nameof(StateOrders));
@@ -46,7 +49,7 @@ namespace WpfAppMVVM.ViewModels
         public StateOrder SelectedState
         {
             get => _selectedState;
-            set 
+            set
             {
                 _selectedState = value;
                 OnPropertyChanged(nameof(SelectedState));
@@ -55,17 +58,28 @@ namespace WpfAppMVVM.ViewModels
         }
 
         private List<int> _years;
-        public List<int> Years 
+        public List<int> Years
         {
             get => _years;
-            set 
+            set
             {
                 _years = value;
                 OnPropertyChanged(nameof(Years));
             }
         }
 
-        private int _selectedYear = DateTime.Now.Year;
+        private List<string> _months;
+        public List<string> Months 
+        {
+            get => _months;
+            set 
+            {
+                _months = value;
+                OnPropertyChanged(nameof(Months));
+            }
+        }
+
+        private int _selectedYear;
         public int SelectedYear 
         {
             get => _selectedYear;
@@ -73,18 +87,28 @@ namespace WpfAppMVVM.ViewModels
             {
                 _selectedYear = value;
                 OnPropertyChanged(nameof(SelectedYear));
-                getItems();
+                setMonthsByYear(value);
             }
         }
 
-        
-        private int _selectedMonth = DateTime.Now.Month - 1;
-        public int SelectedMonth
+        private void setMonthsByYear(int year) 
         {
-            get => _selectedMonth;
+            _months = _monthService.GetMonths(_context.Transportations
+                                                  .Where(t => t.DateLoading.Value.Year == year)
+                                                  .Select(t => t.DateLoading.Value.Month)
+                                                  .Distinct()
+                                                  .ToList());
+            setSelectedMonth();
+            OnPropertyChanged(nameof(Months));
+        }
+
+        private int _selectedMonth;
+        public string SelectedMonth
+        {
+            get => _monthService.GetMonth(_selectedMonth);
             set
             {
-                _selectedMonth = value;
+                _selectedMonth = _monthService.GetMonth(value);
                 OnPropertyChanged(nameof(SelectedMonth));
                 getItems();
             }
@@ -103,8 +127,10 @@ namespace WpfAppMVVM.ViewModels
 
         private void setDate(DateTime dateTime) 
         {
-            _selectedMonth = dateTime.Month - 1;
+            if (!Months.Contains(_monthService.GetMonth(dateTime.Month))) Months.Add(_monthService.GetMonth(dateTime.Month));
+            _selectedMonth = dateTime.Month;
             OnPropertyChanged(nameof(SelectedMonth));
+            if(!Years.Contains(dateTime.Year)) Years.Add(dateTime.Year);
             _selectedYear = dateTime.Year;
             OnPropertyChanged(nameof(SelectedYear));
         }
@@ -113,24 +139,46 @@ namespace WpfAppMVVM.ViewModels
         {
             _transportationEntities = (Application.Current as App)._context;
             ItemsSource = new ObservableCollection<TransportationDTO>();
+
             StateOrders = _context.StateOrders.ToList();
-            SelectedState = StateOrders.First();
+            _selectedState = StateOrders.First();
+            OnPropertyChanged(nameof(SelectedState));
+
+            _monthService = new MonthService();
+            setYears();
+            setSelectedYear();
+
             CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
             ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
             EditData = new DelegateCommand((obj) => showTransportationForEditWindow());
             DeleteCommand = new DelegateCommand((obj) => onDelete());
             CopyCommand = new DelegateCommand((obj) => copy());
+            SortCommand = new DelegateCommand((obj) => onSorting());
+        }
 
+        private void setYears() 
+        {
             Years = _context.Transportations
-                            .Distinct()
                             .Select(t => t.DateLoading.Value.Date.Year)
                             .Distinct()
                             .ToList();
         }
 
+        private void setSelectedYear() 
+        {
+            if (Years.Contains(DateTime.Now.Year)) SelectedYear = DateTime.Now.Year;
+            else SelectedYear = Years.Last();
+        }
+
+        private void setSelectedMonth() 
+        {
+            if (Months.Contains(_monthService.GetMonth(DateTime.Now.Month))) SelectedMonth = _monthService.GetMonth(DateTime.Now.Month);
+            else SelectedMonth = Months.FirstOrDefault();
+        }
+
         private void getItems() 
         {
-            var startDate = new DateTime(SelectedYear, SelectedMonth + 1, 1);
+            var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
 
             var list = _transportationEntities.Transportations
@@ -161,36 +209,41 @@ namespace WpfAppMVVM.ViewModels
 
             if (creatingTransportationViewModel.IsContextChanged)
             {
-                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != SelectedMonth + 1 || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear) 
+                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear) 
                 {
                     DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
                     setDate(date);
                     getItems();
                 }
-                else ItemsSource.Add(_context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId));
+                else ItemsSource.Add(_context.Transportations
+                                             .TransportationToDTO()
+                                             .Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId));
             }
         }
 
         private void showTransportationForEditWindow()
         {
-            CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
-            CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(TransportationDTO.TransportationId);
-            creatingTransportationWindow.DataContext = creatingTransportationViewModel;
-            creatingTransportationWindow.ShowDialog();
-
-            if (creatingTransportationViewModel.IsContextChanged) 
+            if (TransportationDTO != null) 
             {
-                var entity = _context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != SelectedMonth + 1 || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(TransportationDTO.TransportationId);
+                creatingTransportationWindow.DataContext = creatingTransportationViewModel;
+                creatingTransportationWindow.ShowDialog();
+
+                if (creatingTransportationViewModel.IsContextChanged)
                 {
-                    DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
-                    setDate(date);
-                    getItems();                   
+                    var entity = _context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
+                    if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                    {
+                        DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                        setDate(date);
+                        getItems();
+                    }
+                    else ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
+                    ItemsSource.Remove(TransportationDTO);
+                    TransportationDTO = entity;
                 }
-                else ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
-                ItemsSource.Remove(TransportationDTO);
-                TransportationDTO = entity;
-            }       
+            }
         }
 
         private void showWindowReferencesBook()
@@ -216,6 +269,11 @@ namespace WpfAppMVVM.ViewModels
         private void copy() 
         {
             Clipboard.SetText(TransportationDTO.RouteName);
+        }
+
+        private void onSorting() 
+        {
+            TransportationDTO = null;
         }
     }
 }

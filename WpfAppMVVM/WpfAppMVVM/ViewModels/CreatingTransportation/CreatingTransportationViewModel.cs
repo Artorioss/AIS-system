@@ -262,21 +262,23 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         private Route CreateRoute() 
         {
-            Route route = null;
-            List<RoutePoint> list = new List<RoutePoint>();
-            foreach (var item in _routePointBuilder.getRoutes())
+            Route route = _context.Routes.FirstOrDefault(route => route.RouteName == GeneralRoute);
+            if (route == null) 
             {
-                var point = _context.RoutePoints.FirstOrDefault(p => p.Name == item.Name);
-                if (point is null) list.Add(item);
-                else list.Add(point);
+                List<RoutePoint> list = new List<RoutePoint>();
+                foreach (var item in _routePointBuilder.getRoutes())
+                {
+                    var point = _context.RoutePoints.FirstOrDefault(p => p.Name == item.Name);
+                    if (point is null) list.Add(item);
+                    else list.Add(point);
+                }
+
+                if (list.Count > 0) route = new Route()
+                {
+                    RouteName = GeneralRoute,
+                    RoutePoints = list
+                };
             }
-
-            if (list.Count > 0) route = new Route()
-            {
-                RouteName = GeneralRoute,
-                RoutePoints = list
-            };
-
             return route;
         }
     }

@@ -9,13 +9,13 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public int CustomerId { get; set; }
         public int? DriverId { get; set; }
         public int? RouteId { get; set; }
-        //public int? TransportCompanyId { get; set; }
         [ForeignKey("Car")]
         public string? CarNumber { get; set; }
         [ForeignKey("Trailler")]
         public string? TraillerNumber { get; set; }
         public decimal? Price { get; set; }
         public decimal? PaymentToDriver { get; set; }
+        public int? PaymentMethodId { get; set; }
         [MaxLength(512)]
         public string RouteName { get; set; }
         public int StateOrderId { get; set; }
@@ -24,7 +24,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public Route Route { get; set; }
         public Customer Customer { get; set; }
         public Driver Driver { get; set; }
-        //public TransportCompany TransportCompany { get; set; }
         public StateOrder StateOrder { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
     }
 }

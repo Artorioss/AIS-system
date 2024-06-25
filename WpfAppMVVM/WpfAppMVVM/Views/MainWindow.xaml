@@ -26,25 +26,12 @@
             <Button Content="Справочники" Margin="0,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
             <Separator Margin="10,5,10,5"></Separator>
             <Label Content="Месяц"></Label>
-            <ComboBox MinWidth="150" SelectedIndex="{Binding SelectedMonth}">
-                <ComboBoxItem Content="Январь"></ComboBoxItem>
-                <ComboBoxItem Content="Февраль"></ComboBoxItem>
-                <ComboBoxItem Content="Март"></ComboBoxItem>
-                <ComboBoxItem Content="Апрель"></ComboBoxItem>
-                <ComboBoxItem Content="Май"></ComboBoxItem>
-                <ComboBoxItem Content="Июнь"></ComboBoxItem>
-                <ComboBoxItem Content="Июль"></ComboBoxItem>
-                <ComboBoxItem Content="Август"></ComboBoxItem>
-                <ComboBoxItem Content="Сентябрь"></ComboBoxItem>
-                <ComboBoxItem Content="Октябрь"></ComboBoxItem>
-                <ComboBoxItem Content="Ноябрь"></ComboBoxItem>
-                <ComboBoxItem Content="Декабрь"></ComboBoxItem>
-            </ComboBox>
+            <ComboBox MinWidth="150" SelectedItem="{Binding SelectedMonth}" ItemsSource="{Binding Months}"></ComboBox>
             <Label Content="Год"></Label>
             <ComboBox MinWidth="100" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" ></ComboBox>
         </ToolBar>
 
-        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource, Mode=TwoWay}" SelectedItem="{Binding TransportationDTO}" >
+        <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource, Mode=TwoWay}" SelectedItem="{Binding TransportationDTO}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding DateLoading}" Width="0.8*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Заказчик" Binding="{Binding CustomerName}" Width="*"></DataGridTextColumn>
@@ -67,6 +54,10 @@
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
                     Command="{Binding EditData}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="Sorting">
+                    <i:InvokeCommandAction
+                    Command="{Binding SortCommand}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>

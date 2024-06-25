@@ -248,8 +248,8 @@
                     <Label Content="Сумма оплаты"></Label>
                     <TextBox Name="textBoxPayment" MinWidth="150" Margin="0,0,20,0" Grid.Column="1" Text="{Binding PayToDriver}"></TextBox>
 
-                    <RadioButton Name="radioButton1" Grid.Column="2" Content="Без НДС" HorizontalAlignment="Left" Margin="5"></RadioButton>
-                    <RadioButton Name="radioButton2" Grid.Column="3" HorizontalAlignment="Left" Content="С НДС" Margin="5"></RadioButton>
+                    <RadioButton Name="radioButton1" Grid.Column="2" Content="Без НДС" IsChecked="{Binding PaymentWithNoVAR}" HorizontalAlignment="Left" Margin="5"></RadioButton>
+                    <RadioButton Name="radioButton2" Grid.Column="3" HorizontalAlignment="Left" Content="С НДС" IsChecked="{Binding PaymentIncludingVAT}" Margin="5"></RadioButton>
                 </Grid>
             </Grid>
         </GroupBox>

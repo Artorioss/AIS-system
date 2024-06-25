@@ -23,6 +23,7 @@ namespace WpfAppMVVM.Model.EfCode
         public DbSet<Trailler> Traillers { get; set; }
         public DbSet<Transportation> Transportations { get; set; }
         public DbSet<TransportCompany> TransportCompanies { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=Transportations;Username=postgres;Password=qwerty");

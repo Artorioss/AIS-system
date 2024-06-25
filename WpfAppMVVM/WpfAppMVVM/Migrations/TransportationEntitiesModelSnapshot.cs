@@ -147,6 +147,23 @@ namespace WpfAppMVVM.Migrations
                     b.ToTable("Drivers");
                 });
 
+            modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.PaymentMethod", b =>
+                {
+                    b.Property<int>("PaymentMethodId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PaymentMethodId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("PaymentMethodId");
+
+                    b.ToTable("PaymentMethods");
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Route", b =>
                 {
                     b.Property<int>("RouteId")
@@ -275,6 +292,9 @@ namespace WpfAppMVVM.Migrations
                     b.Property<int?>("DriverId")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("PaymentMethodId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal?>("PaymentToDriver")
                         .HasColumnType("numeric");
 
@@ -302,6 +322,8 @@ namespace WpfAppMVVM.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("DriverId");
+
+                    b.HasIndex("PaymentMethodId");
 
                     b.HasIndex("RouteId");
 
@@ -402,6 +424,10 @@ namespace WpfAppMVVM.Migrations
                         .WithMany("Transportation")
                         .HasForeignKey("DriverId");
 
+                    b.HasOne("WpfAppMVVM.Model.EfCode.Entities.PaymentMethod", "PaymentMethod")
+                        .WithMany("Transportations")
+                        .HasForeignKey("PaymentMethodId");
+
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Route", "Route")
                         .WithMany("Transportation")
                         .HasForeignKey("RouteId");
@@ -421,6 +447,8 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("Customer");
 
                     b.Navigation("Driver");
+
+                    b.Navigation("PaymentMethod");
 
                     b.Navigation("Route");
 
@@ -442,6 +470,11 @@ namespace WpfAppMVVM.Migrations
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Driver", b =>
                 {
                     b.Navigation("Transportation");
+                });
+
+            modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.PaymentMethod", b =>
+                {
+                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Route", b =>

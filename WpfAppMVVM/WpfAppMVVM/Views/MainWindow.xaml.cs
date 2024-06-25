@@ -11,5 +11,6 @@ namespace WpfAppMVVM.Views
         {
             InitializeComponent();
         }
+
     }
 }

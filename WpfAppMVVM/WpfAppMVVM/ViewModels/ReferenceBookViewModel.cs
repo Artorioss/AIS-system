@@ -448,14 +448,20 @@ namespace WpfAppMVVM.ViewModels
             ShowWindow = null;
             getData = getRoutes;
             ColumnCollection.Clear();
-            _paginationService.SetQuery(_context.Routes);
+            _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
 
             DataGridTextColumn columnRouteName = new DataGridTextColumn();
             columnRouteName.Header = "Маршрут";
             columnRouteName.Binding = new Binding("RouteName");
             columnRouteName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
+            DataGridTextColumn columnCount = new DataGridTextColumn();
+            columnCount.Header = "Кол-во перевозок";
+            columnCount.Binding = new Binding("Transportations.Count");
+            columnCount.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
+
             ColumnCollection.Add(columnRouteName);
+            ColumnCollection.Add(columnCount);
             ColumnCollection.Add(DataGridColumnDelete);
 
             LoadDataInCollection(_paginationService.GetCurrentPage());
