@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Linq;
+﻿using System.Windows;
+using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
@@ -13,31 +7,72 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
     internal abstract class ReferenceBook: BaseViewModel
     {
         protected TransportationEntities _context;
-        protected Mode _mode;
+        private Mode _mode;
+        Window _wind;
 
-        public ReferenceBook() 
+        public DelegateCommand OnLoadedCommand { get; set; }
+        public DelegateCommand AcceptСhangesCommand { get; set; }
+
+        public Mode mode
         {
-            _context = (Application.Current as App)._context;
+            get => _mode;
+            set 
+            {
+                _mode = value;
+                setButtonText();
+            }
         }
 
-        protected void CreateAction(object obj)
+        private string _buttonText = "Добавить запись";
+        public string ButtonText
+        {
+            get => _buttonText;
+            set
+            {
+                _buttonText = value;
+                OnPropertyChanged(nameof(ButtonText));
+            }
+        }
+
+        public ReferenceBook()
+        {
+            _context = (Application.Current as App)._context;
+            OnLoadedCommand = new DelegateCommand(onLoaded);
+            AcceptСhangesCommand = new DelegateCommand((obj) => action());
+            setCommands();
+        }
+
+        private void onLoaded(object obj) 
+        {
+            _wind = obj as Window;
+        }
+
+        private void setButtonText() 
+        {
+            if (_mode == Mode.Additing) ButtonText = "Создать";
+            else ButtonText = "Сохранить изменения";
+        }
+
+        private void action()
         {
             if (dataIsCorrect())
             {
-                if (_mode == Mode.Editing)
+                try
                 {
-                    updateEntity();
+                    if (_mode == Mode.Additing) addEntity();
+                    else updateEntity();
+                    _context.SaveChanges();
+                    _wind?.Close();
                 }
-                _context.SaveChanges();
-                (obj as Window)?.Close();
-            }
-            else
-            {
-                MessageBox.Show("Неправильно заполнены поля!", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Error);
+                catch (Exception ex) 
+                {
+                    MessageBox.Show($"Не удалось сохранить изменения - {ex.Message}", "Ошибка!", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
         }
-
+        protected abstract void setCommands();
         protected abstract bool dataIsCorrect();
         protected abstract void updateEntity();
+        protected abstract void addEntity();
     }
 }

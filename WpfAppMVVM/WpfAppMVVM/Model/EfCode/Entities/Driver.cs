@@ -9,6 +9,18 @@ namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class Driver : ICloneable
     {
+        public Driver() 
+        {
+            Cars = new List<Car>();
+            Traillers = new List<Trailler>();
+            Transportations = new List<Transportation>();
+        }
+
+        public Driver(Driver driver)
+        {
+            SetFields(driver);
+        }
+
         public int DriverId { get; set; }
         [MaxLength(32)]
         public string Name { get; set; }
@@ -16,46 +28,22 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public TransportCompany TransportCompany { get; set; }
         public ICollection<Car> Cars { get; set; }
         public ICollection<Trailler> Traillers { get; set; }
-        public ICollection<Transportation> Transportation { get; set; }
+        public ICollection<Transportation> Transportations { get; set; }
+
+        public void SetFields(Driver driver) 
+        {
+            DriverId = driver.DriverId;
+            Name = driver.Name;
+            TransportCompanyId = driver.TransportCompanyId;
+            TransportCompany = driver.TransportCompany;
+            Cars = driver.Cars;
+            Traillers = driver.Traillers;
+            Transportations = driver.Transportations;
+        }
 
         public object Clone()
         {
-            Driver newDriver = MemberwiseClone() as Driver;
-            if (TransportCompany != null)
-            {
-                TransportCompany newTransportCompany = new TransportCompany()
-                {
-                    TransportCompanyId = TransportCompany.TransportCompanyId,
-                    Name = TransportCompany.Name,
-                };
-                newDriver.TransportCompany = newTransportCompany;
-            }
-
-            if (Cars != null && Cars.Count > 0)
-            {
-                var newCars = new List<Car>();
-
-                foreach (var item in Cars)
-                {
-                    newCars.Add(item.Clone() as Car);
-                }
-
-                newDriver.Cars = newCars;
-            }
-
-            if (Traillers != null && Traillers.Count > 0)
-            {
-                var newTraillers = new List<Trailler>();
-
-                foreach (var item in Traillers)
-                {
-                    newTraillers.Add(item.Clone() as Trailler);
-                }
-
-                newDriver.Traillers = newTraillers;
-            }
-
-            return newDriver;
+            return new Driver(this);
         }
     }
 }

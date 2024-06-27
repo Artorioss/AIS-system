@@ -48,8 +48,16 @@
 
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Driver}" ItemsSource="{Binding Drivers}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Инициалы" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Компания водителя" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Водитель" Width="*"></DataGridTextColumn>
+                                <DataGridTemplateColumn Header="Удалить" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Удалить"
+                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}"/>      
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

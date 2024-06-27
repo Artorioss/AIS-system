@@ -93,7 +93,8 @@ namespace WpfAppMVVM.ViewModels
             {
                 {typeof(Car), showCarWindow },
                 {typeof(Driver), showDriverWindow},
-                {typeof(Trailler), showTraillerWindow}
+                {typeof(Trailler), showTraillerWindow},
+                {typeof(CarBrand), showCarBrandWindow }
             };
 
             deletedItems = new List<object>();
@@ -246,18 +247,18 @@ namespace WpfAppMVVM.ViewModels
 
         private void showDriverWindow()
         {
-            CreateDriverViewModel createDriverViewModel = new CreateDriverViewModel();
-            CreateDriverWindow createDriverWindow = new CreateDriverWindow();
-            createDriverWindow.DataContext = createDriverViewModel;
-            createDriverWindow.ShowDialog();
+            DriverViewModel driverViewModel = new DriverViewModel();
+            CreateDriverWindow driverWindow = new CreateDriverWindow();
+            driverWindow.DataContext = driverViewModel;
+            driverWindow.ShowDialog();
         }
 
         private void showDriverWindow(object selectedItem)
         {
-            CreateDriverViewModel createDriverViewModel = new CreateDriverViewModel(selectedItem as Driver);
-            CreateDriverWindow createDriverWindow = new CreateDriverWindow();
-            createDriverWindow.DataContext = createDriverViewModel;
-            createDriverWindow.ShowDialog();
+            DriverViewModel driverViewModel = new DriverViewModel(selectedItem as Driver);
+            CreateDriverWindow driverWindow = new CreateDriverWindow();
+            driverWindow.DataContext = driverViewModel;
+            driverWindow.ShowDialog();
         }
 
         private void showTraillerWindow()
@@ -274,6 +275,22 @@ namespace WpfAppMVVM.ViewModels
             CreateTraillerWindow createTraillerWindow = new CreateTraillerWindow();
             createTraillerWindow.DataContext = createTraillerViewModel;
             createTraillerWindow.ShowDialog();
+        }
+
+        private void showCarBrandWindow() 
+        {
+            CarBrandViewModel carBrandViewModel = new CarBrandViewModel();
+            CarBrandWindow brandWindow = new CarBrandWindow();
+            brandWindow.DataContext = carBrandViewModel;
+            brandWindow.ShowDialog();
+        }
+
+        private void showCarBrandWindow(object selectedItem)
+        {
+            CarBrandViewModel carBrandViewModel = new CarBrandViewModel(selectedItem as CarBrand);
+            CarBrandWindow brandWindow = new CarBrandWindow();
+            brandWindow.DataContext = carBrandViewModel;
+            brandWindow.ShowDialog();
         }
 
         private void deleteItem(object sender, EventArgs e) 
@@ -333,7 +350,7 @@ namespace WpfAppMVVM.ViewModels
 
             DataGridTextColumn columnRussianBrandName = new DataGridTextColumn();
             columnRussianBrandName.Header = "Русское название";
-            columnRussianBrandName.Binding = new Binding("RussianBrandName") { Mode = BindingMode.TwoWay };
+            columnRussianBrandName.Binding = new Binding("RussianName") { Mode = BindingMode.TwoWay };
             columnRussianBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
             ColumnCollection.Add(columnName);
@@ -348,7 +365,7 @@ namespace WpfAppMVVM.ViewModels
         {
             saveChanges();
             IsReadOnly = false;
-            ShowWindow = null;
+            ShowWindow = showCarBrandWindow;
             getData = getCarBrands;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.CarBrands);
@@ -360,7 +377,7 @@ namespace WpfAppMVVM.ViewModels
 
             DataGridTextColumn columnRussianBrandName = new DataGridTextColumn();
             columnRussianBrandName.Header = "Русское название";
-            columnRussianBrandName.Binding = new Binding("RussianBrandName") { Mode = BindingMode.TwoWay };
+            columnRussianBrandName.Binding = new Binding("RussianName") { Mode = BindingMode.TwoWay };
             columnRussianBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
             ColumnCollection.Add(columnName);

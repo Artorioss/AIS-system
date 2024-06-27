@@ -7,9 +7,17 @@
         xmlns:model="clr-namespace:WpfAppMVVM.Model"
         xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
         xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
-        xmlns:vm="clr-namespace:WpfAppMVVM.ViewModels.OtherViewModels" xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="{Binding WindowName}" ResizeMode="NoResize" Height="600" Width="600" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                CommandParameter="{Binding ElementName=Window}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -30,7 +38,7 @@
 
                 <Grid Grid.ColumnSpan="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -180,7 +188,7 @@
                 </GroupBox>
             </Grid>
         </GroupBox>
-        <Button Height="30" Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding CreateDriver}" CommandParameter="{Binding ElementName=Window}"></Button>
+        <Button Height="30" Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding AcceptСhangesCommand}"></Button>
     </Grid>
 </Window>
 
