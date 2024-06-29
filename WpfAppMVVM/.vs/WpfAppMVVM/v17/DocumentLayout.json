@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\views\\otherviews\\traillerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\traillerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\otherviewmodels\\traillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\traillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\carbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\carbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\traillerbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\traillerbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\model\\efcode\\entities\\traillerbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -29,10 +49,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\createtraillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\createtraillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\otherviewmodels\\createbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -57,10 +73,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\traillerbrandwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\traillerbrandwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\driver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -90,7 +102,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -99,58 +111,44 @@
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "TraillerBrandViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "ViewState": "AQIAAD4AAAAAAAAAAAAUwFEAAAAMAAAA",
+              "Title": "BaseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\BaseViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\BaseViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\BaseViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\BaseViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T14:30:09.736Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CarBrandViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "ViewState": "AQIAAEAAAAAAAAAAAAAAwFEAAAA4AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T09:33:55.05Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Car.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "ViewState": "AQIAABMAAAAAAAAAAAAQwCMAAAAdAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T11:45:43.632Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "CarBrand.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T09:04:41.583Z",
+              "WhenOpened": "2024-06-29T15:37:58.518Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "TraillerViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAA2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T15:30:36.522Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TraillerWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\TraillerWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\TraillerWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-06-29T15:28:34.208Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "TraillerBrand.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
@@ -163,59 +161,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CreateTraillerViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
-              "ViewState": "AQIAADgAAAAAAAAAAAAswE0AAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T14:30:12.225Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CarViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAABwAAAAmAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-28T08:49:27.812Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "ReferenceBookViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "ViewState": "AQIAACEBAAAAAAAAAAAiwDcBAABRAAAA",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs*",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs*",
+              "ViewState": "AQIAAO4BAAAAAAAAAAAAAAsCAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-29T14:39:52.399Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "CreateBrandViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-29T15:18:17.404Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 13,
               "Title": "ReferenceBook.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
@@ -228,31 +187,71 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "CarViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
+              "ViewState": "AQIAAMAAAAAAAAAAAAAIwOgAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T08:49:27.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CarBrand.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
+              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAjAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T09:04:41.583Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "TraillerBrandWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-29T14:26:37.056Z",
+              "Title": "Car.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
+              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
+              "ViewState": "AQIAABMAAAAAAAAAAAAQwCMAAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T11:45:43.632Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CarBrandWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "DocumentIndex": 5,
+              "Title": "CarWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-29T15:03:20.024Z",
+              "WhenOpened": "2024-06-28T08:57:41.627Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 6,
+              "Title": "CarBrandViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAAwE4AAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-28T09:33:55.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
               "Title": "Trailler.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
@@ -265,7 +264,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 17,
               "Title": "TraillerBrandWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml.cs",
@@ -278,17 +277,69 @@
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "CarWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
+              "Title": "TraillerBrandWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\TraillerBrandWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-28T08:57:41.627Z"
+              "WhenOpened": "2024-06-29T14:26:37.056Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
+              "Title": "CarBrandWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-06-29T15:03:20.024Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TraillerBrandViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAUwFEAAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:30:09.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CreateTraillerViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateTraillerViewModel.cs",
+              "ViewState": "AQIAADgAAAAAAAAAAAAswE0AAAAMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T14:30:12.225Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "CreateBrandViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CreateBrandViewModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-29T15:18:17.404Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "DriverViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
@@ -300,7 +351,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 18,
               "Title": "Driver.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
@@ -312,7 +363,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 20,
               "Title": "DriverWindow.xaml",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
@@ -323,7 +374,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "CustomComboBox.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
@@ -335,7 +386,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 22,
               "Title": "Account.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Account.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Account.cs",

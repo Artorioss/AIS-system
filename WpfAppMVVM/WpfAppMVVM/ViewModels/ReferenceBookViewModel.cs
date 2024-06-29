@@ -93,7 +93,7 @@ namespace WpfAppMVVM.ViewModels
             {
                 {typeof(Car), showCarWindow },
                 {typeof(Driver), showDriverWindow},
-                //{typeof(Trailler), showTraillerWindow},
+                {typeof(Trailler), showTraillerWindow},
                 {typeof(CarBrand), showCarBrandWindow },
                 {typeof(TraillerBrand), showTraillerBrandWindow }
             };
@@ -260,6 +260,22 @@ namespace WpfAppMVVM.ViewModels
             DriverWindow driverWindow = new DriverWindow();
             driverWindow.DataContext = driverViewModel;
             driverWindow.ShowDialog();
+        }
+
+        private void showTraillerWindow()
+        {
+            TraillerViewModel traillerViewModel = new TraillerViewModel();
+            TraillerWindow traillerWindow = new TraillerWindow();
+            traillerWindow.DataContext = traillerViewModel;
+            traillerWindow.ShowDialog();
+        }
+
+        private void showTraillerWindow(object selectedItem)
+        {
+            TraillerViewModel traillerViewModel = new TraillerViewModel(selectedItem as Trailler);
+            TraillerWindow traillerWindow = new TraillerWindow();
+            traillerWindow.DataContext = traillerViewModel;
+            traillerWindow.ShowDialog();
         }
 
         private void showTraillerBrandWindow()
@@ -505,7 +521,7 @@ namespace WpfAppMVVM.ViewModels
         {
             saveChanges();
             IsReadOnly = true;
-            //ShowWindow = showTraillerWindow;
+            ShowWindow = showTraillerWindow;
             getData = getTraillers;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
