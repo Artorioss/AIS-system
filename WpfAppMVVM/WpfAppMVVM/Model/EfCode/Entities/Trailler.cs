@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
@@ -15,20 +10,27 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public TraillerBrand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
 
+        public Trailler() 
+        {
+            Drivers = new HashSet<Driver>();
+        }
+
+        public Trailler(Trailler trailler)
+        {
+            SetFields(trailler);
+        }
+
+        public void SetFields(Trailler trailler) 
+        {
+            Number = trailler.Number;
+            BrandId = trailler.BrandId;
+            Brand = trailler.Brand;
+            Drivers = trailler.Drivers;
+        }
+
         public object Clone()
         {
-            Trailler newTrailler = (Trailler)MemberwiseClone();
-            if (Brand != null)
-            {
-                TraillerBrand newBrand = new TraillerBrand()
-                {
-                    TraillerBrandId = Brand.TraillerBrandId,
-                    Name = Brand.Name,
-                    RussianName = Brand.RussianName
-                };
-                newTrailler.Brand = newBrand;
-            }
-            return newTrailler;
+            return new Trailler(this);
         }
     }
 }

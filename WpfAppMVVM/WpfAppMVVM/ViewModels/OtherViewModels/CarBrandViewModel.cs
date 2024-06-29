@@ -78,6 +78,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public CarBrandViewModel(CarBrand brand) 
         {
             mode = Mode.Editing;
+
+            _context.Entry(brand).Collection(b => b.Cars).Load();
+
             _brand = brand.Clone() as CarBrand;
             Cars = new ObservableCollection<Car>(_brand.Cars);
             WindowName = "Редактирование бренда";

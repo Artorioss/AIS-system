@@ -231,3 +231,5 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CarBrandWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\DriverWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\DriverWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\TraillerBrandWindow.g.cs
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\TraillerBrandWindow.baml
