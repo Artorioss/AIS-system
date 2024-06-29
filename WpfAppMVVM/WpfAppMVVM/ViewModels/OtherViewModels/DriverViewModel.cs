@@ -161,6 +161,18 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 OnPropertyChanged(nameof(TransportCompany));
             }
         }
+
+        private string _companyText;
+        public string CompanyText 
+        {
+            get => _companyText;
+            set 
+            {
+                _companyText = value;
+                OnPropertyChanged(nameof(CompanyText));
+            }
+        }
+
         public string Name 
         {
             get => _driver.Name;
@@ -348,6 +360,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if (Trailler is null) Trailler = new Trailler { Number = TraillerText };
         }
 
+        private void createCompany() 
+        {
+            TransportCompany = TransportCompanySource.SingleOrDefault(company => company.Name.ToLower() == CompanyText);
+            if(TransportCompany is null) TransportCompany = _context.TransportCompanies.SingleOrDefault(company => company.Name.ToLower() == CompanyText.ToLower());
+            if (TransportCompany is null) TransportCompany = new TransportCompany { Name = CompanyText };
+        }
+
         private void deleteCar(object obj) 
         {
             _driver.Cars.Remove(obj as Car);
@@ -367,11 +386,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 MessageBox.Show("Неверно указаны инициалы водителя.", "Неправильно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
-            if (TransportCompany is null) 
+            if (string.IsNullOrEmpty(CompanyText)) 
             {
                 MessageBox.Show("Неверно указана компания водителя.", "Неправильно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return false;
             }
+            if (TransportCompany is null) createCompany();
 
             var car = Cars.FirstOrDefault(c => c.Brand == null); 
             if(car != null) 

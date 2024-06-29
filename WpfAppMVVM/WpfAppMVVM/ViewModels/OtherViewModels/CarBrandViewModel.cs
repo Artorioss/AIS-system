@@ -12,7 +12,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         private CarBrand _brand;
         public ObservableCollection<Car> Cars { get; set; }
         public DelegateCommand AddCarCommand { get; set; }
-        public DelegateCommand AddCarByKeyboard { get; set; }
+        public DelegateCommand AddCarByKeyboardCommand { get; set; }
         public DelegateCommand GetCarSourceCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
 
@@ -86,7 +86,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         protected override void setCommands() 
         {
             AddCarCommand = new DelegateCommand((obj) => addCar());
-            AddCarByKeyboard = new DelegateCommand(addCarByKeyboard);
+            AddCarByKeyboardCommand = new DelegateCommand(addCarByKeyboard);
             GetCarSourceCommand = new DelegateCommand(getCars);
             DeleteCommand = new DelegateCommand(deleteCar);
         }

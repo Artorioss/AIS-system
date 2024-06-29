@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\App.xaml
-9-1245587096
+102058739577
 
-87-1605439895
+88-869489278
 213750851597
-Views\CreatingAccountWindow.xaml;Views\CreatingTransportationWindow.xaml;Views\MainWindow.xaml;Views\OtherViews\CarBrandWindow.xaml;Views\OtherViews\CarWindow.xaml;Views\OtherViews\CreateCarWindow.xaml;Views\OtherViews\CreateDriverWindow.xaml;Views\OtherViews\CreateTraillerWindow.xaml;Views\WindowReferencesBook.xaml;
+Views\CreatingAccountWindow.xaml;Views\CreatingTransportationWindow.xaml;Views\MainWindow.xaml;Views\OtherViews\CarBrandWindow.xaml;Views\OtherViews\CarWindow.xaml;Views\OtherViews\CreateCarWindow.xaml;Views\OtherViews\CreateTraillerWindow.xaml;Views\OtherViews\DriverWindow.xaml;Views\OtherViews\TraillerWindow.xaml;Views\WindowReferencesBook.xaml;
 
 True
 

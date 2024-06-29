@@ -202,7 +202,6 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\MainWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CarWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarWindow.g.cs
-C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateDriverWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateTraillerWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\WindowReferencesBook.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\App.g.cs
@@ -214,7 +213,6 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\MainWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CarWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateCarWindow.baml
-C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateDriverWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CreateTraillerWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\WindowReferencesBook.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\WpfAppMVVM.g.resources
@@ -231,3 +229,5 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\ref\WpfAppMVVM.dll
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CarBrandWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\CarBrandWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\DriverWindow.g.cs
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\DriverWindow.baml

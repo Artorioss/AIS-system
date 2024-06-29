@@ -1,0 +1,194 @@
+﻿<Window x:Class="WpfAppMVVM.Views.OtherViews.DriverWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
+        xmlns:model="clr-namespace:WpfAppMVVM.Model"
+        xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="{Binding WindowName}" ResizeMode="NoResize" Height="600" Width="600" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                CommandParameter="{Binding ElementName=Window}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Введите данные" Margin="5">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.ColumnSpan="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="auto"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Content="Инициалы водителя" Margin="5" Grid.Column="0"></Label>
+                    <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
+
+                    <Label Content="Компания" Margin="5" Grid.Row="1" Grid.Column="2"></Label>
+                    <CustomComponents:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}" Text="{Binding CompanyText, Mode=OneWayToSource}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="CustomEvent">
+                                <i:InvokeCommandAction
+                                  Command="{Binding GetCustomers}"
+                                  CommandParameter="{Binding Text, ElementName=comboBoxTransportCompanies}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </CustomComponents:CustomComboBox>
+
+                </Grid>
+                <GroupBox Header="Транспорт водителя" Grid.Row="1" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Номер машины" Grid.Column="0" Margin="5"></Label>
+                        <CustomComponents:CustomComboBox x:Name="comboBoxCars" Margin="5" Grid.Column="1" DisplayMemberPath="Number" Text="{Binding CarText}" ItemsSource="{Binding CarSource}" SelectedItem="{Binding Car}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="CustomEvent">
+                                    <i:InvokeCommandAction
+                                       Command="{Binding GetCars}"
+                                       CommandParameter="{Binding Text, ElementName=comboBoxCars}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:KeyUpWithArgsBehavior
+                                KeyUpCommand="{Binding AddCarByKeyboard}" />
+                            </i:Interaction.Behaviors>
+                        </CustomComponents:CustomComboBox>
+
+                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddCar}"></Button>
+
+                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Car}" ItemsSource="{Binding Cars}" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Номер машины" Width="*" Binding="{Binding Number}" IsReadOnly="True"></DataGridTextColumn>
+
+                                <DataGridTemplateColumn Header="Марка машины" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnCarBrands" SelectedItem="{Binding DataContext.SelectedCarBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.CarBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="CustomEvent">
+                                                        <i:InvokeCommandAction
+                                                           Command="{Binding DataContext.GetCarBrands, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                           CommandParameter="{Binding Text, ElementName=comboBoxColumnCarBrands}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CustomComponents:CustomComboBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Header="Удалить" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Удалить"
+                                                Command="{Binding DataContext.DeleteCar, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Прицепы водителя" Grid.Row="2" Grid.ColumnSpan="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="0.8*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Номер прицепа" Grid.Column="0" Margin="5"></Label>
+                        <CustomComponents:CustomComboBox Margin="5" Grid.Column="1" x:Name="ComboBoxTraillers" DisplayMemberPath="Number" Text="{Binding TraillerText}" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="CustomEvent">
+                                    <i:InvokeCommandAction
+                                       Command="{Binding GetTraillers}"
+                                       CommandParameter="{Binding Text, ElementName=ComboBoxTraillers}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:KeyUpWithArgsBehavior
+                                KeyUpCommand="{Binding AddTraillerByKeyboard}" />
+                            </i:Interaction.Behaviors>
+                        </CustomComponents:CustomComboBox>
+                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddTrailler}"></Button>
+
+                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Trailler}" ItemsSource="{Binding Traillers}" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Номер прицепа" Width="*" Binding="{Binding Number}" IsReadOnly="True"></DataGridTextColumn>
+                                
+                                <DataGridTemplateColumn Header="Марка прицепа" Width="*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnTraillerBrands" SelectedItem="{Binding DataContext.SelectedTraillerBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.TraillerBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
+                                                <i:Interaction.Triggers>
+                                                    <i:EventTrigger EventName="CustomEvent">
+                                                        <i:InvokeCommandAction
+                                                           Command="{Binding DataContext.GetTraillerBrands, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                           CommandParameter="{Binding Text, ElementName=comboBoxColumnTraillerBrands}"/>
+                                                    </i:EventTrigger>
+                                                </i:Interaction.Triggers>
+                                            </CustomComponents:CustomComboBox>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Header="Удалить" Width="70">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Удалить"
+                                                Command="{Binding DataContext.DeleteTrailler, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                CommandParameter="{Binding}">
+                                            </Button>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </GroupBox>
+            </Grid>
+        </GroupBox>
+        <Button Height="30" Grid.Row="1" Content="{Binding ButtonText}" Margin="5" Command="{Binding AcceptСhangesCommand}"></Button>
+    </Grid>
+</Window>
+

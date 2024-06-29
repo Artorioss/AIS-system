@@ -22,7 +22,7 @@ namespace WpfAppMVVM.CustomComponents
         {
             _updateTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(300),
+                Interval = TimeSpan.FromMilliseconds(300)
             };
             _updateTimer.Tick += UpdateTimer_Tick;
         }
@@ -137,25 +137,6 @@ namespace WpfAppMVVM.CustomComponents
                     _bufType = ItemsSource.GetType().GenericTypeArguments[0];
                 }
             }
-        }
-
-        //private Type GetGenericCollectionElementType(object collection)
-        //{
-        //    var type = collection.GetType();
-        //    if (type.IsGenericType)
-        //    {
-        //        var genericArguments = type.GetGenericArguments();
-        //        if (genericArguments.Length > 0)
-        //        {
-        //            return genericArguments[0];
-        //        }
-        //    }
-        //    return null;
-        //}
-
-        private Type GetListElementType<T>(List<T> list)
-        {
-            return typeof(T);
         }
 
         private bool existElements() 

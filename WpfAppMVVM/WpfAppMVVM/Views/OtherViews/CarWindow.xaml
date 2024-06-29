@@ -6,18 +6,29 @@
         xmlns:local="clr-namespace:WpfAppMVVM.Views.OtherViews"
         xmlns:CustomComponents="clr-namespace:WpfAppMVVM.CustomComponents"
         mc:Ignorable="d"
-        Title="Создание автомобиля" Height="auto" Width="500" FontSize="16">
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+        xmlns:Behaviors="clr-namespace:WpfAppMVVM.Behaviors"
+        Title="{Binding WindowName}" Name="window" Height="450" Width="500" FontSize="16" ResizeMode="NoResize">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction
+                Command="{Binding OnLoadedCommand}"
+                CommandParameter="{Binding ElementName=window}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <GroupBox Header="Введите данные" Margin="5">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -25,16 +36,24 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Номер машины" Margin="5" Grid.Column="0"></Label>
-                <TextBox Grid.Column="1" Margin="5"></TextBox>
+                <TextBox Grid.Column="1" Margin="5" Text="{Binding CarNumber}" IsEnabled="{Binding NumberIsEnabled}"></TextBox>
 
                 <Label Content="Бренд машины" Margin="5" Grid.Row="1"></Label>
-                <CustomComponents:CustomComboBox Grid.Column="1" Margin="5" Grid.Row="1"></CustomComponents:CustomComboBox>
+                <CustomComponents:CustomComboBox x:Name="comboBoxBrands" Grid.Column="1" Margin="5" Grid.Row="1" ItemsSource="{Binding BrandSource}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedCarBrand}" Text="{Binding BrandText, Mode=OneWayToSource}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="CustomEvent">
+                            <i:InvokeCommandAction
+                                 Command="{Binding GetBrandsCommand}"
+                                 CommandParameter="{Binding Text, ElementName=comboBoxBrands}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </CustomComponents:CustomComboBox>
 
                 <GroupBox Header="Водители" Grid.Row="2" Grid.ColumnSpan="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"></RowDefinition>
-                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
@@ -43,12 +62,24 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Инициалы водителя" Grid.Column="0" Grid.Row="0" Margin="5"></Label>
-                        <CustomComponents:CustomComboBox Grid.Column="1" Grid.Row="0" Margin="5"></CustomComponents:CustomComboBox>
-                        <Button Content="Добавить" Grid.Column="2" Margin="5" MinHeight="30"></Button>
+                        <CustomComponents:CustomComboBox x:Name="comboBoxDrivers" DisplayMemberPath="Name" Text="{Binding DriverName}" ItemsSource="{Binding DriverSource}" SelectedItem="{Binding SelectedDriver}" Grid.Column="1" Grid.Row="0" Margin="5">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="CustomEvent">
+                                    <i:InvokeCommandAction
+                                         Command="{Binding GetDriversCommand}"
+                                         CommandParameter="{Binding Text, ElementName=comboBoxDrivers}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            <i:Interaction.Behaviors>
+                                <Behaviors:KeyUpWithArgsBehavior
+                                        KeyUpCommand="{Binding AddDriverByKeyboardCommand}" />
+                            </i:Interaction.Behaviors>
+                        </CustomComponents:CustomComboBox>
+                        <Button Content="Добавить" Grid.Column="2" Margin="5" MinHeight="30" Command="{Binding AddDriverCommand}"></Button>
 
-                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Driver}" ItemsSource="{Binding Drivers}" AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" ItemsSource="{Binding Drivers}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Водитель" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Водитель" Width="*" Binding="{Binding Name}"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="Удалить" Width="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -65,6 +96,6 @@
             </Grid>
         </GroupBox>
 
-        <Button Content="Добавить" Grid.Row="3" Height="30" Margin="5" Grid.ColumnSpan="2"></Button>
+        <Button Content="{Binding ButtonText}" Grid.Row="3" Height="30" Margin="5" Grid.ColumnSpan="2" Command="{Binding AcceptСhangesCommand}"></Button>
     </Grid>
 </Window>

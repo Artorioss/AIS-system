@@ -231,24 +231,24 @@ namespace WpfAppMVVM.ViewModels
 
         private void showCarWindow() 
         {
-            CreateCarViewModel createCarViewModel = new CreateCarViewModel();
-            CreateCarWindow createCarWindow = new CreateCarWindow();
-            createCarWindow.DataContext = createCarViewModel;
-            createCarWindow.ShowDialog();
+            CarViewModel carViewModel = new CarViewModel();
+            CarWindow carWindow = new CarWindow();
+            carWindow.DataContext = carViewModel;
+            carWindow.ShowDialog();
         }
 
         private void showCarWindow(object selectedItem)
         {
-            CreateCarViewModel createCarViewModel = new CreateCarViewModel(selectedItem as Car);
-            CreateCarWindow createCarWindow = new CreateCarWindow();
-            createCarWindow.DataContext = createCarViewModel;
-            createCarWindow.ShowDialog();
+            CarViewModel carViewModel = new CarViewModel(selectedItem as Car);
+            CarWindow carWindow = new CarWindow();
+            carWindow.DataContext = carViewModel;
+            carWindow.ShowDialog();
         }
 
         private void showDriverWindow()
         {
             DriverViewModel driverViewModel = new DriverViewModel();
-            CreateDriverWindow driverWindow = new CreateDriverWindow();
+            DriverWindow driverWindow = new DriverWindow();
             driverWindow.DataContext = driverViewModel;
             driverWindow.ShowDialog();
         }
@@ -256,7 +256,7 @@ namespace WpfAppMVVM.ViewModels
         private void showDriverWindow(object selectedItem)
         {
             DriverViewModel driverViewModel = new DriverViewModel(selectedItem as Driver);
-            CreateDriverWindow driverWindow = new CreateDriverWindow();
+            DriverWindow driverWindow = new DriverWindow();
             driverWindow.DataContext = driverViewModel;
             driverWindow.ShowDialog();
         }
@@ -320,14 +320,8 @@ namespace WpfAppMVVM.ViewModels
             columnNumber.Binding = new Binding("Number");
             columnNumber.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
 
-            DataGridCheckBoxColumn columnIsTrack = new DataGridCheckBoxColumn();
-            columnIsTrack.Header = "Тягач";
-            columnIsTrack.Binding = new Binding("IsTruck");
-            columnIsTrack.Width = new DataGridLength(50, DataGridLengthUnitType.Auto);
-
             ColumnCollection.Add(columnCarBrand);
             ColumnCollection.Add(columnNumber);
-            ColumnCollection.Add(columnIsTrack);
             ColumnCollection.Add(DataGridColumnDelete);
 
             LoadDataInCollection(_paginationService.GetCurrentPage());
