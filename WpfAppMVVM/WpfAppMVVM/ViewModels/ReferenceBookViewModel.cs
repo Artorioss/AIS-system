@@ -95,7 +95,8 @@ namespace WpfAppMVVM.ViewModels
                 {typeof(Driver), showDriverWindow},
                 {typeof(Trailler), showTraillerWindow},
                 {typeof(CarBrand), showCarBrandWindow },
-                {typeof(TraillerBrand), showTraillerBrandWindow }
+                {typeof(TraillerBrand), showTraillerBrandWindow },
+                {typeof(Customer), showCustomerWindow }
             };
 
             deletedItems = new List<object>();
@@ -310,6 +311,22 @@ namespace WpfAppMVVM.ViewModels
             brandWindow.ShowDialog();
         }
 
+        private void showCustomerWindow() 
+        {
+            CustomerViewModel customerViewModel = new CustomerViewModel();
+            CustomerWindow customerWindow = new CustomerWindow();
+            customerWindow.DataContext = customerViewModel;
+            customerWindow.ShowDialog();
+        }
+
+        private void showCustomerWindow(object selectedItem) 
+        {
+            CustomerViewModel customerViewModel = new CustomerViewModel(selectedItem as Customer);
+            CustomerWindow customerWindow = new CustomerWindow();
+            customerWindow.DataContext = customerViewModel;
+            customerWindow.ShowDialog();
+        }
+
         private void deleteItem(object sender, EventArgs e) 
         {
             _context.Remove(SelectedItem);
@@ -375,7 +392,7 @@ namespace WpfAppMVVM.ViewModels
         private void getCarBrandsData()
         {
             saveChanges();
-            IsReadOnly = false;
+            IsReadOnly = true;
             ShowWindow = showCarBrandWindow;
             getData = getCarBrands;
             ColumnCollection.Clear();
@@ -402,8 +419,8 @@ namespace WpfAppMVVM.ViewModels
         private void getCustomersData()
         {
             saveChanges();
-            IsReadOnly = false;
-            ShowWindow = null;
+            IsReadOnly = true;
+            ShowWindow = showCustomerWindow;
             getData = getCustomers;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Customers);
