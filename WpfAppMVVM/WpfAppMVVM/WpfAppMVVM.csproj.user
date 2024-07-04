@@ -25,6 +25,12 @@
     <Compile Update="Views\OtherViews\RoutePointWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherViews\RouteWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\OtherViews\StateWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\OtherViews\TraillerBrandWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -52,6 +58,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\RoutePointWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\RouteWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\StateWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\TraillerBrandWindow.xaml">

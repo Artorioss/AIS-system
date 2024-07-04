@@ -18,7 +18,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
 
         public Car(Car car)
         {
-            setFields(car);
+            SetFields(car);
         }
 
         [Key, Required, MaxLength(9)]
@@ -28,7 +28,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public CarBrand Brand { get; set; }
         public ICollection<Driver> Drivers { get; set; }
 
-        public void setFields(Car car) 
+        public void SetFields(Car car) 
         {
             Number = car.Number;
             BrandId = car.BrandId;

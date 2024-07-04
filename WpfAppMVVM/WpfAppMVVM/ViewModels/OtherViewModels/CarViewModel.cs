@@ -229,7 +229,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         protected override void updateEntity()
         {
             var car = _context.Cars.Find(_car.Number);
-            car.setFields(_car);
+            car.SetFields(_car);
         }
     }
 }
