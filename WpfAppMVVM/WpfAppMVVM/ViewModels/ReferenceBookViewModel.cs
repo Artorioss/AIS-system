@@ -98,7 +98,8 @@ namespace WpfAppMVVM.ViewModels
                 {typeof(TraillerBrand), showTraillerBrandWindow },
                 {typeof(Customer), showCustomerWindow },
                 {typeof(RoutePoint), showRoutePointWindow},
-                {typeof(Route), showRouteWindow }
+                {typeof(Route), showRouteWindow },
+                { typeof(StateOrder), showStateOrderWindow}
 
             };
 
@@ -362,6 +363,23 @@ namespace WpfAppMVVM.ViewModels
             routeWindow.ShowDialog();
         }
 
+        private void showStateOrderWindow()
+        {
+            StateOrderViewModel stateOrderViewModel = new StateOrderViewModel();
+            StateWindow stateWindow = new StateWindow();
+            stateWindow.DataContext = stateOrderViewModel;
+            stateWindow.ShowDialog();
+        }
+
+        private void showStateOrderWindow(object selectedItem)
+        {
+            StateOrderViewModel stateOrderViewModel = new StateOrderViewModel(selectedItem as StateOrder);
+            StateWindow stateWindow = new StateWindow();
+            stateWindow.DataContext = stateOrderViewModel;
+            stateWindow.ShowDialog();
+        }
+
+
         private void deleteItem(object sender, EventArgs e) 
         {
             _context.Remove(SelectedItem);
@@ -551,8 +569,8 @@ namespace WpfAppMVVM.ViewModels
         private void getStateOrdersData()
         {
             saveChanges();
-            IsReadOnly = false;
-            ShowWindow = null;
+            IsReadOnly = true;
+            ShowWindow = showStateOrderWindow;
             getData = null;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.StateOrders);

@@ -42,7 +42,7 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Margin="3" Content="Название состояния" Grid.Column="0"></Label>
-                    <TextBox Margin="3" Grid.Column="1" Width="300" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding CustomerName}"></TextBox>
+                    <TextBox Margin="3" Grid.Column="1" Width="300" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding StateOrderName}"></TextBox>
                 </Grid>
 
                 <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Заявки" Margin="3,0,3,3" IsEnabled="{Binding GroupElementsIsEnabled}">

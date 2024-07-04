@@ -241,3 +241,5 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\RoutePointWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\RouteWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\RouteWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\StateWindow.g.cs
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\StateWindow.baml
