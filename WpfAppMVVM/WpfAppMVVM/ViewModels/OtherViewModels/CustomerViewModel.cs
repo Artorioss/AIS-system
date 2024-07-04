@@ -3,8 +3,6 @@ using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
-using WpfAppMVVM.Models;
-using WpfAppMVVM.Models.QueryObjects;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
 

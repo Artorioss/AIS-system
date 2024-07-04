@@ -96,7 +96,8 @@ namespace WpfAppMVVM.ViewModels
                 {typeof(Trailler), showTraillerWindow},
                 {typeof(CarBrand), showCarBrandWindow },
                 {typeof(TraillerBrand), showTraillerBrandWindow },
-                {typeof(Customer), showCustomerWindow }
+                {typeof(Customer), showCustomerWindow },
+                {typeof(RoutePoint), showRoutePointWindow}
             };
 
             deletedItems = new List<object>();
@@ -327,6 +328,22 @@ namespace WpfAppMVVM.ViewModels
             customerWindow.ShowDialog();
         }
 
+        private void showRoutePointWindow()
+        {
+            RoutePointViewModel routePointViewModel = new RoutePointViewModel();
+            RoutePointWindow routePointWindow = new RoutePointWindow();
+            routePointWindow.DataContext = routePointViewModel;
+            routePointWindow.ShowDialog();
+        }
+
+        private void showRoutePointWindow(object selectedItem)
+        {
+            RoutePointViewModel routePointViewModel = new RoutePointViewModel(selectedItem as RoutePoint);
+            RoutePointWindow routePointWindow = new RoutePointWindow();
+            routePointWindow.DataContext = routePointViewModel;
+            routePointWindow.ShowDialog();
+        }
+
         private void deleteItem(object sender, EventArgs e) 
         {
             _context.Remove(SelectedItem);
@@ -468,8 +485,8 @@ namespace WpfAppMVVM.ViewModels
         private void getRoutePointsData()
         {
             saveChanges();
-            IsReadOnly = false;
-            ShowWindow = null;
+            IsReadOnly = true;
+            ShowWindow = showRoutePointWindow;
             getData = getRoutePoints;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.RoutePoints);
