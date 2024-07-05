@@ -51,9 +51,7 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand GetPreviosPage { get; private set; }
 
         public delegate void ShowWindowFunction();
-        private delegate void GetData(string text);
         private ShowWindowFunction ShowWindow;
-        private GetData getData; //Для поиска
         private TransportationEntities _context;
         private Type _currentTypeEntity;
         private bool _existСhanges = false;
@@ -173,7 +171,7 @@ namespace WpfAppMVVM.ViewModels
 
         public string CountPages 
         {
-            get => $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}";
+            get => _paginationService.CountPages > 0 ? $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}" : "Данные не найдены";
         } 
 
         private void getNextPage() 
@@ -409,9 +407,12 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showCarWindow;
-            getData = getCars;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Cars.Include(car => car.Brand));
+            _paginationService.SetSearchFunction(obj => _context.Cars.Include(car => car.Brand)
+                                    .Where(b => b.Number.ToLower().Contains(obj.ToLower())
+                                             || b.Brand.Name.ToLower().Contains(obj.ToLower())
+                                             || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnCarBrand = new DataGridTextColumn();
             columnCarBrand.Header = "Бренд";
@@ -436,9 +437,10 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showTraillerBrandWindow;
-            getData = getTraillerBrands;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.TraillerBrands);
+            _paginationService.SetSearchFunction(obj => _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
+                                             || b.RussianName.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -463,9 +465,10 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showCarBrandWindow;
-            getData = getCarBrands;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.CarBrands);
+            _paginationService.SetSearchFunction(obj => _context.CarBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
+                                             || b.RussianName.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -490,9 +493,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showCustomerWindow;
-            getData = getCustomers;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Customers);
+            _paginationService.SetSearchFunction(obj => _context.Customers.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -512,9 +515,11 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showDriverWindow;
-            getData = getDrivers;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Drivers.Include(driver => driver.TransportCompany));
+            _paginationService.SetSearchFunction(obj => _context.Drivers.Include(d => d.TransportCompany)
+                                                                        .Where(b => b.Name.ToLower().Contains(obj.ToLower())
+                                                                                 || b.TransportCompany.Name.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -539,9 +544,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showRoutePointWindow;
-            getData = getRoutePoints;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.RoutePoints);
+            _paginationService.SetSearchFunction(obj => _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -560,9 +565,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showRouteWindow;
-            getData = getRoutes;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
+            _paginationService.SetSearchFunction(obj => _context.Routes.Where(b => b.RouteName.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnRouteName = new DataGridTextColumn();
             columnRouteName.Header = "Маршрут";
@@ -587,9 +592,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showStateOrderWindow;
-            getData = null;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.StateOrders);
+            _paginationService.SetSearchFunction(obj => _context.StateOrders.Where(s => s.Name.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnName = new DataGridTextColumn();
             columnName.Header = "Наименование";
@@ -608,9 +613,12 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showTraillerWindow;
-            getData = getTraillers;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
+            _paginationService.SetSearchFunction(obj => _context.Traillers.Include(t => t.Brand)
+                                         .Where(b => b.Number.ToLower().Contains(obj.ToLower())
+                                                  || b.Brand.Name.ToLower().Contains(obj.ToLower())
+                                                  || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
             columnBrandName.Header = "Бренд";
@@ -635,9 +643,9 @@ namespace WpfAppMVVM.ViewModels
             saveChanges();
             IsReadOnly = true;
             ShowWindow = showTransportCompanyWindow;
-            getData = getTransportCompanies;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.TransportCompanies);
+            _paginationService.SetSearchFunction(obj => _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
 
             DataGridTextColumn columnBrandName = new DataGridTextColumn();
             columnBrandName.Header = "Наименование";
@@ -680,87 +688,11 @@ namespace WpfAppMVVM.ViewModels
         private void getDataByValue(object obj) 
         {
             string text = obj as string;
-            getData?.Invoke(text);
-        }
-
-
-        private void getCars(string text)
-        {
-            var list = _context.Cars.Include(car => car.Brand)
-                                    .Where(b => b.Number.ToLower().Contains(text.ToLower())
-                                             || b.Brand.Name.ToLower().Contains(text.ToLower())
-                                             || b.Brand.RussianName.ToLower().Contains(text.ToLower()))
-                                     .Take(100);
-
+            var list = _paginationService.GetDataByValue(text);
             LoadDataInCollection(list);
-        }
-
-
-        private void getCarBrands(string text) 
-        {
-            var list = _context.CarBrands.Where(b => b.Name.ToLower().Contains(text.ToLower()) 
-                                             || b.RussianName.ToLower().Contains(text.ToLower()));
-
-            LoadDataInCollection(list);
-        }
-
-        private void getTraillerBrands(string text)
-        {
-            var list = _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(text.ToLower())
-                                             || b.RussianName.ToLower().Contains(text.ToLower()));
-
-            LoadDataInCollection(list);
-        }
-
-
-        private void getCustomers(string text) 
-        {
-            var list = _context.Customers.Where(b => b.Name.ToLower().Contains(text.ToLower()))
-                                         .Take(100);
-
-            LoadDataInCollection(list);
-        }
-
-        private void getDrivers(string text)
-        {
-            var list = _context.Drivers.Include(d => d.TransportCompany)
-                                       .Where(b => b.Name.ToLower().Contains(text.ToLower())
-                                                || b.TransportCompany.Name.ToLower().Contains(text.ToLower()))
-                                       .Take(100);
-
-            LoadDataInCollection(list);
-        }
-
-        private void getRoutes(string text) 
-        {
-            var list = _context.Routes.Where(b => b.RouteName.ToLower().Contains(text.ToLower()))
-                                      .Take(100);
-
-            LoadDataInCollection(list);
-        }
-
-        private void getRoutePoints(string text) 
-        {
-            var list = _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(text.ToLower()));
-
-            LoadDataInCollection(list);
-        }
-
-        private void getTraillers(string text) 
-        {
-            var list = _context.Traillers.Include(t => t.Brand)
-                                         .Where(b => b.Number.ToLower().Contains(text.ToLower())
-                                                  || b.Brand.Name.ToLower().Contains(text.ToLower())
-                                                  || b.Brand.RussianName.ToLower().Contains(text.ToLower()));
-
-            LoadDataInCollection(list);
-        }
-
-        private void getTransportCompanies(string text)
-        {
-            var list = _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(text.ToLower()));
-
-            LoadDataInCollection(list);
+            OnPropertyChanged(nameof(CountPages));
+            OnPropertyChanged(nameof(CanGetNextPage));
+            OnPropertyChanged(nameof(CanGetPreviosPage));
         }
     }
 }

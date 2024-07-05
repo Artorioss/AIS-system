@@ -10,9 +10,13 @@ namespace WpfAppMVVM.Model
         public int CurrentPage { get; private set; }
         public bool CanGetNext { get; private set; }
         public bool CanGetPrevios { get; private set; }
+        enum Mode {SearchingObjects, AllObjects }
+        Mode mode = Mode.AllObjects;
 
         private Type type;
         private IQueryable _query;
+        private Func<string, IQueryable> _func;
+        string _searchValue = string.Empty;
 
         public void SetQuery(IQueryable query) 
         {
@@ -22,12 +26,45 @@ namespace WpfAppMVVM.Model
             type = query.ElementType;
             _query = query;
 
-            var totalItems = query.Provider.Execute<int>(
+            UpdatePagination(_query);
+        }
+
+        public void SetSearchFunction(Func<string, IQueryable> searchFunc)
+        {
+            if (searchFunc == null)
+                throw new ArgumentNullException(nameof(searchFunc));
+
+            _func = searchFunc;
+        }
+
+        public IEnumerable GetDataByValue(string obj) 
+        {
+            if(_func is null)
+                throw new ArgumentNullException("Не установлена функция для поиска.");
+
+            _searchValue = obj;
+
+            if (string.IsNullOrEmpty(obj))
+            {
+                UpdatePagination(_query);
+                mode = Mode.AllObjects;
+            }
+            else 
+            {
+                UpdatePagination(_func(obj));
+                mode = Mode.SearchingObjects;
+            } 
+            return GetCurrentPage();
+        }
+
+        private void UpdatePagination(IQueryable queryable)
+        {
+            var totalItems = queryable.Provider.Execute<int>(
                 Expression.Call(
                     typeof(Queryable),
                     nameof(Queryable.Count),
                     new Type[] { type },
-                    query.Expression));
+                    queryable.Expression));
 
             CountPages = (int)Math.Ceiling((double)totalItems / pageSize);
 
@@ -44,8 +81,7 @@ namespace WpfAppMVVM.Model
                 CurrentPage += 1;
                 CanGetNext = CurrentPage != CountPages;
                 CanGetPrevios = true;
-
-                objects = getPage(CurrentPage);
+                objects = getObjects();
             }
             else throw new Exception("Невозможно получить следующую страницу");
             return objects;
@@ -59,19 +95,24 @@ namespace WpfAppMVVM.Model
                 CurrentPage -= 1;
                 CanGetPrevios = CurrentPage != 1;
                 CanGetNext = true;
-
-                objects = getPage(CurrentPage);
+                objects = getObjects();
             }
             else throw new Exception("Невозможно получить предыдущую страницу");
             return objects;
         }
 
-        public IEnumerable GetCurrentPage() 
+        public IEnumerable GetCurrentPage()
         {
-           return getPage(CurrentPage);
+            return getObjects();
         }
 
-        private IQueryable getPage(int pageNumber)
+        private IEnumerable getObjects() 
+        {
+            if(mode == Mode.AllObjects) return getPage(CurrentPage, _query);
+            else return getPage(CurrentPage, _func(_searchValue));
+        }
+
+        private IQueryable getPage(int pageNumber, IQueryable query)
         {
             var method = typeof(Queryable).GetMethods()
                                           .First(m => m.Name == nameof(Queryable.Skip) && m.GetParameters().Length == 2)
@@ -80,7 +121,7 @@ namespace WpfAppMVVM.Model
             var skipExpression = Expression.Call(
                 null,
                 method,
-                new Expression[] { _query.Expression, Expression.Constant((pageNumber - 1) * pageSize) });
+                new Expression[] { query.Expression, Expression.Constant((pageNumber - 1) * pageSize) });
 
             method = typeof(Queryable).GetMethods()
                                       .First(m => m.Name == nameof(Queryable.Take) && m.GetParameters().Length == 2)
@@ -91,7 +132,7 @@ namespace WpfAppMVVM.Model
                 method,
                 new Expression[] { skipExpression, Expression.Constant(pageSize) });
 
-            return _query.Provider.CreateQuery(takeExpression);
+            return query.Provider.CreateQuery(takeExpression);
         }
     }
 
