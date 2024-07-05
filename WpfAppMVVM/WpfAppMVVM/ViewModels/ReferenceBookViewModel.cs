@@ -99,8 +99,8 @@ namespace WpfAppMVVM.ViewModels
                 {typeof(Customer), showCustomerWindow },
                 {typeof(RoutePoint), showRoutePointWindow},
                 {typeof(Route), showRouteWindow },
-                { typeof(StateOrder), showStateOrderWindow}
-
+                {typeof(StateOrder), showStateOrderWindow},
+                {typeof(TransportCompany), showTransportCompanyWindow}
             };
 
             deletedItems = new List<object>();
@@ -379,6 +379,22 @@ namespace WpfAppMVVM.ViewModels
             stateWindow.ShowDialog();
         }
 
+        private void showTransportCompanyWindow()
+        {
+            TransportCompanyViewModel transportCompanyViewModel = new TransportCompanyViewModel();
+            TransportCompanyWindow transportCompanyWindow = new TransportCompanyWindow();
+            transportCompanyWindow.DataContext = transportCompanyViewModel;
+            transportCompanyWindow.ShowDialog();
+        }
+
+        private void showTransportCompanyWindow(object selectedItem)
+        {
+            TransportCompanyViewModel transportCompanyViewModel = new TransportCompanyViewModel(selectedItem as TransportCompany);
+            TransportCompanyWindow transportCompanyWindow = new TransportCompanyWindow();
+            transportCompanyWindow.DataContext = transportCompanyViewModel;
+            transportCompanyWindow.ShowDialog();
+        }
+
 
         private void deleteItem(object sender, EventArgs e) 
         {
@@ -617,8 +633,8 @@ namespace WpfAppMVVM.ViewModels
         private void getTransportCompaniesData()
         {
             saveChanges();
-            IsReadOnly = false;
-            ShowWindow = null;
+            IsReadOnly = true;
+            ShowWindow = showTransportCompanyWindow;
             getData = getTransportCompanies;
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.TransportCompanies);

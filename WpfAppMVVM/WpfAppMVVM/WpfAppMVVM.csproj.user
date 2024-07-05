@@ -37,6 +37,9 @@
     <Compile Update="Views\OtherViews\TraillerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherViews\TransportCompanyWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\MainWindow.xaml">
@@ -70,6 +73,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\TraillerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\TransportCompanyWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
