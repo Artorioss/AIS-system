@@ -28,16 +28,16 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
         <ToolBar Grid.Row="0">
-            <Button Content="Автомобили" Margin="0,0,0,0" Command="{Binding GetCarsData}"></Button>
-            <Button Content="Бренды автомобилей" Margin="5,0,0,0" Command="{Binding GetCarBrandsData}"></Button>
-            <Button Content="Бренды прицепов" Margin="5,0,0,0" Command="{Binding GetTraillerBrandsData}"></Button>
-            <Button Content="Клиенты" Margin="5,0,0,0" Command="{Binding GetCustomersData}"></Button>
-            <Button Content="Водители" Margin="5,0,0,0" Command="{Binding GetDriversData}"></Button>
-            <Button Content="Точки маршрута" Margin="5,0,0,0" Command="{Binding GetRoutePointsData}"></Button>
-            <Button Content="Маршруты" Margin="5,0,0,0" Command="{Binding GetRoutesData}"></Button>
-            <Button Content="Состояния" Margin="5,0,0,0" Command="{Binding GetStateOrdersData}"></Button>
-            <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersData}"></Button>
-            <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesData}"></Button>
+            <Button Content="Автомобили" Margin="0,0,0,0" Command="{Binding GetCarsDataAsync}"></Button>
+            <Button Content="Бренды автомобилей" Margin="5,0,0,0" Command="{Binding GetCarBrandsDataAsync}"></Button>
+            <Button Content="Бренды прицепов" Margin="5,0,0,0" Command="{Binding GetTraillerBrandsDataAsync}"></Button>
+            <Button Content="Клиенты" Margin="5,0,0,0" Command="{Binding GetCustomersDataAsync}"></Button>
+            <Button Content="Водители" Margin="5,0,0,0" Command="{Binding GetDriversDataAsync}"></Button>
+            <Button Content="Точки маршрута" Margin="5,0,0,0" Command="{Binding GetRoutePointsDataAsync}"></Button>
+            <Button Content="Маршруты" Margin="5,0,0,0" Command="{Binding GetRoutesDataAsync}"></Button>
+            <Button Content="Состояния" Margin="5,0,0,0" Command="{Binding GetStateOrdersDataAsync}"></Button>
+            <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersDataAsync}"></Button>
+            <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesDataAsync}"></Button>
             
         </ToolBar>
         <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
@@ -73,9 +73,9 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </TextBox>
-            <Button Grid.Column="3" MinWidth="50" Margin="5" Content="&lt;&lt;" IsEnabled="{Binding CanGetPreviosPage, Mode=OneWay}" Command="{Binding GetPreviosPage}"></Button>
+            <Button Grid.Column="3" MinWidth="50" Margin="5" Content="&lt;&lt;" IsEnabled="{Binding CanGetPreviosPage, Mode=OneWay}" Command="{Binding GetPreviosPageAsync}"></Button>
             <TextBlock Grid.Column="4" Text="{Binding CountPages, Mode=OneWay}" Margin="5"></TextBlock>
-            <Button Grid.Column="5" MinWidth="50" Margin="5" Content="&gt;&gt;" HorizontalAlignment="Right" IsEnabled="{Binding CanGetNextPage, Mode=OneWay}" Command="{Binding GetNextPage}"></Button>
+            <Button Grid.Column="5" MinWidth="50" Margin="5" Content="&gt;&gt;" HorizontalAlignment="Right" IsEnabled="{Binding CanGetNextPage, Mode=OneWay}" Command="{Binding GetNextPageAsync}"></Button>
         </Grid>
 
     </Grid>

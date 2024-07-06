@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace WpfAppMVVM.Model
 {
     public class PaginationService
     {
-        private const int pageSize = 100;
+        private const int pageSize = 5;
         public int CountPages { get; private set; }
         public int CurrentPage { get; private set; }
         public bool CanGetNext { get; private set; }
@@ -18,12 +20,12 @@ namespace WpfAppMVVM.Model
         private Func<string, IQueryable> _func;
         string _searchValue = string.Empty;
 
-        public void SetQuery(IQueryable query) 
+        public void SetQuery<T>(IQueryable<T> query)
         {
             if (query == null)
                 throw new ArgumentNullException(nameof(query));
 
-            type = query.ElementType;
+            type = typeof(T);
             _query = query;
 
             UpdatePagination(_query);
@@ -37,7 +39,7 @@ namespace WpfAppMVVM.Model
             _func = searchFunc;
         }
 
-        public IEnumerable GetDataByValue(string obj) 
+        public async Task<IEnumerable> GetDataByValueAsync(string obj) 
         {
             if(_func is null)
                 throw new ArgumentNullException("Не установлена функция для поиска.");
@@ -54,7 +56,7 @@ namespace WpfAppMVVM.Model
                 UpdatePagination(_func(obj));
                 mode = Mode.SearchingObjects;
             } 
-            return GetCurrentPage();
+            return await GetCurrentPageAsync();
         }
 
         private void UpdatePagination(IQueryable queryable)
@@ -73,7 +75,7 @@ namespace WpfAppMVVM.Model
             CanGetPrevios = false;
         }
 
-        public IEnumerable GetNextPage() 
+        public async Task<IEnumerable> GetNextPageAsync() 
         {
             IEnumerable objects;
             if (CanGetNext)
@@ -81,13 +83,13 @@ namespace WpfAppMVVM.Model
                 CurrentPage += 1;
                 CanGetNext = CurrentPage != CountPages;
                 CanGetPrevios = true;
-                objects = getObjects();
+                objects = await getObjectsAsync();
             }
             else throw new Exception("Невозможно получить следующую страницу");
             return objects;
         }
 
-        public IEnumerable GetPreviosPage()
+        public async Task<IEnumerable> GetPreviosPageAsync()
         {
             IEnumerable objects;
             if (CanGetPrevios)
@@ -95,28 +97,48 @@ namespace WpfAppMVVM.Model
                 CurrentPage -= 1;
                 CanGetPrevios = CurrentPage != 1;
                 CanGetNext = true;
-                objects = getObjects();
+                objects = await getObjectsAsync();
             }
             else throw new Exception("Невозможно получить предыдущую страницу");
             return objects;
         }
 
-        public IEnumerable GetCurrentPage()
+        public async Task<IEnumerable> GetCurrentPageAsync()
         {
-            return getObjects();
+            return await getObjectsAsync();
         }
 
-        private IEnumerable getObjects() 
+        private async Task<IEnumerable> getObjectsAsync()
         {
-            if(mode == Mode.AllObjects) return getPage(CurrentPage, _query);
-            else return getPage(CurrentPage, _func(_searchValue));
+            if (mode == Mode.AllObjects)
+                return await CallGenericGetPageAsync(CurrentPage, _query, type);
+            else
+                return await CallGenericGetPageAsync(CurrentPage, _func(_searchValue), type);
         }
 
-        private IQueryable getPage(int pageNumber, IQueryable query)
+        private async Task<IEnumerable> CallGenericGetPageAsync(int pageNumber, IQueryable query, Type type)
+        {
+            var method = typeof(PaginationService).GetMethod(nameof(getPage), BindingFlags.NonPublic | BindingFlags.Instance)
+                                                   .MakeGenericMethod(type);
+            var resultTask = (Task)method.Invoke(this, new object[] { pageNumber, query });
+            await resultTask.ConfigureAwait(false);
+
+            var resultProperty = resultTask.GetType().GetProperty("Result");
+            var result = resultProperty.GetValue(resultTask);
+
+            return (IEnumerable)result;
+        }
+
+        private async Task<List<T>> getPage<T>(int pageNumber, IQueryable<T> query)
+        {
+            return await getQueryPage<T>(pageNumber, query).ToListAsync();
+        }
+
+        private IQueryable<T> getQueryPage<T>(int pageNumber, IQueryable query)
         {
             var method = typeof(Queryable).GetMethods()
                                           .First(m => m.Name == nameof(Queryable.Skip) && m.GetParameters().Length == 2)
-                                          .MakeGenericMethod(type);
+                                          .MakeGenericMethod(typeof(T));
 
             var skipExpression = Expression.Call(
                 null,
@@ -125,15 +147,14 @@ namespace WpfAppMVVM.Model
 
             method = typeof(Queryable).GetMethods()
                                       .First(m => m.Name == nameof(Queryable.Take) && m.GetParameters().Length == 2)
-                                      .MakeGenericMethod(type);
+                                      .MakeGenericMethod(typeof(T));
 
             var takeExpression = Expression.Call(
                 null,
                 method,
                 new Expression[] { skipExpression, Expression.Constant(pageSize) });
 
-            return query.Provider.CreateQuery(takeExpression);
+            return query.Provider.CreateQuery<T>(takeExpression);
         }
     }
-
 }

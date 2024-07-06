@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
@@ -32,23 +33,23 @@ namespace WpfAppMVVM.ViewModels
         public DataGrid dataGrid { get; set; }
         public ObservableCollection<DataGridColumn> ColumnCollection { get; private set; }
         public ObservableCollection<object> ItemsSource { get; set; }
-        public DelegateCommand GetCarsData { get; private set; }
-        public DelegateCommand GetCarBrandsData { get; private set; }
-        public DelegateCommand GetTraillerBrandsData { get; private set; }
-        public DelegateCommand GetCustomersData { get; private set; }
-        public DelegateCommand GetDriversData { get; private set; }
-        public DelegateCommand GetRoutePointsData { get; private set; }
-        public DelegateCommand GetRoutesData { get; private set; }
-        public DelegateCommand GetStateOrdersData { get; private set; }
-        public DelegateCommand GetTraillersData { get; private set; }
-        public DelegateCommand GetTransportCompaniesData { get; private set; }
+        public AsyncCommand GetCarsDataAsync { get; private set; }
+        public AsyncCommand GetCarBrandsDataAsync { get; private set; }
+        public AsyncCommand GetTraillerBrandsDataAsync { get; private set; }
+        public AsyncCommand GetCustomersDataAsync { get; private set; }
+        public AsyncCommand GetDriversDataAsync { get; private set; }
+        public AsyncCommand GetRoutePointsDataAsync { get; private set; }
+        public AsyncCommand GetRoutesDataAsync { get; private set; }
+        public AsyncCommand GetStateOrdersDataAsync { get; private set; }
+        public AsyncCommand GetTraillersDataAsync { get; private set; }
+        public AsyncCommand GetTransportCompaniesDataAsync { get; private set; }
         public DelegateCommand AddData { get; private set; }
         public DelegateCommand EditData { get; private set; }
         public DelegateCommand SaveChanges { get; private set; }
         public DelegateCommand DataUpdated { get; private set; }
-        public DelegateCommand GetDataByValue { get; private set; } 
-        public DelegateCommand GetNextPage { get; private set; }
-        public DelegateCommand GetPreviosPage { get; private set; }
+        public AsyncCommand GetDataByValue { get; private set; } 
+        public AsyncCommand GetNextPageAsync { get; private set; }
+        public AsyncCommand GetPreviosPageAsync { get; private set; }
 
         public delegate void ShowWindowFunction();
         private ShowWindowFunction ShowWindow;
@@ -68,23 +69,23 @@ namespace WpfAppMVVM.ViewModels
             ItemsSource = new ObservableCollection<object>();
             _paginationService = new PaginationService();
 
-            GetCarsData = new DelegateCommand((obj) => getCarsData());
-            GetCarBrandsData = new DelegateCommand((obj) => getCarBrandsData());
-            GetTraillerBrandsData = new DelegateCommand((obj) => getTraillerBrandsData());
-            GetCustomersData = new DelegateCommand((obj) => getCustomersData());
-            GetDriversData = new DelegateCommand((obj) => getDriversData());
-            GetRoutePointsData = new DelegateCommand((obj) => getRoutePointsData());
-            GetRoutesData = new DelegateCommand((obj) => getRoutesData());
-            GetStateOrdersData = new DelegateCommand((obj) => getStateOrdersData());
-            GetTraillersData = new DelegateCommand((obj) => getTraillersData());
-            GetTransportCompaniesData = new DelegateCommand((obj) => getTransportCompaniesData());
+            GetCarsDataAsync = new AsyncCommand((obj) => getCarsData());
+            GetCarBrandsDataAsync = new AsyncCommand(async (obj) => await getCarBrandsDataAsync());
+            GetTraillerBrandsDataAsync = new AsyncCommand(async (obj) => await getTraillerBrandsData());
+            GetCustomersDataAsync = new AsyncCommand(async (obj) => await getCustomersData());
+            GetDriversDataAsync = new AsyncCommand(async (obj) => await getDriversData());
+            GetRoutePointsDataAsync = new AsyncCommand(async (obj) => await getRoutePointsData());
+            GetRoutesDataAsync = new AsyncCommand(async (obj) => await getRoutesData());
+            GetStateOrdersDataAsync = new AsyncCommand(async (obj) => await getStateOrdersData());
+            GetTraillersDataAsync = new AsyncCommand(async (obj) => await getTraillersData());
+            GetTransportCompaniesDataAsync = new AsyncCommand(async (obj) => await getTransportCompaniesData());
             DataUpdated = new DelegateCommand((obj) => dataUpdated());
             SaveChanges = new DelegateCommand((obj) => saveChangesBeforeClosing());
             AddData = new DelegateCommand((obj) => addData());
             EditData = new DelegateCommand((obj) => editData());
-            GetDataByValue = new DelegateCommand(getDataByValue);
-            GetNextPage = new DelegateCommand((obj) => getNextPage());
-            GetPreviosPage = new DelegateCommand((obj) => getPreviosPage());
+            GetDataByValue = new AsyncCommand(getDataByValue);
+            GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
+            GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
             
 
             editingWindows = new Dictionary<Type, Action<object>>
@@ -174,15 +175,15 @@ namespace WpfAppMVVM.ViewModels
             get => _paginationService.CountPages > 0 ? $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}" : "Данные не найдены";
         } 
 
-        private void getNextPage() 
+        private async Task getNextPage() 
         {
-            LoadDataInCollection(_paginationService.GetNextPage());
+            LoadDataInCollection(await _paginationService.GetNextPageAsync());
             notifyElements();
         }
 
-        private void getPreviosPage() 
+        private async Task getPreviosPage() 
         {
-            LoadDataInCollection(_paginationService.GetPreviosPage());
+            LoadDataInCollection(await _paginationService.GetPreviosPageAsync());
             notifyElements();
         }
 
@@ -206,7 +207,7 @@ namespace WpfAppMVVM.ViewModels
         private void LoadDataInCollection()
         {
             ItemsSource.Clear();
-            foreach (var items in _paginationService.GetCurrentPage())
+            foreach (var items in _paginationService.GetCurrentPageAsync().Result)
             {
                 ItemsSource.Add(items);
             }
@@ -402,7 +403,7 @@ namespace WpfAppMVVM.ViewModels
             _existСhanges = true;
         }
 
-        private void getCarsData() 
+        private async Task getCarsData() 
         {
             saveChanges();
             IsReadOnly = true;
@@ -428,11 +429,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnNumber);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getTraillerBrandsData()
+        private async Task getTraillerBrandsData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -456,11 +457,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnRussianBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getCarBrandsData()
+        private async Task getCarBrandsDataAsync()
         {
             saveChanges();
             IsReadOnly = true;
@@ -484,11 +485,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnRussianBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getCustomersData()
+        private async Task getCustomersData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -505,12 +506,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            var data = _context.Customers;
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getDriversData()
+        private async Task getDriversData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -535,11 +535,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnTransportCompany);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getRoutePointsData()
+        private async Task getRoutePointsData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -556,11 +556,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getRoutesData()
+        private async Task getRoutesData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -583,11 +583,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnCount);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getStateOrdersData()
+        private async Task getStateOrdersData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -604,11 +604,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getTraillersData()
+        private async Task getTraillersData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -634,11 +634,11 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnNumber);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
-        private void getTransportCompaniesData()
+        private async Task getTransportCompaniesData()
         {
             saveChanges();
             IsReadOnly = true;
@@ -655,7 +655,7 @@ namespace WpfAppMVVM.ViewModels
             ColumnCollection.Add(columnBrandName);
             ColumnCollection.Add(DataGridColumnDelete);
 
-            LoadDataInCollection(_paginationService.GetCurrentPage());
+            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
@@ -685,11 +685,10 @@ namespace WpfAppMVVM.ViewModels
         }
 
         //Поиск
-        private void getDataByValue(object obj) 
+        private async Task getDataByValue(object obj) 
         {
             string text = obj as string;
-            var list = _paginationService.GetDataByValue(text);
-            LoadDataInCollection(list);
+            LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
             OnPropertyChanged(nameof(CountPages));
             OnPropertyChanged(nameof(CanGetNextPage));
             OnPropertyChanged(nameof(CanGetPreviosPage));
