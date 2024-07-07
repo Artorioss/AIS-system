@@ -43,24 +43,22 @@ namespace WpfAppMVVM.ViewModels
         public AsyncCommand GetStateOrdersDataAsync { get; private set; }
         public AsyncCommand GetTraillersDataAsync { get; private set; }
         public AsyncCommand GetTransportCompaniesDataAsync { get; private set; }
-        public DelegateCommand AddData { get; private set; }
-        public DelegateCommand EditData { get; private set; }
+        public AsyncCommand AddData { get; private set; }
+        public AsyncCommand EditData { get; private set; }
         public DelegateCommand SaveChanges { get; private set; }
         public DelegateCommand DataUpdated { get; private set; }
         public AsyncCommand GetDataByValue { get; private set; } 
         public AsyncCommand GetNextPageAsync { get; private set; }
         public AsyncCommand GetPreviosPageAsync { get; private set; }
 
-        public delegate void ShowWindowFunction();
-        private ShowWindowFunction ShowWindow;
         private TransportationEntities _context;
-        private Type _currentTypeEntity;
         private bool _existСhanges = false;
-        private IQueryable bufQuery;
         private List<object> deletedItems;
         private DataGridTemplateColumn DataGridColumnDelete;
-        private Dictionary<Type, Action<object>> editingWindows;
         private PaginationService _paginationService;
+
+        ReferenceBook referenceBook;
+        Type typeVM;
 
         public ReferenceBookViewModel() 
         {
@@ -81,26 +79,11 @@ namespace WpfAppMVVM.ViewModels
             GetTransportCompaniesDataAsync = new AsyncCommand(async (obj) => await getTransportCompaniesData());
             DataUpdated = new DelegateCommand((obj) => dataUpdated());
             SaveChanges = new DelegateCommand((obj) => saveChangesBeforeClosing());
-            AddData = new DelegateCommand((obj) => addData());
-            EditData = new DelegateCommand((obj) => editData());
+            AddData = new AsyncCommand(async (obj) => await addData());
+            EditData = new AsyncCommand(async (obj) => await editData());
             GetDataByValue = new AsyncCommand(getDataByValue);
             GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
             GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
-            
-
-            editingWindows = new Dictionary<Type, Action<object>>
-            {
-                {typeof(Car), showCarWindow },
-                {typeof(Driver), showDriverWindow},
-                {typeof(Trailler), showTraillerWindow},
-                {typeof(CarBrand), showCarBrandWindow },
-                {typeof(TraillerBrand), showTraillerBrandWindow },
-                {typeof(Customer), showCustomerWindow },
-                {typeof(RoutePoint), showRoutePointWindow},
-                {typeof(Route), showRouteWindow },
-                {typeof(StateOrder), showStateOrderWindow},
-                {typeof(TransportCompany), showTransportCompanyWindow}
-            };
 
             deletedItems = new List<object>();
             createDataGridTemplateColumn();
@@ -201,13 +184,12 @@ namespace WpfAppMVVM.ViewModels
             {
                 ItemsSource.Add(items);
             }
-            _currentTypeEntity = query.GetType().GenericTypeArguments[0];
         }
 
-        private void LoadDataInCollection()
+        private async Task LoadDataInCollection()
         {
             ItemsSource.Clear();
-            foreach (var items in _paginationService.GetCurrentPageAsync().Result)
+            foreach (var items in await _paginationService.GetCurrentPageAsync())
             {
                 ItemsSource.Add(items);
             }
@@ -234,167 +216,6 @@ namespace WpfAppMVVM.ViewModels
             } 
         }
 
-        private void showCarWindow() 
-        {
-            CarViewModel carViewModel = new CarViewModel();
-            CarWindow carWindow = new CarWindow();
-            carWindow.DataContext = carViewModel;
-            carWindow.ShowDialog();
-        }
-
-        private void showCarWindow(object selectedItem)
-        {
-            CarViewModel carViewModel = new CarViewModel(selectedItem as Car);
-            CarWindow carWindow = new CarWindow();
-            carWindow.DataContext = carViewModel;
-            carWindow.ShowDialog();
-        }
-
-        private void showDriverWindow()
-        {
-            DriverViewModel driverViewModel = new DriverViewModel();
-            DriverWindow driverWindow = new DriverWindow();
-            driverWindow.DataContext = driverViewModel;
-            driverWindow.ShowDialog();
-        }
-
-        private void showDriverWindow(object selectedItem)
-        {
-            DriverViewModel driverViewModel = new DriverViewModel(selectedItem as Driver);
-            DriverWindow driverWindow = new DriverWindow();
-            driverWindow.DataContext = driverViewModel;
-            driverWindow.ShowDialog();
-        }
-
-        private void showTraillerWindow()
-        {
-            TraillerViewModel traillerViewModel = new TraillerViewModel();
-            TraillerWindow traillerWindow = new TraillerWindow();
-            traillerWindow.DataContext = traillerViewModel;
-            traillerWindow.ShowDialog();
-        }
-
-        private void showTraillerWindow(object selectedItem)
-        {
-            TraillerViewModel traillerViewModel = new TraillerViewModel(selectedItem as Trailler);
-            TraillerWindow traillerWindow = new TraillerWindow();
-            traillerWindow.DataContext = traillerViewModel;
-            traillerWindow.ShowDialog();
-        }
-
-        private void showTraillerBrandWindow()
-        {
-            TraillerBrandViewModel traillerViewModel = new TraillerBrandViewModel();
-            TraillerBrandWindow traillerWindow = new TraillerBrandWindow();
-            traillerWindow.DataContext = traillerViewModel;
-            traillerWindow.ShowDialog();
-        }
-
-        private void showTraillerBrandWindow(object selectedItem)
-        {
-            TraillerBrandViewModel traillerViewModel = new TraillerBrandViewModel(selectedItem as TraillerBrand);
-            TraillerBrandWindow traillerWindow = new TraillerBrandWindow();
-            traillerWindow.DataContext = traillerViewModel;
-            traillerWindow.ShowDialog();
-        }
-
-        private void showCarBrandWindow() 
-        {
-            CarBrandViewModel carBrandViewModel = new CarBrandViewModel();
-            CarBrandWindow brandWindow = new CarBrandWindow();
-            brandWindow.DataContext = carBrandViewModel;
-            brandWindow.ShowDialog();
-        }
-
-        private void showCarBrandWindow(object selectedItem)
-        {
-            CarBrandViewModel carBrandViewModel = new CarBrandViewModel(selectedItem as CarBrand);
-            CarBrandWindow brandWindow = new CarBrandWindow();
-            brandWindow.DataContext = carBrandViewModel;
-            brandWindow.ShowDialog();
-        }
-
-        private void showCustomerWindow() 
-        {
-            CustomerViewModel customerViewModel = new CustomerViewModel();
-            CustomerWindow customerWindow = new CustomerWindow();
-            customerWindow.DataContext = customerViewModel;
-            customerWindow.ShowDialog();
-        }
-
-        private void showCustomerWindow(object selectedItem) 
-        {
-            CustomerViewModel customerViewModel = new CustomerViewModel(selectedItem as Customer);
-            CustomerWindow customerWindow = new CustomerWindow();
-            customerWindow.DataContext = customerViewModel;
-            customerWindow.ShowDialog();
-        }
-
-        private void showRoutePointWindow()
-        {
-            RoutePointViewModel routePointViewModel = new RoutePointViewModel();
-            RoutePointWindow routePointWindow = new RoutePointWindow();
-            routePointWindow.DataContext = routePointViewModel;
-            routePointWindow.ShowDialog();
-        }
-
-        private void showRoutePointWindow(object selectedItem)
-        {
-            RoutePointViewModel routePointViewModel = new RoutePointViewModel(selectedItem as RoutePoint);
-            RoutePointWindow routePointWindow = new RoutePointWindow();
-            routePointWindow.DataContext = routePointViewModel;
-            routePointWindow.ShowDialog();
-        }
-
-        private void showRouteWindow()
-        {
-            RouteViewModel routeViewModel = new RouteViewModel();
-            RouteWindow routeWindow = new RouteWindow();
-            routeWindow.DataContext = routeViewModel;
-            routeWindow.ShowDialog();
-        }
-
-        private void showRouteWindow(object selectedItem)
-        {
-            RouteViewModel routeViewModel = new RouteViewModel(selectedItem as Route);
-            RouteWindow routeWindow = new RouteWindow();
-            routeWindow.DataContext = routeViewModel;
-            routeWindow.ShowDialog();
-        }
-
-        private void showStateOrderWindow()
-        {
-            StateOrderViewModel stateOrderViewModel = new StateOrderViewModel();
-            StateWindow stateWindow = new StateWindow();
-            stateWindow.DataContext = stateOrderViewModel;
-            stateWindow.ShowDialog();
-        }
-
-        private void showStateOrderWindow(object selectedItem)
-        {
-            StateOrderViewModel stateOrderViewModel = new StateOrderViewModel(selectedItem as StateOrder);
-            StateWindow stateWindow = new StateWindow();
-            stateWindow.DataContext = stateOrderViewModel;
-            stateWindow.ShowDialog();
-        }
-
-        private void showTransportCompanyWindow()
-        {
-            TransportCompanyViewModel transportCompanyViewModel = new TransportCompanyViewModel();
-            TransportCompanyWindow transportCompanyWindow = new TransportCompanyWindow();
-            transportCompanyWindow.DataContext = transportCompanyViewModel;
-            transportCompanyWindow.ShowDialog();
-        }
-
-        private void showTransportCompanyWindow(object selectedItem)
-        {
-            TransportCompanyViewModel transportCompanyViewModel = new TransportCompanyViewModel(selectedItem as TransportCompany);
-            TransportCompanyWindow transportCompanyWindow = new TransportCompanyWindow();
-            transportCompanyWindow.DataContext = transportCompanyViewModel;
-            transportCompanyWindow.ShowDialog();
-        }
-
-
         private void deleteItem(object sender, EventArgs e) 
         {
             _context.Remove(SelectedItem);
@@ -406,8 +227,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getCarsData() 
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showCarWindow;
+            typeVM = typeof(CarViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Cars.Include(car => car.Brand));
             _paginationService.SetSearchFunction(obj => _context.Cars.Include(car => car.Brand)
@@ -436,8 +256,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getTraillerBrandsData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showTraillerBrandWindow;
+            typeVM = typeof(TraillerBrandViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.TraillerBrands);
             _paginationService.SetSearchFunction(obj => _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
@@ -464,8 +283,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getCarBrandsDataAsync()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showCarBrandWindow;
+            typeVM = typeof(CarBrandViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.CarBrands);
             _paginationService.SetSearchFunction(obj => _context.CarBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
@@ -492,8 +310,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getCustomersData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showCustomerWindow;
+            typeVM = typeof(CustomerViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Customers);
             _paginationService.SetSearchFunction(obj => _context.Customers.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
@@ -513,8 +330,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getDriversData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showDriverWindow;
+            typeVM = typeof(DriverViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Drivers.Include(driver => driver.TransportCompany));
             _paginationService.SetSearchFunction(obj => _context.Drivers.Include(d => d.TransportCompany)
@@ -542,8 +358,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getRoutePointsData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showRoutePointWindow;
+            typeVM = typeof(RoutePointViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.RoutePoints);
             _paginationService.SetSearchFunction(obj => _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(obj.ToLower())));
@@ -563,8 +378,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getRoutesData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showRouteWindow;
+            typeVM = typeof(RouteViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
             _paginationService.SetSearchFunction(obj => _context.Routes.Where(b => b.RouteName.ToLower().Contains(obj.ToLower())));
@@ -590,8 +404,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getStateOrdersData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showStateOrderWindow;
+            typeVM = typeof(StateOrderViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.StateOrders);
             _paginationService.SetSearchFunction(obj => _context.StateOrders.Where(s => s.Name.ToLower().Contains(obj.ToLower())));
@@ -611,8 +424,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getTraillersData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showTraillerWindow;
+            typeVM = typeof(TraillerViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
             _paginationService.SetSearchFunction(obj => _context.Traillers.Include(t => t.Brand)
@@ -641,8 +453,7 @@ namespace WpfAppMVVM.ViewModels
         private async Task getTransportCompaniesData()
         {
             saveChanges();
-            IsReadOnly = true;
-            ShowWindow = showTransportCompanyWindow;
+            typeVM = typeof(TransportCompanyViewModel);
             ColumnCollection.Clear();
             _paginationService.SetQuery(_context.TransportCompanies);
             _paginationService.SetSearchFunction(obj => _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
@@ -659,29 +470,18 @@ namespace WpfAppMVVM.ViewModels
             notifyElements();
         }
 
-        private void addData() 
+        private async Task addData() 
         {
-            if (ShowWindow != null) 
-            {
-                ShowWindow();
-                LoadDataInCollection();
-            } 
-            else 
-            {
-                object entity = Activator.CreateInstance(_currentTypeEntity);
-                _context.Add(entity);
-                ItemsSource.Add(entity);
-                _existСhanges = true;
-            }
+            referenceBook = Activator.CreateInstance(typeVM) as ReferenceBook;
+            await referenceBook.ShowDialog();
+            await LoadDataInCollection();
         }
 
-        private void editData()
+        private async Task editData()
         {
-            if (ShowWindow != null)
-            {
-                editingWindows[_currentTypeEntity]?.Invoke(SelectedItem);
-                LoadDataInCollection();
-            }
+            referenceBook = Activator.CreateInstance(typeVM, SelectedItem) as ReferenceBook;
+            await referenceBook.ShowDialog();
+            await LoadDataInCollection();
         }
 
         //Поиск

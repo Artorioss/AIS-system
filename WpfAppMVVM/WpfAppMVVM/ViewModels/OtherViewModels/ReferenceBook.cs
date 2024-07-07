@@ -47,6 +47,11 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _wind = obj as Window;
         }
 
+        public async Task ShowDialog() 
+        {
+            await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(this);
+        }
+
         private void setButtonText() 
         {
             if (_mode == Mode.Additing) ButtonText = "Создать";

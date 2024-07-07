@@ -38,7 +38,7 @@
             <Button Content="Состояния" Margin="5,0,0,0" Command="{Binding GetStateOrdersDataAsync}"></Button>
             <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersDataAsync}"></Button>
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesDataAsync}"></Button>
-            
+
         </ToolBar>
         <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
             <i:Interaction.Triggers>
@@ -52,7 +52,7 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>
-        
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"></ColumnDefinition>

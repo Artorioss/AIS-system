@@ -32,6 +32,7 @@ namespace WpfAppMVVM
             DisplayRootRegistry.RegisterWindowType<CarViewModel, CarWindow>();
             DisplayRootRegistry.RegisterWindowType<CustomerViewModel, CustomerWindow>();
             DisplayRootRegistry.RegisterWindowType<DriverViewModel, DriverWindow>();
+            DisplayRootRegistry.RegisterWindowType<RouteViewModel, RouteWindow>();
             DisplayRootRegistry.RegisterWindowType<RoutePointViewModel, RoutePointWindow>();
             DisplayRootRegistry.RegisterWindowType<StateOrderViewModel, StateWindow>();
             DisplayRootRegistry.RegisterWindowType<TraillerBrandViewModel, TraillerBrandWindow>();
