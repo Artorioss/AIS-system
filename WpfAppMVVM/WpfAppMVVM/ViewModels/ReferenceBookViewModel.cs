@@ -1,38 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.ExpressionTranslators.Internal;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Net;
-using System.Net.WebSockets;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media.Animation;
-using System.Windows.Threading;
+using WpfAppMVVM.CustomComponents.Tables;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
-using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.OtherViewModels;
-using WpfAppMVVM.Views.OtherViews;
 
 namespace WpfAppMVVM.ViewModels
 {
     internal class ReferenceBookViewModel : BaseViewModel
     {
-        public DataGrid dataGrid { get; set; }
-        public ObservableCollection<DataGridColumn> ColumnCollection { get; private set; }
-        public ObservableCollection<object> ItemsSource { get; set; }
         public AsyncCommand GetCarsDataAsync { get; private set; }
         public AsyncCommand GetCarBrandsDataAsync { get; private set; }
         public AsyncCommand GetTraillerBrandsDataAsync { get; private set; }
@@ -44,28 +21,32 @@ namespace WpfAppMVVM.ViewModels
         public AsyncCommand GetTraillersDataAsync { get; private set; }
         public AsyncCommand GetTransportCompaniesDataAsync { get; private set; }
         public AsyncCommand AddData { get; private set; }
-        public AsyncCommand EditData { get; private set; }
-        public DelegateCommand SaveChanges { get; private set; }
-        public DelegateCommand DataUpdated { get; private set; }
-        public AsyncCommand GetDataByValue { get; private set; } 
+        public AsyncCommand GetDataByValue { get; private set; }
         public AsyncCommand GetNextPageAsync { get; private set; }
         public AsyncCommand GetPreviosPageAsync { get; private set; }
 
         private TransportationEntities _context;
-        private bool _existСhanges = false;
-        private List<object> deletedItems;
-        private DataGridTemplateColumn DataGridColumnDelete;
         private PaginationService _paginationService;
+        private ReferenceBook _referenceBook;
+        private Type _typeVM;
+        private Dictionary<Type, EntityTable> _entityTablesDict;
 
-        ReferenceBook referenceBook;
-        Type typeVM;
+        private EntityTable _entityTable;
+        public EntityTable EntityTable
+        {
+            get => _entityTable;
+            private set
+            {
+                _entityTable = value;
+                OnPropertyChanged(nameof(EntityTable));
+            }
+        }
 
         public ReferenceBookViewModel() 
         {
             _context = (Application.Current as App)._context;
-            ColumnCollection = new ObservableCollection<DataGridColumn>();
-            ItemsSource = new ObservableCollection<object>();
             _paginationService = new PaginationService();
+            _entityTablesDict = new Dictionary<Type, EntityTable>();
 
             GetCarsDataAsync = new AsyncCommand((obj) => getCarsData());
             GetCarBrandsDataAsync = new AsyncCommand(async (obj) => await getCarBrandsDataAsync());
@@ -77,57 +58,20 @@ namespace WpfAppMVVM.ViewModels
             GetStateOrdersDataAsync = new AsyncCommand(async (obj) => await getStateOrdersData());
             GetTraillersDataAsync = new AsyncCommand(async (obj) => await getTraillersData());
             GetTransportCompaniesDataAsync = new AsyncCommand(async (obj) => await getTransportCompaniesData());
-            DataUpdated = new DelegateCommand((obj) => dataUpdated());
-            SaveChanges = new DelegateCommand((obj) => saveChangesBeforeClosing());
             AddData = new AsyncCommand(async (obj) => await addData());
-            EditData = new AsyncCommand(async (obj) => await editData());
             GetDataByValue = new AsyncCommand(getDataByValue);
             GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
             GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
 
-            deletedItems = new List<object>();
-            createDataGridTemplateColumn();
             getCarsData();
         }
 
-        private void createDataGridTemplateColumn() 
+        public ICloneable SelectedItem
         {
-            DataGridColumnDelete = new DataGridTemplateColumn();
-            DataGridColumnDelete.Header = "Действие";
-            DataGridColumnDelete.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
-
-            FrameworkElementFactory buttonFactory = new FrameworkElementFactory(typeof(Button));
-            buttonFactory.SetValue(Button.ContentProperty, "Удалить");
-            buttonFactory.AddHandler(Button.ClickEvent, new RoutedEventHandler(deleteItem));
-
-            DataTemplate buttonTemplate = new DataTemplate();
-            buttonTemplate.VisualTree = buttonFactory;
-            DataGridColumnDelete.CellTemplate = buttonTemplate;
-        }
-
-        private void dataUpdated() 
-        {
-            _existСhanges = true;
-        }
-
-        private bool _isReadOnly = true;
-        public bool IsReadOnly
-        {
-            get => _isReadOnly;
-            set 
+            get => EntityTable.SelectedItem;
+            set
             {
-                _isReadOnly = value;
-                OnPropertyChanged(nameof(IsReadOnly));
-            }
-        }
-
-        private object _selectedItem;
-        public object SelectedItem 
-        {
-            get => _selectedItem;
-            set 
-            {
-                _selectedItem = value;
+                EntityTable.SelectedItem = value;
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
@@ -160,13 +104,13 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getNextPage() 
         {
-            LoadDataInCollection(await _paginationService.GetNextPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetNextPageAsync());
             notifyElements();
         }
 
         private async Task getPreviosPage() 
         {
-            LoadDataInCollection(await _paginationService.GetPreviosPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetPreviosPageAsync());
             notifyElements();
         }
 
@@ -177,318 +121,168 @@ namespace WpfAppMVVM.ViewModels
             OnPropertyChanged(nameof(CanGetPreviosPage));
         }
 
-        private void LoadDataInCollection(IEnumerable query) 
+        private void deleteItem(object sender, EventArgs e)
         {
-            ItemsSource.Clear();
-            foreach (var items in query)
-            {
-                ItemsSource.Add(items);
-            }
-        }
-
-        private async Task LoadDataInCollection()
-        {
-            ItemsSource.Clear();
-            foreach (var items in await _paginationService.GetCurrentPageAsync())
-            {
-                ItemsSource.Add(items);
-            }
-        }
-
-        private void saveChangesBeforeClosing() 
-        {
+            _context.Remove(SelectedItem);
             saveChanges();
         }
 
         private void saveChanges()  
         {
-            if (_existСhanges) 
+            try
             {
-                try
-                {
-                    _context.SaveChanges();
-                }
-                catch(Exception e)
-                {
-                    MessageBox.Show($"Ошибка при попытке создать запись: {e.Message}", "Ошибка!",MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-                _existСhanges = false;
-            } 
+                _context.SaveChanges();
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show($"Ошибка при попытке удалить запись: {e.Message}", "Ошибка!",MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
-        private void deleteItem(object sender, EventArgs e) 
+        private EntityTable getEntityTable(Type typeEntityTable)
         {
-            _context.Remove(SelectedItem);
-            deletedItems.Add(SelectedItem);
-            ItemsSource.Remove(SelectedItem);
-            _existСhanges = true;
+            if (!_entityTablesDict.ContainsKey(typeEntityTable)) _entityTablesDict[typeEntityTable] = createEntityTable(typeEntityTable);
+            return _entityTablesDict[typeEntityTable];
+        }
+
+        private EntityTable createEntityTable(Type type) 
+        {
+            EntityTable entityTable = Activator.CreateInstance(type) as EntityTable;
+            entityTable.DoubleClick = new AsyncCommand(async (obj) => await editData());
+            entityTable.OnDelete += deleteItem;
+            return entityTable;
         }
 
         private async Task getCarsData() 
         {
-            saveChanges();
-            typeVM = typeof(CarViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(CarViewModel);
+
+            EntityTable = getEntityTable(typeof(CarTable));
             _paginationService.SetQuery(_context.Cars.Include(car => car.Brand));
             _paginationService.SetSearchFunction(obj => _context.Cars.Include(car => car.Brand)
                                     .Where(b => b.Number.ToLower().Contains(obj.ToLower())
                                              || b.Brand.Name.ToLower().Contains(obj.ToLower())
                                              || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnCarBrand = new DataGridTextColumn();
-            columnCarBrand.Header = "Бренд";
-            columnCarBrand.Binding = new Binding("Brand.Name");
-            columnCarBrand.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnNumber = new DataGridTextColumn();
-            columnNumber.Header = "Номер";
-            columnNumber.Binding = new Binding("Number");
-            columnNumber.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnCarBrand);
-            ColumnCollection.Add(columnNumber);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getTraillerBrandsData()
         {
-            saveChanges();
-            typeVM = typeof(TraillerBrandViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(TraillerBrandViewModel);
+
+            EntityTable = getEntityTable(typeof(TraillerBrandTable));
             _paginationService.SetQuery(_context.TraillerBrands);
             _paginationService.SetSearchFunction(obj => _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                              || b.RussianName.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name") { Mode = BindingMode.TwoWay };
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnRussianBrandName = new DataGridTextColumn();
-            columnRussianBrandName.Header = "Русское название";
-            columnRussianBrandName.Binding = new Binding("RussianName") { Mode = BindingMode.TwoWay };
-            columnRussianBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(columnRussianBrandName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getCarBrandsDataAsync()
         {
-            saveChanges();
-            typeVM = typeof(CarBrandViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(CarBrandViewModel);
+            EntityTable = getEntityTable(typeof(CarBrandTable));
             _paginationService.SetQuery(_context.CarBrands);
             _paginationService.SetSearchFunction(obj => _context.CarBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                              || b.RussianName.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name") { Mode = BindingMode.TwoWay };
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnRussianBrandName = new DataGridTextColumn();
-            columnRussianBrandName.Header = "Русское название";
-            columnRussianBrandName.Binding = new Binding("RussianName") { Mode = BindingMode.TwoWay };
-            columnRussianBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(columnRussianBrandName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getCustomersData()
         {
-            saveChanges();
-            typeVM = typeof(CustomerViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(CustomerViewModel);
+            EntityTable = getEntityTable(typeof(CustomerTable));
             _paginationService.SetQuery(_context.Customers);
             _paginationService.SetSearchFunction(obj => _context.Customers.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name");
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getDriversData()
         {
-            saveChanges();
-            typeVM = typeof(DriverViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(DriverViewModel);
+            EntityTable = getEntityTable(typeof(DriverTable));
             _paginationService.SetQuery(_context.Drivers.Include(driver => driver.TransportCompany));
             _paginationService.SetSearchFunction(obj => _context.Drivers.Include(d => d.TransportCompany)
                                                                         .Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                                                                  || b.TransportCompany.Name.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name");
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnTransportCompany = new DataGridTextColumn();
-            columnTransportCompany.Header = "Транспортная компания";
-            columnTransportCompany.Binding = new Binding("TransportCompany.Name");
-            columnTransportCompany.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(columnTransportCompany);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getRoutePointsData()
         {
-            saveChanges();
-            typeVM = typeof(RoutePointViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(RoutePointViewModel);
+            EntityTable = getEntityTable(typeof(RoutePointTable));
             _paginationService.SetQuery(_context.RoutePoints);
             _paginationService.SetSearchFunction(obj => _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name");
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getRoutesData()
         {
-            saveChanges();
-            typeVM = typeof(RouteViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(RouteViewModel);
+            EntityTable = getEntityTable(typeof(RouteTable));
             _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
             _paginationService.SetSearchFunction(obj => _context.Routes.Where(b => b.RouteName.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnRouteName = new DataGridTextColumn();
-            columnRouteName.Header = "Маршрут";
-            columnRouteName.Binding = new Binding("RouteName");
-            columnRouteName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnCount = new DataGridTextColumn();
-            columnCount.Header = "Кол-во перевозок";
-            columnCount.Binding = new Binding("Transportations.Count");
-            columnCount.Width = new DataGridLength(1, DataGridLengthUnitType.Auto);
-
-            ColumnCollection.Add(columnRouteName);
-            ColumnCollection.Add(columnCount);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getStateOrdersData()
         {
-            saveChanges();
-            typeVM = typeof(StateOrderViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(StateOrderViewModel);
+            EntityTable = getEntityTable(typeof(StateOrderTable));
             _paginationService.SetQuery(_context.StateOrders);
             _paginationService.SetSearchFunction(obj => _context.StateOrders.Where(s => s.Name.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnName = new DataGridTextColumn();
-            columnName.Header = "Наименование";
-            columnName.Binding = new Binding("Name");
-            columnName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getTraillersData()
         {
-            saveChanges();
-            typeVM = typeof(TraillerViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(TraillerViewModel);
+            EntityTable = getEntityTable(typeof(TraillerTable));
             _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
             _paginationService.SetSearchFunction(obj => _context.Traillers.Include(t => t.Brand)
                                          .Where(b => b.Number.ToLower().Contains(obj.ToLower())
                                                   || b.Brand.Name.ToLower().Contains(obj.ToLower())
                                                   || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnBrandName = new DataGridTextColumn();
-            columnBrandName.Header = "Бренд";
-            columnBrandName.Binding = new Binding("Brand.Name");
-            columnBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            DataGridTextColumn columnNumber = new DataGridTextColumn();
-            columnNumber.Header = "Номер";
-            columnNumber.Binding = new Binding("Number");
-            columnNumber.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnBrandName);
-            ColumnCollection.Add(columnNumber);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task getTransportCompaniesData()
         {
-            saveChanges();
-            typeVM = typeof(TransportCompanyViewModel);
-            ColumnCollection.Clear();
+            _typeVM = typeof(TransportCompanyViewModel);
+            EntityTable = getEntityTable(typeof(TransportCompanyTable));
             _paginationService.SetQuery(_context.TransportCompanies);
             _paginationService.SetSearchFunction(obj => _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
-
-            DataGridTextColumn columnBrandName = new DataGridTextColumn();
-            columnBrandName.Header = "Наименование";
-            columnBrandName.Binding = new Binding("Name");
-            columnBrandName.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
-
-            ColumnCollection.Add(columnBrandName);
-            ColumnCollection.Add(DataGridColumnDelete);
-
-            LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
             notifyElements();
         }
 
         private async Task addData() 
         {
-            referenceBook = Activator.CreateInstance(typeVM) as ReferenceBook;
-            await referenceBook.ShowDialog();
-            await LoadDataInCollection();
+            _referenceBook = Activator.CreateInstance(_typeVM) as ReferenceBook;
+            await _referenceBook.ShowDialog();
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
         }
 
         private async Task editData()
         {
-            referenceBook = Activator.CreateInstance(typeVM, SelectedItem) as ReferenceBook;
-            await referenceBook.ShowDialog();
-            await LoadDataInCollection();
+            _referenceBook = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as ReferenceBook;
+            await _referenceBook.ShowDialog();
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
         }
 
-        //Поиск
         private async Task getDataByValue(object obj) 
         {
             string text = obj as string;
-            LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
+            EntityTable.LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
             OnPropertyChanged(nameof(CountPages));
             OnPropertyChanged(nameof(CanGetNextPage));
             OnPropertyChanged(nameof(CanGetPreviosPage));

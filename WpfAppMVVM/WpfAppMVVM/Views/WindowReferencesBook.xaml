@@ -40,7 +40,7 @@
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesDataAsync}"></Button>
 
         </ToolBar>
-        <DataGrid Name="dataGridView" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="{Binding IsReadOnly}" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
+        <DataGrid Name="dataGridView" DataContext="{Binding EntityTable}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" CanUserAddRows="False" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="CellEditEnding">
                     <i:InvokeCommandAction
@@ -48,7 +48,7 @@
                 </i:EventTrigger>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
-                    Command="{Binding EditData}"/>
+                    Command="{Binding DoubleClick}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </DataGrid>
