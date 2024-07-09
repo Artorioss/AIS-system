@@ -412,5 +412,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             _context.Add(_driver);
         }
+
+        public override ICloneable GetEntity() => _driver;
     }
 }

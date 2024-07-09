@@ -168,5 +168,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var tc = _context.TransportCompanies.Find(_transportCompany.TransportCompanyId);
             tc.SetFields(_transportCompany);
         }
+
+        public override ICloneable GetEntity() => _transportCompany;
     }
 }

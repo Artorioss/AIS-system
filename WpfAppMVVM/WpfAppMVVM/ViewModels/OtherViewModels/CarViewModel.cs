@@ -231,5 +231,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var car = _context.Cars.Find(_car.Number);
             car.SetFields(_car);
         }
+
+        public override ICloneable GetEntity() => _car;
     }
 }

@@ -2,16 +2,18 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
-    internal abstract class EntityTable
+    internal abstract class EntityTable: IObserver
     {
         DataGridTemplateColumn dataGridColumnDelete;
         public ObservableCollection<DataGridColumn> ColumnCollection { get; private set; }
         public ObservableCollection<ICloneable> ItemsSource { get; set; }
         private List<object> deletedItems;
+        public bool changedExist { get; set; }
         public ICloneable SelectedItem { get; set; }
         public AsyncCommand DoubleClick { get; set; }
 
@@ -22,7 +24,7 @@ namespace WpfAppMVVM.CustomComponents.Tables
             ColumnCollection = new ObservableCollection<DataGridColumn>();
             ItemsSource = new ObservableCollection<ICloneable>();
             deletedItems = new List<object>();
-
+            changedExist = true;
             createEntityTable();
             addDeleteColumn();
         }
@@ -53,6 +55,23 @@ namespace WpfAppMVVM.CustomComponents.Tables
             }
         }
 
+        public void AddItem(ICloneable Entity) 
+        {
+            ItemsSource.Add(Entity);
+        }
+
+        public void InsertItem(ICloneable OldEntity, ICloneable Entity) 
+        {
+            int indexOldEntity = ItemsSource.IndexOf(OldEntity);
+            ItemsSource.Remove(OldEntity);
+            ItemsSource.Insert(indexOldEntity, Entity);
+        }
+
+        public int GetIndexOfItem(ICloneable item) 
+        {
+            return ItemsSource.IndexOf(item);
+        }
+
         private void deleteItem(object sender, EventArgs e)
         {
             if (OnDeleteItem()) 
@@ -61,6 +80,11 @@ namespace WpfAppMVVM.CustomComponents.Tables
                 deletedItems.Add(SelectedItem);
                 ItemsSource.Remove(SelectedItem);
             }
+        }
+
+        public void Update()
+        {
+            changedExist = true;
         }
 
         protected abstract bool OnDeleteItem();

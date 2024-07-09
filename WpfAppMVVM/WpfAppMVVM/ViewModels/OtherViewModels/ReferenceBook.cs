@@ -4,11 +4,12 @@ using WpfAppMVVM.Model.EfCode;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal abstract class ReferenceBook: BaseViewModel
+    internal abstract class ReferenceBook : BaseViewModel
     {
         protected TransportationEntities _context;
         private Mode _mode;
-        Window _wind;
+        private Window _wind;
+        public bool changedExist { get; set; } = false;
 
         public DelegateCommand OnLoadedCommand { get; set; }
         public DelegateCommand AcceptСhangesCommand { get; set; }
@@ -58,7 +59,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             else ButtonText = "Сохранить изменения";
         }
 
-        private void action()
+        private async Task action()
         {
             if (dataIsCorrect())
             {
@@ -66,7 +67,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 {
                     if (_mode == Mode.Additing) addEntity();
                     else updateEntity();
-                    _context.SaveChanges();
+                    await _context.SaveChangesAsync();
+                    changedExist = true;
                     _wind?.Close();
                 }
                 catch (Exception ex) 
@@ -79,5 +81,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         protected abstract bool dataIsCorrect();
         protected abstract void updateEntity();
         protected abstract void addEntity();
+        public abstract ICloneable GetEntity();
     }
 }

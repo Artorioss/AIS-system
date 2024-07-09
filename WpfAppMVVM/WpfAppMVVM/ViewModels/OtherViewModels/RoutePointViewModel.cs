@@ -243,5 +243,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var cm = _context.RoutePoints.Find(_routePoint.RoutePointId);
             cm.SetFields(_routePoint);
         }
+
+        public override ICloneable GetEntity() => _routePoint;
     }
 }

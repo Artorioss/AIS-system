@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
@@ -22,7 +24,9 @@ namespace WpfAppMVVM.CustomComponents.Tables
 
         protected override bool OnDeleteItem()
         {
-            throw new NotImplementedException();
+            MessageBoxResult result = MessageBox.Show($"Клиент - '{(SelectedItem as Customer).Name}' будет удален.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes) return true;
+            return false;
         }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
 using System.Windows;
+using System.Windows.Threading;
 using WpfAppMVVM.CustomComponents.Tables;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
@@ -8,7 +11,7 @@ using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels
 {
-    internal class ReferenceBookViewModel : BaseViewModel
+    internal class ReferenceBookViewModel : BaseViewModel, IObservable
     {
         public AsyncCommand GetCarsDataAsync { get; private set; }
         public AsyncCommand GetCarBrandsDataAsync { get; private set; }
@@ -30,8 +33,10 @@ namespace WpfAppMVVM.ViewModels
         private ReferenceBook _referenceBook;
         private Type _typeVM;
         private Dictionary<Type, EntityTable> _entityTablesDict;
-
+        private DispatcherTimer _loadingTimer;
         private EntityTable _entityTable;
+        List<IObserver> _observers;
+
         public EntityTable EntityTable
         {
             get => _entityTable;
@@ -47,6 +52,7 @@ namespace WpfAppMVVM.ViewModels
             _context = (Application.Current as App)._context;
             _paginationService = new PaginationService();
             _entityTablesDict = new Dictionary<Type, EntityTable>();
+            _observers = new List<IObserver>();
 
             GetCarsDataAsync = new AsyncCommand((obj) => getCarsData());
             GetCarBrandsDataAsync = new AsyncCommand(async (obj) => await getCarBrandsDataAsync());
@@ -63,7 +69,15 @@ namespace WpfAppMVVM.ViewModels
             GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
             GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
 
+            _loadingTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(400)
+            };
+            _loadingTimer.Tick += LoadingTimer_Tick;
+
             getCarsData();
+
+
         }
 
         public ICloneable SelectedItem
@@ -97,46 +111,57 @@ namespace WpfAppMVVM.ViewModels
             get => _paginationService.CanGetPrevios;
         }
 
+        string _text;
         public string CountPages 
         {
-            get => _paginationService.CountPages > 0 ? $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}" : "Данные не найдены";
-        } 
+            get => _text;
+            set 
+            {
+                _text = value;
+                OnPropertyChanged(nameof(CountPages));
+            }
+        }
 
         private async Task getNextPage() 
         {
+            _loadingTimer.Start();
             EntityTable.LoadDataInCollection(await _paginationService.GetNextPageAsync());
+            _loadingTimer.Stop();
             notifyElements();
         }
 
         private async Task getPreviosPage() 
         {
+            _loadingTimer.Start();
             EntityTable.LoadDataInCollection(await _paginationService.GetPreviosPageAsync());
+            _loadingTimer.Stop();
             notifyElements();
         }
 
         private void notifyElements() 
         {
-            OnPropertyChanged(nameof(CountPages));
+            CountPages = _paginationService.CountPages > 0 ? $"Страница {_paginationService.CurrentPage}\\{_paginationService.CountPages}" : "Данные не найдены";
             OnPropertyChanged(nameof(CanGetNextPage));
             OnPropertyChanged(nameof(CanGetPreviosPage));
         }
 
-        private void deleteItem(object sender, EventArgs e)
-        {
-            _context.Remove(SelectedItem);
-            saveChanges();
-        }
-
-        private void saveChanges()  
+        private async Task saveChanges()  
         {
             try
             {
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch(Exception e)
             {
                 MessageBox.Show($"Ошибка при попытке удалить запись: {e.Message}", "Ошибка!",MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
+
+        private void LoadingTimer_Tick(object sender, EventArgs e)
+        {
+            if (CountPages == "Загрузка данных .") CountPages = "Загрузка данных ..";
+            else if (CountPages == "Загрузка данных ..") CountPages = "Загрузка данных ...";
+            else CountPages = "Загрузка данных .";
         }
 
         private EntityTable getEntityTable(Type typeEntityTable)
@@ -150,7 +175,16 @@ namespace WpfAppMVVM.ViewModels
             EntityTable entityTable = Activator.CreateInstance(type) as EntityTable;
             entityTable.DoubleClick = new AsyncCommand(async (obj) => await editData());
             entityTable.OnDelete += deleteItem;
+            RegisterObserver(entityTable);
             return entityTable;
+        }
+
+        private async Task LoadDataInTable() 
+        {
+            _loadingTimer.Start();
+            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            EntityTable.changedExist = false;
+            _loadingTimer.Stop();
         }
 
         private async Task getCarsData() 
@@ -163,7 +197,7 @@ namespace WpfAppMVVM.ViewModels
                                     .Where(b => b.Number.ToLower().Contains(obj.ToLower())
                                              || b.Brand.Name.ToLower().Contains(obj.ToLower())
                                              || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -175,7 +209,7 @@ namespace WpfAppMVVM.ViewModels
             _paginationService.SetQuery(_context.TraillerBrands);
             _paginationService.SetSearchFunction(obj => _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                              || b.RussianName.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -186,7 +220,7 @@ namespace WpfAppMVVM.ViewModels
             _paginationService.SetQuery(_context.CarBrands);
             _paginationService.SetSearchFunction(obj => _context.CarBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                              || b.RussianName.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -196,7 +230,7 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(CustomerTable));
             _paginationService.SetQuery(_context.Customers);
             _paginationService.SetSearchFunction(obj => _context.Customers.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -208,7 +242,7 @@ namespace WpfAppMVVM.ViewModels
             _paginationService.SetSearchFunction(obj => _context.Drivers.Include(d => d.TransportCompany)
                                                                         .Where(b => b.Name.ToLower().Contains(obj.ToLower())
                                                                                  || b.TransportCompany.Name.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -218,7 +252,7 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(RoutePointTable));
             _paginationService.SetQuery(_context.RoutePoints);
             _paginationService.SetSearchFunction(obj => _context.RoutePoints.Where(rp => rp.Name.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -228,7 +262,7 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(RouteTable));
             _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
             _paginationService.SetSearchFunction(obj => _context.Routes.Where(b => b.RouteName.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -238,7 +272,7 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(StateOrderTable));
             _paginationService.SetQuery(_context.StateOrders);
             _paginationService.SetSearchFunction(obj => _context.StateOrders.Where(s => s.Name.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -251,7 +285,7 @@ namespace WpfAppMVVM.ViewModels
                                          .Where(b => b.Number.ToLower().Contains(obj.ToLower())
                                                   || b.Brand.Name.ToLower().Contains(obj.ToLower())
                                                   || b.Brand.RussianName.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -261,7 +295,7 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(TransportCompanyTable));
             _paginationService.SetQuery(_context.TransportCompanies);
             _paginationService.SetSearchFunction(obj => _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
 
@@ -269,14 +303,24 @@ namespace WpfAppMVVM.ViewModels
         {
             _referenceBook = Activator.CreateInstance(_typeVM) as ReferenceBook;
             await _referenceBook.ShowDialog();
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (_referenceBook.changedExist) _entityTable.AddItem(_referenceBook.GetEntity());
+            NotifyObservers();
         }
 
         private async Task editData()
         {
             _referenceBook = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as ReferenceBook;
             await _referenceBook.ShowDialog();
-            EntityTable.LoadDataInCollection(await _paginationService.GetCurrentPageAsync());
+            if (_referenceBook.changedExist) _entityTable.InsertItem(SelectedItem, _referenceBook.GetEntity());
+            NotifyObservers();
+
+
+        }
+
+        private void deleteItem(object sender, EventArgs e)
+        {
+            _context.Remove(SelectedItem);
+            saveChanges();
         }
 
         private async Task getDataByValue(object obj) 
@@ -287,5 +331,9 @@ namespace WpfAppMVVM.ViewModels
             OnPropertyChanged(nameof(CanGetNextPage));
             OnPropertyChanged(nameof(CanGetPreviosPage));
         }
+
+        public void RegisterObserver(IObserver observer) => _observers.Add(observer);
+        public void UnregisterObserver(IObserver observer) => _observers.Remove(observer);
+        public void NotifyObservers() => _observers.ForEach(o => o.Update());
     }
 }

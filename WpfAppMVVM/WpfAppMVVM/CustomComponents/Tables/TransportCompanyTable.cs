@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
@@ -17,7 +19,9 @@ namespace WpfAppMVVM.CustomComponents.Tables
 
         protected override bool OnDeleteItem()
         {
-            throw new NotImplementedException();
+            MessageBoxResult result = MessageBox.Show($"Транспортная компания - '{(SelectedItem as TransportCompany).Name}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes) return true;
+            return false;
         }
     }
 }

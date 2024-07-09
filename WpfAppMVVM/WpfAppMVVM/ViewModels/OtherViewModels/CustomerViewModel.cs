@@ -278,5 +278,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _selectedYear = dateTime.Year;
             OnPropertyChanged(nameof(SelectedYear));
         }
+
+        public override ICloneable GetEntity() => _customer;
     }
 }

@@ -158,5 +158,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var br = _context.TraillerBrands.Find(_brand.TraillerBrandId);
             br.SetFields(_brand);
         }
+
+        public override ICloneable GetEntity() => _brand;
     }
 }

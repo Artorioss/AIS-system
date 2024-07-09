@@ -231,5 +231,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var trailler = _context.Traillers.Find(_trailler.Number);
             trailler.SetFields(_trailler);
         }
+
+        public override ICloneable GetEntity() => _trailler;
     }
 }

@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
-using WpfAppMVVM.Model;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
-using Microsoft.EntityFrameworkCore;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
@@ -275,5 +269,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _selectedYear = dateTime.Year;
             OnPropertyChanged(nameof(SelectedYear));
         }
+
+        public override ICloneable GetEntity() => _route;
     }
 }

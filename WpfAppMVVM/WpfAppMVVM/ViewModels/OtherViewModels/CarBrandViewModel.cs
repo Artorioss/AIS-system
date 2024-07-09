@@ -158,5 +158,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var br = _context.CarBrands.Find(_brand.CarBrandId);
             br.SetFields(_brand);
         }
+
+        public override ICloneable GetEntity()
+        {
+            return _brand;
+        }
     }
 }
