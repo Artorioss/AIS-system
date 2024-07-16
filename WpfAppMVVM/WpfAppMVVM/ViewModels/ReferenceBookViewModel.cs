@@ -7,6 +7,7 @@ using WpfAppMVVM.CustomComponents.Tables;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels
@@ -76,11 +77,9 @@ namespace WpfAppMVVM.ViewModels
             _loadingTimer.Tick += LoadingTimer_Tick;
 
             getCarsData();
-
-
         }
 
-        public ICloneable SelectedItem
+        public IEntity SelectedItem
         {
             get => EntityTable.SelectedItem;
             set
@@ -145,7 +144,7 @@ namespace WpfAppMVVM.ViewModels
             OnPropertyChanged(nameof(CanGetPreviosPage));
         }
 
-        private async Task saveChanges()  
+        private async Task saveChangesAsync()  
         {
             try
             {
@@ -174,7 +173,7 @@ namespace WpfAppMVVM.ViewModels
         {
             EntityTable entityTable = Activator.CreateInstance(type) as EntityTable;
             entityTable.DoubleClick = new AsyncCommand(async (obj) => await editData());
-            entityTable.OnDelete += deleteItem;
+            entityTable.asyncFunction += deleteItem;
             RegisterObserver(entityTable);
             return entityTable;
         }
@@ -313,14 +312,13 @@ namespace WpfAppMVVM.ViewModels
             await _referenceBook.ShowDialog();
             if (_referenceBook.changedExist) _entityTable.InsertItem(SelectedItem, _referenceBook.GetEntity());
             NotifyObservers();
-
-
         }
 
-        private void deleteItem(object sender, EventArgs e)
+        private async Task deleteItem()
         {
-            _context.Remove(SelectedItem);
-            saveChanges();
+            SelectedItem.SoftDeleted = true;
+            await saveChangesAsync();
+            if (EntityTable.ItemsSource.Count == 0) await getPreviosPage();
         }
 
         private async Task getDataByValue(object obj) 

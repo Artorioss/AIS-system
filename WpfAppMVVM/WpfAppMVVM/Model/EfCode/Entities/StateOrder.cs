@@ -2,16 +2,17 @@
 
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class StateOrder: ICloneable
+    public class StateOrder: IEntity
     {
         public int StateOrderId { get; set; }
         [MaxLength(32)]
         public string Name { get; set; }
+        public bool SoftDeleted { get; set; }
         public ICollection<Transportation> Transportations { get; set; }
 
         public StateOrder() 
         {
-            Transportations = new HashSet<Transportation>();
+            Transportations = new List<Transportation>();
         }
 
         public StateOrder(StateOrder stateOrder)
@@ -19,11 +20,14 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             SetFields(stateOrder);
         }
 
-        public void SetFields(StateOrder stateOrder) 
+        public void SetFields(IEntity stateOrder) 
         {
-            StateOrderId = stateOrder.StateOrderId;
-            Name = stateOrder.Name;
-            Transportations = stateOrder.Transportations;
+            StateOrder stateOrderEntity = stateOrder as StateOrder;
+            StateOrderId = stateOrderEntity.StateOrderId;
+            Name = stateOrderEntity.Name;
+            Transportations = new List<Transportation>();
+            if (stateOrderEntity.Transportations != null && stateOrderEntity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(stateOrderEntity.Transportations);
+            SoftDeleted = stateOrderEntity.SoftDeleted;
         }
 
         public object Clone()

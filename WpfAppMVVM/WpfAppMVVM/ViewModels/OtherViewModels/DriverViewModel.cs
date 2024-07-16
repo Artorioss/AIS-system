@@ -402,17 +402,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             return true;
         }
 
-        protected override void updateEntity()
+        protected override async Task addEntity()
         {
-            var dr = _context.Drivers.Find(_driver.DriverId);
+            var driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Name == _driver.Name && d.SoftDeleted);
+            if (driver != null) driver.SetFields(_driver);
+            else await _context.AddAsync(_driver);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var dr = await _context.Drivers.FindAsync(_driver.DriverId);
             dr.SetFields(_driver);
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_driver);
-        }
-
-        public override ICloneable GetEntity() => _driver;
+        public override IEntity GetEntity() => _driver;
     }
 }

@@ -148,18 +148,20 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             return true;
         }
 
-        protected override void addEntity()
+        protected override async Task addEntity()
         {
-            _context.Add(_brand);
+            var cb = await _context.CarBrands.FirstOrDefaultAsync(cb => cb.Name == _brand.Name && cb.SoftDeleted);
+            if (cb != null) cb.SetFields(_brand);
+            else await _context.AddAsync(_brand);
         }
 
-        protected override void updateEntity()
+        protected override async Task updateEntity()
         {
-            var br = _context.CarBrands.Find(_brand.CarBrandId);
+            var br = await _context.CarBrands.FindAsync(_brand.CarBrandId);
             br.SetFields(_brand);
         }
 
-        public override ICloneable GetEntity()
+        public override IEntity GetEntity()
         {
             return _brand;
         }

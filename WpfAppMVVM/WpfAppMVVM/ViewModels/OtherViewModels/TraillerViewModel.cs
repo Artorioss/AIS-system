@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
@@ -177,11 +178,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if (SelectedBrand is null) SelectedBrand = new TraillerBrand { Name = BrandText };
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_trailler);
-        }
-
         private void deleteEntity(object obj)
         {
             _context.Drivers.Remove(obj as Driver);
@@ -226,12 +222,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteCommand = new DelegateCommand(deleteEntity);
         }
 
-        protected override void updateEntity()
+        protected override async Task addEntity()
         {
-            var trailler = _context.Traillers.Find(_trailler.Number);
+            var trailler = await _context.Traillers.FirstOrDefaultAsync(t => t.Number == _trailler.Number && t.SoftDeleted);
+            if (trailler != null) trailler.SetFields(_trailler);
+            else await _context.AddAsync(_trailler);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var trailler = await _context.Traillers.FindAsync(_trailler.Number);
             trailler.SetFields(_trailler);
         }
 
-        public override ICloneable GetEntity() => _trailler;
+        public override IEntity GetEntity() => _trailler;
     }
 }

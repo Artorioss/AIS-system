@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
@@ -29,7 +30,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _car = car.Clone() as Car;
             WindowName = "Редактирование автомобиля";
             BrandSource = new List<CarBrand>() { car.Brand };
-            Drivers = new ObservableHashSet<Driver>(_car.Drivers);
+            Drivers = [.. _car.Drivers];
         }
 
         private string _windowName = "Создание автомобиля";
@@ -177,11 +178,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if (SelectedCarBrand is null) SelectedCarBrand = new CarBrand { Name = BrandText};
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_car);
-        }
-
         private void deleteEntity(object obj) 
         {
             _context.Drivers.Remove(obj as Driver);
@@ -226,12 +222,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteCommand = new DelegateCommand(deleteEntity);
         }
 
-        protected override void updateEntity()
+        protected override async Task addEntity()
         {
-            var car = _context.Cars.Find(_car.Number);
+            var car = await _context.Cars.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Number == _car.Number && c.SoftDeleted);
+            if (car != null) car.SetFields(_car);
+            else await _context.AddAsync(_car);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var car = await _context.Cars.FindAsync(_car.Number);
             car.SetFields(_car);
         }
 
-        public override ICloneable GetEntity() => _car;
+        public override IEntity GetEntity() => _car;
     }
 }

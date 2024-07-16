@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
@@ -199,11 +200,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in list) Transportations.Add(item);
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_customer);
-        }
-
         private void deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{(obj as Transportation).RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -232,12 +228,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteCommand = new DelegateCommand(deleteEntity);
             ShowWindowCommand = new DelegateCommand((obj) => showWindowForEdit());
             SortCommand = new DelegateCommand((obj) => onSort());
-        }
-
-        protected override void updateEntity()
-        {
-            var cm = _context.Customers.Find(_customer.CustomerId);
-            cm.SetFields(_customer);
         }
 
         private void showWindowForEdit() 
@@ -279,6 +269,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             OnPropertyChanged(nameof(SelectedYear));
         }
 
-        public override ICloneable GetEntity() => _customer;
+        protected override async Task addEntity()
+        {
+            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Name == _customer.Name && c.SoftDeleted);
+            if (customer != null) customer.SetFields(_customer);
+            else await _context.AddAsync(_customer);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var cm = await _context.Customers.FindAsync(_customer.CustomerId);
+            cm.SetFields(_customer);
+        }
+
+        public override IEntity GetEntity() => _customer;
     }
 }

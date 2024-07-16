@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    public class Transportation: ICloneable
+    public class Transportation: IEntity
     {
         public Transportation() {}
 
@@ -26,6 +26,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(512)]
         public string RouteName { get; set; }
         public int StateOrderId { get; set; }
+        public bool SoftDeleted { get; set; }
         public Car Car { get; set; }
         public Trailler Trailler { get; set; }
         public Route Route { get; set; }
@@ -39,27 +40,29 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             return new Transportation(this);
         }
 
-        public void SetFields(Transportation transportation) 
+        public void SetFields(IEntity transportation) 
         {
-            TransportationId = transportation.TransportationId;
-            DateLoading = transportation.DateLoading;
-            CustomerId = transportation.CustomerId;
-            DriverId = transportation.DriverId;
-            RouteId = transportation.RouteId;
-            CarNumber = transportation.CarNumber;
-            TraillerNumber = transportation.TraillerNumber;
-            Price = transportation.Price;
-            PaymentToDriver = transportation.PaymentToDriver;
-            PaymentMethodId = transportation.PaymentMethodId;
-            RouteName = transportation.RouteName;
-            StateOrderId = transportation.StateOrderId;
-            Car = transportation.Car;
-            Trailler = transportation.Trailler;
-            Route = transportation.Route;
-            Customer = transportation.Customer;
-            Driver = transportation.Driver;
-            StateOrder = transportation.StateOrder;
-            PaymentMethod = transportation.PaymentMethod;
+            Transportation transportationEntity = transportation as Transportation;
+            TransportationId = transportationEntity.TransportationId;
+            DateLoading = transportationEntity.DateLoading;
+            CustomerId = transportationEntity.CustomerId;
+            DriverId = transportationEntity.DriverId;
+            RouteId = transportationEntity.RouteId;
+            CarNumber = transportationEntity.CarNumber;
+            TraillerNumber = transportationEntity.TraillerNumber;
+            Price = transportationEntity.Price;
+            PaymentToDriver = transportationEntity.PaymentToDriver;
+            PaymentMethodId = transportationEntity.PaymentMethodId;
+            RouteName = transportationEntity.RouteName;
+            StateOrderId = transportationEntity.StateOrderId;
+            Car = transportationEntity.Car;
+            Trailler = transportationEntity.Trailler;
+            Route = transportationEntity.Route;
+            Customer = transportationEntity.Customer;
+            Driver = transportationEntity.Driver;
+            StateOrder = transportationEntity.StateOrder;
+            PaymentMethod = transportationEntity.PaymentMethod;
+            SoftDeleted = transportationEntity.SoftDeleted;
         }
     }
 }

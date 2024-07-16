@@ -105,7 +105,6 @@ namespace WpfAppMVVM.Model
 
         public async Task<IEnumerable> GetCurrentPageAsync()
         {
-            await Task.Delay(2000);
             return await getObjectsAsync();
         }
 

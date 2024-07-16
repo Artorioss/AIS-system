@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
@@ -127,11 +128,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if (SelectedDriver is null) SelectedDriver = new Driver { Name = DriverName };
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_transportCompany);
-        }
-
         private void deleteEntity(object obj)
         {
             _context.Drivers.Remove(obj as Driver);
@@ -163,12 +159,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteCommand = new DelegateCommand(deleteEntity);
         }
 
-        protected override void updateEntity()
+        protected override async Task addEntity()
         {
-            var tc = _context.TransportCompanies.Find(_transportCompany.TransportCompanyId);
+            var transportCompany = await _context.TransportCompanies.FirstOrDefaultAsync(t => t.Name == _transportCompany.Name && t.SoftDeleted);
+            if (transportCompany != null) transportCompany.SetFields(_transportCompany);
+            else await _context.AddAsync(_transportCompany);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var tc = await _context.TransportCompanies.FindAsync(_transportCompany.TransportCompanyId);
             tc.SetFields(_transportCompany);
         }
 
-        public override ICloneable GetEntity() => _transportCompany;
+        public override IEntity GetEntity() => _transportCompany;
     }
 }

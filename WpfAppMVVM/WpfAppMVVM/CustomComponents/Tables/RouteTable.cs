@@ -23,11 +23,51 @@ namespace WpfAppMVVM.CustomComponents.Tables
             ColumnCollection.Add(columnCount);
         }
 
-        protected override bool OnDeleteItem()
+        protected override string createMessageBoxText()
         {
-            MessageBoxResult result = MessageBox.Show($"Маршрут - '{(SelectedItem as Route).RouteName}' будет удален.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) return true;
-            return false;
+            Route route = SelectedItem as Route;
+            string messageBoxText = string.Empty;
+            if (route.Transportations.Count > 0)
+            {
+                messageBoxText += "Нельзя удалить данный маршрут, так как на него ссылаются из других таблиц. За данным маршрутом закреплены следующие заявки:\r\n";
+                int i = 0;
+                foreach (Transportation transportation in route.Transportations)
+                {
+                    if (i == 3) break;
+                    messageBoxText += $"{transportation.RouteName};\r\n";
+                    i++;
+                }
+                int remainder = route.Transportations.Count - 3;
+                if(remainder > 0) messageBoxText += $"\r\nИ еще {remainder} других заявок.";
+                messageBoxText += "\r\nЧтобы удалить данный маршрут, разрешите зависимости.";
+            }
+            else messageBoxText = $"Маршрут - '{(SelectedItem as Route).RouteName}' будет удален. Продолжить?";
+            return messageBoxText;
+        }
+
+        protected override string createMessageBoxCaption()
+        {
+            Route route = SelectedItem as Route;
+            string caption;
+            if (route.Transportations.Count > 0) caption = "Невозможно выполнить действие";
+            else caption = "Вы уверены?";
+            return caption;
+        }
+
+        protected override MessageBoxButton createMessageBoxButton()
+        {
+            Route route = SelectedItem as Route;
+            MessageBoxButton button;
+            if (route.Transportations.Count > 0) button = MessageBoxButton.OK;
+            else button = MessageBoxButton.YesNo;
+            return button;
+        }
+
+        protected override async Task loadingDependentEntities()
+        {
+            Route route = SelectedItem as Route;
+            var collection = _context.Entry(route).Collection(r => r.Transportations);
+            if (!collection.IsLoaded) await collection.LoadAsync();
         }
     }
 }

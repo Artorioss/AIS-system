@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
@@ -65,7 +66,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             {
                 try
                 {
-                    if (_mode == Mode.Additing) addEntity();
+                    if (_mode == Mode.Additing) 
+                    {
+                        addEntity();
+                    } 
                     else updateEntity();
                     await _context.SaveChangesAsync();
                     changedExist = true;
@@ -79,8 +83,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         }
         protected abstract void setCommands();
         protected abstract bool dataIsCorrect();
-        protected abstract void updateEntity();
-        protected abstract void addEntity();
-        public abstract ICloneable GetEntity();
+        protected abstract Task updateEntity();
+        protected abstract Task addEntity();
+        public abstract IEntity GetEntity();
     }
 }

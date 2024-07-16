@@ -79,6 +79,9 @@ namespace WpfAppMVVM.Migrations
                     b.Property<bool>("IsTruck")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("Number");
 
                     b.HasIndex("BrandId");
@@ -101,6 +104,9 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("RussianName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("CarBrandId");
 
                     b.ToTable("CarBrands");
@@ -119,6 +125,9 @@ namespace WpfAppMVVM.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
@@ -136,6 +145,9 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("TransportCompanyId")
                         .HasColumnType("integer");
@@ -157,7 +169,11 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(16)
+                        .HasColumnType("character varying(16)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("PaymentMethodId");
 
@@ -177,6 +193,9 @@ namespace WpfAppMVVM.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("character varying(128)");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("RouteId");
 
                     b.ToTable("Routes");
@@ -194,6 +213,9 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired()
                         .HasMaxLength(64)
                         .HasColumnType("character varying(64)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("RoutePointId");
 
@@ -213,6 +235,9 @@ namespace WpfAppMVVM.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("StateOrderId");
 
                     b.ToTable("StateOrders");
@@ -226,6 +251,9 @@ namespace WpfAppMVVM.Migrations
 
                     b.Property<int?>("BrandId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("Number");
 
@@ -249,6 +277,9 @@ namespace WpfAppMVVM.Migrations
                     b.Property<string>("RussianName")
                         .HasColumnType("text");
 
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
                     b.HasKey("TraillerBrandId");
 
                     b.ToTable("TraillerBrands");
@@ -266,6 +297,9 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired()
                         .HasMaxLength(32)
                         .HasColumnType("character varying(32)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.HasKey("TransportCompanyId");
 
@@ -308,6 +342,9 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired()
                         .HasMaxLength(512)
                         .HasColumnType("character varying(512)");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("StateOrderId")
                         .HasColumnType("integer");
@@ -411,7 +448,7 @@ namespace WpfAppMVVM.Migrations
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Transportation", b =>
                 {
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Car", "Car")
-                        .WithMany()
+                        .WithMany("Transportations")
                         .HasForeignKey("CarNumber");
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Customer", "Customer")
@@ -421,7 +458,7 @@ namespace WpfAppMVVM.Migrations
                         .IsRequired();
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Driver", "Driver")
-                        .WithMany("Transportation")
+                        .WithMany("Transportations")
                         .HasForeignKey("DriverId");
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.PaymentMethod", "PaymentMethod")
@@ -429,17 +466,17 @@ namespace WpfAppMVVM.Migrations
                         .HasForeignKey("PaymentMethodId");
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Route", "Route")
-                        .WithMany("Transportation")
+                        .WithMany("Transportations")
                         .HasForeignKey("RouteId");
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.StateOrder", "StateOrder")
-                        .WithMany("Transportation")
+                        .WithMany("Transportations")
                         .HasForeignKey("StateOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Trailler", "Trailler")
-                        .WithMany()
+                        .WithMany("Transportations")
                         .HasForeignKey("TraillerNumber");
 
                     b.Navigation("Car");
@@ -457,6 +494,11 @@ namespace WpfAppMVVM.Migrations
                     b.Navigation("Trailler");
                 });
 
+            modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Car", b =>
+                {
+                    b.Navigation("Transportations");
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.CarBrand", b =>
                 {
                     b.Navigation("Cars");
@@ -469,7 +511,7 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Driver", b =>
                 {
-                    b.Navigation("Transportation");
+                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.PaymentMethod", b =>
@@ -479,12 +521,17 @@ namespace WpfAppMVVM.Migrations
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Route", b =>
                 {
-                    b.Navigation("Transportation");
+                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.StateOrder", b =>
                 {
-                    b.Navigation("Transportation");
+                    b.Navigation("Transportations");
+                });
+
+            modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Trailler", b =>
+                {
+                    b.Navigation("Transportations");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.TraillerBrand", b =>

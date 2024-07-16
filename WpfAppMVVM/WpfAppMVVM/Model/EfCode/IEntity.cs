@@ -1,7 +1,8 @@
 ﻿namespace WpfAppMVVM.Model.EfCode.Entities
 {
-    interface IEntity
+    public interface IEntity: ICloneable
     {
-        public void SetFields();
+        public bool SoftDeleted { get; set; }
+        public void SetFields(IEntity entity);
     }
 }

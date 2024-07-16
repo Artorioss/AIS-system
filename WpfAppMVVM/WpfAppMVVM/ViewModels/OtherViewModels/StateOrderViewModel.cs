@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.ObjectModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
@@ -190,11 +192,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in list) Transportations.Add(item);
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_stateOrder);
-        }
-
         private void deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{(obj as Transportation).RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -223,12 +220,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteCommand = new DelegateCommand(deleteEntity);
             ShowWindowCommand = new DelegateCommand((obj) => showWindowForEdit());
             SortCommand = new DelegateCommand((obj) => onSort());
-        }
-
-        protected override void updateEntity()
-        {
-            var state = _context.StateOrders.Find(_stateOrder.StateOrderId);
-            state.SetFields(_stateOrder);
         }
 
         private void showWindowForEdit()
@@ -270,6 +261,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             OnPropertyChanged(nameof(SelectedYear));
         }
 
-        public override ICloneable GetEntity() => _stateOrder;
+        protected override async Task addEntity()
+        {
+            var state = await _context.StateOrders.FirstOrDefaultAsync(s => s.Name == _stateOrder.Name && s.SoftDeleted);
+            if (state != null) state.SetFields(_stateOrder);
+            else await _context.AddAsync(_stateOrder);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var state = await _context.StateOrders.FindAsync(_stateOrder.StateOrderId);
+            state.SetFields(_stateOrder);
+        }
+
+        public override IEntity GetEntity() => _stateOrder;
     }
 }

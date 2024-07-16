@@ -2,31 +2,37 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
     internal abstract class EntityTable: IObserver
     {
+        protected TransportationEntities _context;
         DataGridTemplateColumn dataGridColumnDelete;
         public ObservableCollection<DataGridColumn> ColumnCollection { get; private set; }
-        public ObservableCollection<ICloneable> ItemsSource { get; set; }
+        public ObservableCollection<IEntity> ItemsSource { get; set; }
         private List<object> deletedItems;
         public bool changedExist { get; set; }
-        public ICloneable SelectedItem { get; set; }
+        public IEntity SelectedItem { get; set; }
         public AsyncCommand DoubleClick { get; set; }
 
-        public event EventHandler? OnDelete;
+        public delegate Task AsyncFunction();
+        public AsyncFunction asyncFunction;
 
         public EntityTable() 
         {
             ColumnCollection = new ObservableCollection<DataGridColumn>();
-            ItemsSource = new ObservableCollection<ICloneable>();
+            ItemsSource = new ObservableCollection<IEntity>();
             deletedItems = new List<object>();
             changedExist = true;
             createEntityTable();
             addDeleteColumn();
+            _context = (Application.Current as App)._context;
         }
 
         private void addDeleteColumn()
@@ -51,35 +57,25 @@ namespace WpfAppMVVM.CustomComponents.Tables
             ItemsSource.Clear();
             foreach (var item in items)
             {
-                ItemsSource.Add(item as ICloneable);
+                ItemsSource.Add(item as IEntity);
             }
         }
 
-        public void AddItem(ICloneable Entity) 
+        public void AddItem(IEntity Entity) 
         {
             ItemsSource.Add(Entity);
         }
 
-        public void InsertItem(ICloneable OldEntity, ICloneable Entity) 
+        public void InsertItem(IEntity OldEntity, IEntity Entity) 
         {
             int indexOldEntity = ItemsSource.IndexOf(OldEntity);
             ItemsSource.Remove(OldEntity);
             ItemsSource.Insert(indexOldEntity, Entity);
         }
 
-        public int GetIndexOfItem(ICloneable item) 
+        public int GetIndexOfItem(IEntity item) 
         {
             return ItemsSource.IndexOf(item);
-        }
-
-        private void deleteItem(object sender, EventArgs e)
-        {
-            if (OnDeleteItem()) 
-            {
-                OnDelete?.Invoke(sender, e);
-                deletedItems.Add(SelectedItem);
-                ItemsSource.Remove(SelectedItem);
-            }
         }
 
         public void Update()
@@ -87,7 +83,28 @@ namespace WpfAppMVVM.CustomComponents.Tables
             changedExist = true;
         }
 
-        protected abstract bool OnDeleteItem();
+        private async void deleteItem(object sender, EventArgs e)
+        {
+            await loadingDependentEntities();
+            if (CanDelete()) 
+            {
+                await asyncFunction.Invoke();
+                deletedItems.Add(SelectedItem);
+                ItemsSource.Remove(SelectedItem);
+            }
+        }
+
+        private bool CanDelete() 
+        {
+            MessageBoxResult result = MessageBox.Show(createMessageBoxText(), createMessageBoxCaption(), createMessageBoxButton(), MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes) return true;
+            return false;
+        }
+
         protected abstract void createEntityTable();
+        protected abstract string createMessageBoxText();
+        protected abstract string createMessageBoxCaption();
+        protected abstract Task loadingDependentEntities();
+        protected abstract MessageBoxButton createMessageBoxButton();
     }
 }

@@ -42,6 +42,19 @@ namespace WpfAppMVVM.Model.EfCode
             modelBuilder.Entity<Transportation>()
                 .Property(t => t.DateLoading)
                 .HasConversion(nullableDateTimeConverter);
+
+            modelBuilder.Entity<Transportation>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<CarBrand>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<TraillerBrand>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<Customer>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<Driver>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<Route>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<RoutePoint>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<StateOrder>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<Trailler>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<TransportCompany>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<PaymentMethod>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<Car>().HasQueryFilter(t => !t.SoftDeleted);
         }
     }
 }

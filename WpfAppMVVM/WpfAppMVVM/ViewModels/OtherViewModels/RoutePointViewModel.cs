@@ -204,11 +204,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in list) Routes.Add(item);
         }
 
-        protected override void addEntity()
-        {
-            _context.Add(_routePoint);
-        }
-
         private void deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Маршурт - '{(obj as Route).RouteName}' будет удален.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
@@ -238,12 +233,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SortCommand = new DelegateCommand((obj) => onSort());
         }
 
-        protected override void updateEntity()
+        protected override async Task addEntity()
         {
-            var cm = _context.RoutePoints.Find(_routePoint.RoutePointId);
+            var routePoint = await _context.RoutePoints.SingleOrDefaultAsync(rp => rp.Name == _routePoint.Name && rp.SoftDeleted);
+            if (routePoint != null) routePoint.SetFields(_routePoint);
+            else await _context.AddAsync(_routePoint);
+        }
+
+        protected override async Task updateEntity()
+        {
+            var cm = await _context.RoutePoints.FindAsync(_routePoint.RoutePointId);
             cm.SetFields(_routePoint);
         }
 
-        public override ICloneable GetEntity() => _routePoint;
+        public override IEntity GetEntity() => _routePoint;
     }
 }

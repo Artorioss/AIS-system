@@ -17,11 +17,42 @@ namespace WpfAppMVVM.CustomComponents.Tables
             ColumnCollection.Add(columnName);
         }
 
-        protected override bool OnDeleteItem()
+        protected override string createMessageBoxText()
         {
-            MessageBoxResult result = MessageBox.Show($"Состояние - '{(SelectedItem as StateOrder).Name}' будет удалено.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) return true;
-            return false;
+            StateOrder state = SelectedItem as StateOrder;
+            string messageBoxText = string.Empty;
+            if (state.Transportations.Count > 0)
+            {
+                messageBoxText += $"Нельзя удалить данное состояние, так как на нее ссылается {state.Transportations.Count} заявок.";
+                messageBoxText += "\r\nЧтобы удалить данное состояние, разрешите зависимости.";
+            }
+            else messageBoxText = $"Состояние - '{(SelectedItem as StateOrder).Name}' будет удалено. Продолжить?";
+            return messageBoxText;
+        }
+
+        protected override string createMessageBoxCaption()
+        {
+            StateOrder state = SelectedItem as StateOrder;
+            string caption;
+            if (state.Transportations.Count > 0) caption = "Невозможно выполнить действие";
+            else caption = "Вы уверены?";
+            return caption;
+        }
+
+        protected override MessageBoxButton createMessageBoxButton()
+        {
+            StateOrder state = SelectedItem as StateOrder;
+            MessageBoxButton button;
+            if (state.Transportations.Count > 0) button = MessageBoxButton.OK;
+            else button = MessageBoxButton.YesNo;
+            return button;
+        }
+
+        protected override async Task loadingDependentEntities()
+        {
+            StateOrder state = SelectedItem as StateOrder;
+            var collection = _context.Entry(state).Collection(s => s.Transportations);
+            if (!collection.IsLoaded) await collection.LoadAsync();
         }
     }
 }

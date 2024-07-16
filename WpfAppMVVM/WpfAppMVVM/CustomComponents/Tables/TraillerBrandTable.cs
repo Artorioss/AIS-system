@@ -23,11 +23,51 @@ namespace WpfAppMVVM.CustomComponents.Tables
             ColumnCollection.Add(columnRussianBrandName);
         }
 
-        protected override bool OnDeleteItem()
+        protected override string createMessageBoxText()
         {
-            MessageBoxResult result = MessageBox.Show($"Бренд - '{(SelectedItem as TraillerBrand).Name}' будет удален.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) return true;
-            return false;
+            TraillerBrand brand = SelectedItem as TraillerBrand;
+            string messageBoxText = string.Empty;
+            if (brand.Traillers.Count > 0)
+            {
+                messageBoxText += "Нельзя удалить данный бренд, так как на него ссылаются из других таблиц. За данным брендом закреплены следующие прицепы:\r\n";
+                int i = 0;
+                foreach (Trailler trailler in brand.Traillers)
+                {
+                    if (i == 5) break;
+                    messageBoxText += $"{trailler.Number} - {trailler.Brand.Name};\r\n";
+                    i++;
+                }
+                int remainder = brand.Traillers.Count;
+                if(remainder > 0) messageBoxText += $"\r\nИ ещё {remainder} других прицепов.";
+                messageBoxText += "\r\nЧтобы удалить данный бренд, разрешите зависимости.";
+            }
+            else messageBoxText = $"Бренд - '{(SelectedItem as TraillerBrand).Name}' будет удален. Продолжить?";
+            return messageBoxText;
+        }
+        
+        protected override string createMessageBoxCaption()
+        {
+            TraillerBrand brand = SelectedItem as TraillerBrand;
+            string caption;
+            if (brand.Traillers.Count > 0) caption = "Невозможно выполнить действие";
+            else caption = "Вы уверены?";
+            return caption;
+        }
+
+        protected override MessageBoxButton createMessageBoxButton()
+        {
+            TraillerBrand brand = SelectedItem as TraillerBrand;
+            MessageBoxButton button;
+            if (brand.Traillers.Count > 0) button = MessageBoxButton.OK;
+            else button = MessageBoxButton.YesNo;
+            return button;
+        }
+
+        protected override async Task loadingDependentEntities()
+        {
+            TraillerBrand brand = SelectedItem as TraillerBrand;
+            var collection = _context.Entry(brand).Collection(b => b.Traillers);
+            if (!collection.IsLoaded) await collection.LoadAsync();
         }
     }
 }
