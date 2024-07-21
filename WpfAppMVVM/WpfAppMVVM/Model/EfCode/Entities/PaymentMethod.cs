@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -9,11 +11,11 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(16)]
         public string Name { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
 
         public PaymentMethod() 
         {
-            Transportations = new HashSet<Transportation>(); 
+            Transportations = new ObservableCollection<Transportation>(); 
         }
 
         public PaymentMethod(PaymentMethod paymentMethod)
@@ -33,8 +35,8 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             PaymentMethodId = paymentMethodEntity.PaymentMethodId;
             Name = paymentMethodEntity.Name;
             SoftDeleted = paymentMethodEntity.SoftDeleted;
-            Transportations = new List<Transportation>();
-            if (paymentMethodEntity.Transportations != null && paymentMethodEntity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(paymentMethodEntity.Transportations);
+            Transportations = new ObservableCollection<Transportation>();
+            if (paymentMethodEntity.Transportations != null && paymentMethodEntity.Transportations.Count > 0) foreach(var transportation in paymentMethodEntity.Transportations) Transportations.Add(transportation);
             SoftDeleted = paymentMethodEntity.SoftDeleted;
         }
     }

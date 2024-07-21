@@ -78,12 +78,23 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public TraillerBrandViewModel(TraillerBrand brand)
         {
             mode = Mode.Editing;
-
-            _context.Entry(brand).Collection(b => b.Traillers).Load();            
-
-            _brand = brand.Clone() as TraillerBrand;
+            _brand = brand;
             Traillers = new ObservableCollection<Trailler>(_brand.Traillers);
             WindowName = "Редактирование бренда";
+        }
+
+        protected override void cloneEntity()
+        {
+            _brand = _brand.Clone() as TraillerBrand;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_brand).Collection(b => b.Traillers).IsLoaded)
+            {
+                _brand.Traillers.Clear();
+                await _context.Entry(_brand).Collection(b => b.Traillers).LoadAsync();
+            }
         }
 
         protected override void setCommands()
@@ -138,7 +149,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrEmpty(_brand.Name))
             {
@@ -161,6 +172,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             br.SetFields(_brand);
         }
 
-        public override IEntity GetEntity() => _brand;
+        public override async Task<IEntity> GetEntity() => await _context.TraillerBrands.FindAsync(_brand.TraillerBrandId);
     }
 }

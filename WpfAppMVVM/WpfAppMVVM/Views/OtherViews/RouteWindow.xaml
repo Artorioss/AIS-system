@@ -75,7 +75,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Content="Удалить"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                Command="{Binding DataContext.DeleteAsyncCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
@@ -84,7 +84,7 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="MouseDoubleClick">
                                     <i:InvokeCommandAction
-                                        Command="{Binding ShowWindowCommand}"/>
+                                        Command="{Binding ShowWindowAsyncCommand}"/>
                                 </i:EventTrigger>
                                 <i:EventTrigger EventName="Sorting">
                                     <i:InvokeCommandAction

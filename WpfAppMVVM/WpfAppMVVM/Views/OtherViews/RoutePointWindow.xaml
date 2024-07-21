@@ -68,7 +68,7 @@
                         <Label Grid.Column="4" Margin="5,5,0,5" Content="Найдено маршрутов:"></Label>
                         <Label Grid.Column="5" Margin="0,5,5,5" HorizontalAlignment="Left" Content="{Binding CountRoutes}"></Label>
 
-                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="6" ItemsSource="{Binding Routes}" SelectedItem="{Binding SelectedRoute}">
+                        <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="6" ItemsSource="{Binding FilteredRoutes}" SelectedItem="{Binding SelectedRoute}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Маршрут" Width="*" Binding="{Binding RouteName}"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Кол-во перевозок" Width="auto" Binding="{Binding Transportations.Count}"></DataGridTextColumn>
@@ -76,7 +76,7 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <Button Content="Удалить"
-                                                Command="{Binding DataContext.DeleteCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                                Command="{Binding DataContext.DeleteAsyncCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
                                                 CommandParameter="{Binding}"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>

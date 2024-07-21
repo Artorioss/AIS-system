@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
@@ -6,7 +8,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
     {
         public RoutePoint() 
         {
-            Routes = new List<Route>();
+            Routes = new ObservableCollection<Route>();
         }
 
         public RoutePoint(RoutePoint routePoint)
@@ -18,15 +20,15 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(64)]
         public string Name { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Route> Routes { get; set; }
+        public ObservableCollection<Route> Routes { get; set; }
 
         public void SetFields(IEntity routePoint) 
         {
             RoutePoint routePointEntity = routePoint as RoutePoint;
             RoutePointId = routePointEntity.RoutePointId;
             Name = routePointEntity.Name;
-            Routes = new List<Route>();
-            if (routePointEntity.Routes != null && routePointEntity.Routes.Count > 0) (Routes as List<Route>).AddRange(routePointEntity.Routes);
+            Routes = new ObservableCollection<Route>();
+            if (routePointEntity.Routes != null && routePointEntity.Routes.Count > 0) foreach(var item in routePointEntity.Routes) Routes.Add(item);
             SoftDeleted = routePointEntity.SoftDeleted;
         }
 

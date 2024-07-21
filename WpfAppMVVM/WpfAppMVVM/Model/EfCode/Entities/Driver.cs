@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -7,9 +9,9 @@ namespace WpfAppMVVM.Model.EfCode.Entities
     {
         public Driver() 
         {
-            Cars = new List<Car>();
-            Traillers = new List<Trailler>();
-            Transportations = new List<Transportation>();
+            Cars = new ObservableCollection<Car>();
+            Traillers = new ObservableCollection<Trailler>();
+            Transportations = new ObservableCollection<Transportation>();
         }
 
         public Driver(Driver driver)
@@ -23,9 +25,9 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public int TransportCompanyId { get; set; }
         public bool SoftDeleted { get; set; }
         public TransportCompany TransportCompany { get; set; }
-        public ICollection<Car> Cars { get; set; }
-        public ICollection<Trailler> Traillers { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<Car> Cars { get; set; }
+        public ObservableCollection<Trailler> Traillers { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
 
         public void SetFields(IEntity driver) 
         {
@@ -34,12 +36,12 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Name = driverEntity.Name;
             TransportCompanyId = driverEntity.TransportCompanyId;
             TransportCompany = driverEntity.TransportCompany;
-            Cars = new List<Car>();
-            Traillers = new List<Trailler>();
-            Transportations = new List<Transportation>();
-            if (driverEntity.Cars != null && driverEntity.Cars.Count > 0) (Cars as List<Car>).AddRange(driverEntity.Cars);
-            if (driverEntity.Traillers != null && driverEntity.Traillers.Count > 0) (Traillers as List<Trailler>).AddRange(driverEntity.Traillers);
-            if (driverEntity.Transportations != null && driverEntity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(driverEntity.Transportations);
+            Cars = new ObservableCollection<Car>();
+            Traillers = new ObservableCollection<Trailler>();
+            Transportations = new ObservableCollection<Transportation>();
+            if (driverEntity.Cars != null && driverEntity.Cars.Count > 0) foreach(var car in driverEntity.Cars) Cars.Add(car);
+            if (driverEntity.Traillers != null && driverEntity.Traillers.Count > 0) foreach (var trailler in driverEntity.Traillers) Traillers.Add(trailler);
+            if (driverEntity.Transportations != null && driverEntity.Transportations.Count > 0) foreach (var transportation in driverEntity.Transportations) Transportations.Add(transportation);
             SoftDeleted = driverEntity.SoftDeleted;
         }
 

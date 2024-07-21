@@ -8,10 +8,9 @@ namespace WpfAppMVVM.CustomComponents
 {
     public class CustomComboBox : ComboBox
     {
-        public delegate void CustomEventHandler(object sender, EventArgs e);
-        public event CustomEventHandler CustomEvent;
+        public event EventHandler CustomEvent;
 
-        private int caretPosition;
+        private int _caretPosition;
         private bool _freezComboBox;
         private TextBox _textBox;
         private Type _bufType;
@@ -49,12 +48,12 @@ namespace WpfAppMVVM.CustomComponents
 
             if (IsDropDownOpen && txt.SelectionLength > 0)
             {
-                caretPosition = txt.SelectionLength;
-                txt.CaretIndex = caretPosition;
+                _caretPosition = txt.SelectionLength;
+                txt.CaretIndex = _caretPosition;
             }
             if (txt.SelectionLength == 0 && txt.CaretIndex != 0)
             {
-                caretPosition = txt.CaretIndex;
+                _caretPosition = txt.CaretIndex;
             }
         }
 
@@ -108,7 +107,7 @@ namespace WpfAppMVVM.CustomComponents
             }
         }
 
-        private void updateItemsSource(object sender, EventArgs e)
+        private async Task updateItemsSource(object sender, EventArgs e)
         {
             if (CustomEvent != null && !_freezComboBox)
             {
@@ -128,7 +127,7 @@ namespace WpfAppMVVM.CustomComponents
                         _textBox.CaretIndex = text.Length;
                         _textBox.TextChanged += OnTextBoxTextChanged;
                     }
-                    CustomEvent?.Invoke(Text, e);
+                    await OnCustomEventTrigger(Text);
                     IsDropDownOpen = existElements();
                 }
 
@@ -137,6 +136,11 @@ namespace WpfAppMVVM.CustomComponents
                     _bufType = ItemsSource.GetType().GenericTypeArguments[0];
                 }
             }
+        }
+
+        protected async Task OnCustomEventTrigger(string text)
+        {
+            await Application.Current.Dispatcher.InvokeAsync(() => { CustomEvent?.Invoke(text, EventArgs.Empty); });
         }
 
         private bool existElements() 
@@ -154,10 +158,10 @@ namespace WpfAppMVVM.CustomComponents
             else _timerEnabled = true;
         }
 
-        private void UpdateTimer_Tick(object sender, EventArgs e)
+        private async void UpdateTimer_Tick(object sender, EventArgs e)
         {
             _updateTimer.Stop();
-            updateItemsSource(sender, e);
+            await updateItemsSource(sender, e);
         }
 
         private void SelectedItemChanged(object sender, EventArgs e) 

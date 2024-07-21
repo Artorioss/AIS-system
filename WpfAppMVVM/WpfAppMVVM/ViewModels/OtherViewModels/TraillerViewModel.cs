@@ -12,7 +12,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         Trailler _trailler;
         public ObservableHashSet<Driver> Drivers { get; set; }
         public DelegateCommand GetDriversCommand { get; set; }
-        public DelegateCommand AddDriverCommand { get; set; }
+        public AsyncCommand AddDriverAsyncCommand { get; set; }
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
         public DelegateCommand GetBrandsCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
@@ -26,11 +26,24 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public TraillerViewModel(Trailler trailler)
         {
             mode = Mode.Editing;
-            _context.Entry(trailler).Collection(c => c.Drivers).Load();
-            _trailler = trailler.Clone() as Trailler;
+            _trailler = trailler;   
             WindowName = "Редактирование прицепа";
             BrandSource = new List<TraillerBrand>() { trailler.Brand };
             Drivers = new ObservableHashSet<Driver>(trailler.Drivers);
+        }
+
+        protected override void cloneEntity()
+        {
+            _trailler = _trailler.Clone() as Trailler;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_trailler).Collection(c => c.Drivers).IsLoaded)
+            {
+                _trailler.Drivers.Clear();
+                await _context.Entry(_trailler).Collection(c => c.Drivers).LoadAsync();
+            }
         }
 
         private string _windowName = "Создание прицепа";
@@ -142,14 +155,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                                    .ToList();
         }
 
-        private void addDriver()
+        private async Task addDriver()
         {
             if (string.IsNullOrEmpty(DriverName))
             {
                 MessageBox.Show("Укажите инициалы водителя.", "Не указаны инициалы водителя", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
-            if (SelectedDriver is null) createDriver();
+            if (SelectedDriver is null) await createDriver();
             if (Drivers.Contains(SelectedDriver)) MessageBox.Show($"Водитель {SelectedDriver.Name} уже числится за прицепом {_trailler.Number}.", "Некорректный ввод", MessageBoxButton.OK, MessageBoxImage.Warning);
             else
             {
@@ -159,31 +172,31 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SelectedDriver = null;
         }
 
-        private void addDriverByKeyboard(object obj)
+        private async void addDriverByKeyboard(object obj)
         {
-            if ((Key)obj == Key.Enter) addDriver();
+            if ((Key)obj == Key.Enter) await addDriver();
         }
 
-        private void createDriver()
+        private async Task createDriver()
         {
             SelectedDriver = DriverSource.SingleOrDefault(d => d.Name.ToLower() == DriverName.ToLower());
-            if (SelectedDriver is null) SelectedDriver = _context.Drivers.SingleOrDefault(d => d.Name.ToLower() == DriverName.ToLower());
+            if (SelectedDriver is null) SelectedDriver = await _context.Drivers.SingleOrDefaultAsync(d => d.Name.ToLower() == DriverName.ToLower());
             if (SelectedDriver is null) SelectedDriver = new Driver { Name = DriverName };
         }
 
-        private void createBrand()
+        private async Task createBrand()
         {
             SelectedBrand = BrandSource.SingleOrDefault(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
-            if (SelectedBrand is null) SelectedBrand = _context.TraillerBrands.SingleOrDefault(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
+            if (SelectedBrand is null) SelectedBrand = await _context.TraillerBrands.SingleOrDefaultAsync(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
             if (SelectedBrand is null) SelectedBrand = new TraillerBrand { Name = BrandText };
         }
 
         private void deleteEntity(object obj)
         {
-            _context.Drivers.Remove(obj as Driver);
+            Drivers.Remove(obj as Driver);
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrWhiteSpace(BrandText))
             {
@@ -198,7 +211,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 return false;
             }
 
-            if (SelectedBrand is null) createBrand();
+            if (SelectedBrand is null) await createBrand();
 
 
             if (mode == Mode.Additing)
@@ -216,7 +229,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         protected override void setCommands()
         {
             GetDriversCommand = new DelegateCommand(getDrivers);
-            AddDriverCommand = new DelegateCommand((obj) => addDriver());
+            AddDriverAsyncCommand = new AsyncCommand(async (obj) => await addDriver());
             AddDriverByKeyboardCommand = new DelegateCommand(addDriverByKeyboard);
             GetBrandsCommand = new DelegateCommand(getBrands);
             DeleteCommand = new DelegateCommand(deleteEntity);
@@ -235,6 +248,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             trailler.SetFields(_trailler);
         }
 
-        public override IEntity GetEntity() => _trailler;
+        public override async Task<IEntity> GetEntity() => await _context.Traillers.FindAsync(_trailler.Number);
     }
 }

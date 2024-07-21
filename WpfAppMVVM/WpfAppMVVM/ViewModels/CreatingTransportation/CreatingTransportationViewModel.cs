@@ -276,7 +276,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 if (list.Count > 0) route = new Route()
                 {
                     RouteName = GeneralRoute,
-                    RoutePoints = list
+                    RoutePoints = new ObservableCollection<RoutePoint>(list)
                 };
             }
             return route;

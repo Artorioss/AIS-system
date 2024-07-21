@@ -67,7 +67,7 @@
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
-                                   Command="{Binding GetCarSourceCommand}"
+                                   Command="{Binding GetCarSourceAsyncCommand}"
                                    CommandParameter="{Binding Text, ElementName=ComboBoxCars}"/>
                                 </i:EventTrigger>
                             </i:Interaction.Triggers>

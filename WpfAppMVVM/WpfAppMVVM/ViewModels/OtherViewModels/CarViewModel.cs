@@ -11,10 +11,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
     {
         Car _car;
         public ObservableHashSet<Driver> Drivers { get; set; }
-        public DelegateCommand GetDriversCommand { get; set; }
+        public AsyncCommand GetDriversAsyncCommand { get; set; }
         public DelegateCommand AddDriverCommand { get; set; }
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
-        public DelegateCommand GetBrandsCommand { get; set; }
+        public AsyncCommand GetBrandsAsyncCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
         public CarViewModel()
         {
@@ -26,11 +26,29 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public CarViewModel(Car car)
         {
             mode = Mode.Editing;
-            _context.Entry(car).Collection(c => c.Drivers).Load();
-            _car = car.Clone() as Car;
+            _car = car;
             WindowName = "Редактирование автомобиля";
             BrandSource = new List<CarBrand>() { car.Brand };
             Drivers = [.. _car.Drivers];
+        }
+
+        protected override void cloneEntity()
+        {
+            _car = _car.Clone() as Car;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_car).Collection(b => b.Drivers).IsLoaded)
+            {
+                _car.Drivers.Clear();
+                await loadDrivers(_car);
+            }
+        }
+
+        private async Task loadDrivers(Car car) 
+        {
+            await _context.Entry(car).Collection(c => c.Drivers).LoadAsync();
         }
 
         private string _windowName = "Создание автомобиля";
@@ -91,13 +109,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void getBrands(object obj) 
+        private async Task getBrandsAsync(object obj) 
         {
             string text = obj as string;
-            BrandSource = _context.CarBrands.Where(cb => cb.Name.ToLower().Contains(text)
+            BrandSource = await _context.CarBrands.Where(cb => cb.Name.ToLower().Contains(text)
                                                || cb.RussianName.ToLower().Contains(text))
-                                            .ToList();
-
+                                        .ToListAsync();
         }
 
         private List<Driver> _drivers;
@@ -133,13 +150,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void getDrivers(object obj) 
+        private async Task getDriversAsync(object obj) 
         {
             string text = obj as string;
-            DriverSource = _context.Drivers
-                                   .Where(d => d.Name.Contains(text))
+            DriverSource = await _context.Drivers
+                                   .Where(d => d.Name.Contains(text.ToLower()))
                                    .Take(5)
-                                   .ToList();
+                                   .ToListAsync();
         }
 
         private void addDriver()
@@ -164,26 +181,26 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if ((Key)obj == Key.Enter) addDriver();
         }
 
-        private void createDriver()
+        private async Task createDriver()
         {
             SelectedDriver = DriverSource.SingleOrDefault(d => d.Name.ToLower() == DriverName.ToLower());
-            if (SelectedDriver is null) SelectedDriver = _context.Drivers.SingleOrDefault(d => d.Name.ToLower() == DriverName.ToLower());
+            if (SelectedDriver is null) SelectedDriver = await _context.Drivers.SingleOrDefaultAsync(d => d.Name.ToLower() == DriverName.ToLower());
             if (SelectedDriver is null) SelectedDriver = new Driver { Name = DriverName };
         }
 
-        private void createBrand()
+        private async Task createBrand()
         {
             SelectedCarBrand = BrandSource.SingleOrDefault(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
-            if (SelectedCarBrand is null) SelectedCarBrand = _context.CarBrands.SingleOrDefault(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
+            if (SelectedCarBrand is null) SelectedCarBrand = await _context.CarBrands.SingleOrDefaultAsync(b => b.Name.ToLower() == BrandText.ToLower() || b.RussianName.ToLower() == BrandText.ToLower());
             if (SelectedCarBrand is null) SelectedCarBrand = new CarBrand { Name = BrandText};
         }
 
         private void deleteEntity(object obj) 
         {
-            _context.Drivers.Remove(obj as Driver);
+            Drivers.Remove(obj as Driver);
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrWhiteSpace(BrandText))
             {
@@ -198,7 +215,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 return false;
             }
 
-            if (SelectedCarBrand is null) createBrand();
+            if (SelectedCarBrand is null) await createBrand();
 
 
             if (mode == Mode.Additing) 
@@ -215,10 +232,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            GetDriversCommand = new DelegateCommand(getDrivers);
+            GetDriversAsyncCommand = new AsyncCommand(getDriversAsync);
             AddDriverCommand = new DelegateCommand((obj) => addDriver());
             AddDriverByKeyboardCommand = new DelegateCommand(addDriverByKeyboard);
-            GetBrandsCommand = new DelegateCommand(getBrands);
+            GetBrandsAsyncCommand = new AsyncCommand(getBrandsAsync);
             DeleteCommand = new DelegateCommand(deleteEntity);
         }
 
@@ -235,6 +252,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             car.SetFields(_car);
         }
 
-        public override IEntity GetEntity() => _car;
+        public override async Task<IEntity> GetEntity() => await _context.Cars.FindAsync(_car.Number);
     }
 }

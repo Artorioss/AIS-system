@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using WpfApp;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
@@ -49,8 +50,22 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _wind = obj as Window;
         }
 
+        public async Task SaveChangesAsync() 
+        {
+            try 
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show($"Не удалось сохранить изменения: {ex.Message}.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         public async Task ShowDialog() 
         {
+            await loadReferenceData();
+            cloneEntity();
             await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(this);
         }
 
@@ -62,16 +77,16 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private async Task action()
         {
-            if (dataIsCorrect())
+            if (await dataIsCorrect())
             {
                 try
                 {
                     if (_mode == Mode.Additing) 
                     {
-                        addEntity();
+                        await addEntity();
                     } 
-                    else updateEntity();
-                    await _context.SaveChangesAsync();
+                    else await updateEntity();
+                    await SaveChangesAsync();
                     changedExist = true;
                     _wind?.Close();
                 }
@@ -81,10 +96,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 }
             }
         }
+        protected abstract void cloneEntity();
+        protected abstract Task loadReferenceData();
         protected abstract void setCommands();
-        protected abstract bool dataIsCorrect();
+        protected abstract Task<bool> dataIsCorrect();
         protected abstract Task updateEntity();
         protected abstract Task addEntity();
-        public abstract IEntity GetEntity();
+        public abstract Task<IEntity> GetEntity();
     }
 }

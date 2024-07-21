@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -9,11 +11,11 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(32)]
         public string Name { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
 
         public Customer()
         {
-            Transportations = new List<Transportation>();
+            Transportations = new ObservableCollection<Transportation>();
         }
 
         public Customer(Customer customer)
@@ -26,8 +28,8 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Customer customerEnity = customer as Customer;
             CustomerId = customerEnity.CustomerId;
             Name = customerEnity.Name;
-            Transportations = new List<Transportation>();
-            if (customerEnity.Transportations != null && customerEnity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(customerEnity.Transportations);
+            Transportations = new ObservableCollection<Transportation>();
+            if (customerEnity.Transportations != null && customerEnity.Transportations.Count > 0) foreach(var transportation in customerEnity.Transportations) Transportations.Add(transportation);
             SoftDeleted = customerEnity.SoftDeleted;
         }
 

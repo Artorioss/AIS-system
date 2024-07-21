@@ -36,7 +36,7 @@ namespace WpfAppMVVM.ViewModels
         private Dictionary<Type, EntityTable> _entityTablesDict;
         private DispatcherTimer _loadingTimer;
         private EntityTable _entityTable;
-        List<IObserver> _observers;
+        private List<IObserver> _observers;
 
         public EntityTable EntityTable
         {
@@ -302,7 +302,7 @@ namespace WpfAppMVVM.ViewModels
         {
             _referenceBook = Activator.CreateInstance(_typeVM) as ReferenceBook;
             await _referenceBook.ShowDialog();
-            if (_referenceBook.changedExist) _entityTable.AddItem(_referenceBook.GetEntity());
+            if (_referenceBook.changedExist) _entityTable.AddItem(await _referenceBook.GetEntity());
             NotifyObservers();
         }
 
@@ -310,7 +310,7 @@ namespace WpfAppMVVM.ViewModels
         {
             _referenceBook = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as ReferenceBook;
             await _referenceBook.ShowDialog();
-            if (_referenceBook.changedExist) _entityTable.InsertItem(SelectedItem, _referenceBook.GetEntity());
+            if (_referenceBook.changedExist) _entityTable.InsertItem(SelectedItem, await _referenceBook.GetEntity());
             NotifyObservers();
         }
 

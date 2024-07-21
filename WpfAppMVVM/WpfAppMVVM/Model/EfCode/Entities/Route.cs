@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
 {
@@ -8,13 +10,13 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(128)]
         public string RouteName { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
-        public ICollection<RoutePoint> RoutePoints { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<RoutePoint> RoutePoints { get; set; }
 
         public Route() 
         {
-            Transportations = new List<Transportation>();
-            RoutePoints = new List<RoutePoint>();
+            Transportations = new ObservableCollection<Transportation>();
+            RoutePoints = new ObservableCollection<RoutePoint>();
         }
 
         public Route(Route route)
@@ -27,10 +29,10 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Route routeEntity = route as Route;
             RouteId = routeEntity.RouteId;
             RouteName = routeEntity.RouteName;
-            Transportations = new List<Transportation>();
-            RoutePoints = new List<RoutePoint>();
-            if (routeEntity.Transportations != null && routeEntity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(routeEntity.Transportations);
-            if (routeEntity.RoutePoints != null && routeEntity.RoutePoints.Count > 0) (RoutePoints as List<RoutePoint>).AddRange(routeEntity.RoutePoints);
+            Transportations = new ObservableCollection<Transportation>();
+            RoutePoints = new ObservableCollection<RoutePoint>();
+            if (routeEntity.Transportations != null && routeEntity.Transportations.Count > 0) foreach(var transportation in routeEntity.Transportations) Transportations.Add(transportation);
+            if (routeEntity.RoutePoints != null && routeEntity.RoutePoints.Count > 0) foreach(var routePoint in routeEntity.RoutePoints) RoutePoints.Add(routePoint);
             SoftDeleted = routeEntity.SoftDeleted;
         }
 

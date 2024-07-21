@@ -1,4 +1,7 @@
-﻿namespace WpfAppMVVM.Model.EfCode.Entities
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class CarBrand: IEntity
     {
@@ -6,11 +9,11 @@
         public string Name { get; set; }
         public string? RussianName { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Car> Cars { get; set; }
+        public ObservableCollection<Car> Cars { get; set; }
 
         public CarBrand()
         {
-            Cars = new List<Car>();
+            Cars = new ObservableCollection<Car>();
         }
 
         public CarBrand(CarBrand carBrand)
@@ -24,8 +27,8 @@
             CarBrandId = carBrandEntity.CarBrandId;
             Name = carBrandEntity.Name;
             RussianName = carBrandEntity.RussianName;
-            Cars = new List<Car>();
-            if (carBrandEntity != null && carBrandEntity.Cars.Count > 0) (Cars as List<Car>).AddRange(carBrandEntity.Cars);
+            Cars = new ObservableCollection<Car>();
+            if (carBrandEntity != null && carBrandEntity.Cars.Count > 0) foreach(var car in carBrandEntity.Cars) Cars.Add(car);
             SoftDeleted = carBrandEntity.SoftDeleted;
         }
 

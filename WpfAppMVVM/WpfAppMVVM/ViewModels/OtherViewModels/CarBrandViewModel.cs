@@ -13,7 +13,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public ObservableCollection<Car> Cars { get; set; }
         public DelegateCommand AddCarCommand { get; set; }
         public DelegateCommand AddCarByKeyboardCommand { get; set; }
-        public DelegateCommand GetCarSourceCommand { get; set; }
+        public AsyncCommand GetCarSourceAsyncCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
 
         private List<Car> _carSource;
@@ -78,19 +78,35 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public CarBrandViewModel(CarBrand brand) 
         {
             mode = Mode.Editing;
-
-            _context.Entry(brand).Collection(b => b.Cars).Load();
-
-            _brand = brand.Clone() as CarBrand;
+            _brand = brand;
             Cars = new ObservableCollection<Car>(_brand.Cars);
             WindowName = "Редактирование бренда";
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_brand).Collection(b => b.Cars).IsLoaded)
+            {
+                _brand.Cars.Clear();
+                await loadCars(_brand);
+            }
+        }
+
+        private async Task loadCars(CarBrand carBrand) 
+        {
+            await _context.Entry(carBrand).Collection(cb => cb.Cars).LoadAsync();
+        }
+
+        protected override void cloneEntity()
+        {
+            _brand = _brand.Clone() as CarBrand;
         }
 
         protected override void setCommands() 
         {
             AddCarCommand = new DelegateCommand((obj) => addCar());
             AddCarByKeyboardCommand = new DelegateCommand(addCarByKeyboard);
-            GetCarSourceCommand = new DelegateCommand(getCars);
+            GetCarSourceAsyncCommand = new AsyncCommand(getCarsAsync);
             DeleteCommand = new DelegateCommand(deleteCar);
         }
 
@@ -125,20 +141,20 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             Cars.Remove(obj as Car);
         }
 
-        private void getCars(object obj) 
+        private async Task getCarsAsync(object obj) 
         {
             string text = obj as string;
             if (!string.IsNullOrEmpty(text)) 
             {
-                CarSource = _context.Cars
+                CarSource = await _context.Cars
                                     .Include(c => c.Brand)
                                     .Where(c => c.Number.ToLower().Contains(text.ToLower()))
                                     .Take(5)
-                                    .ToList();
+                                    .ToListAsync();
             }
         }
 
-        protected override bool dataIsCorrect() 
+        protected override async Task<bool> dataIsCorrect() 
         {
             if (string.IsNullOrEmpty(_brand.Name)) 
             {
@@ -161,9 +177,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             br.SetFields(_brand);
         }
 
-        public override IEntity GetEntity()
+        public override async Task<IEntity> GetEntity()
         {
-            return _brand;
+            return await _context.CarBrands.FindAsync(_brand.CarBrandId);
         }
     }
 }

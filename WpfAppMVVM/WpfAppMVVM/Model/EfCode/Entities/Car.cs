@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -7,8 +9,8 @@ namespace WpfAppMVVM.Model.EfCode.Entities
     {
         public Car() 
         {
-            Drivers = new List<Driver>();
-            Transportations = new List<Transportation>();
+            Drivers = new ObservableCollection<Driver>();
+            Transportations = new ObservableCollection<Transportation>();
         }
 
         public Car(Car car)
@@ -22,8 +24,8 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public bool IsTruck { get; set; }
         public bool SoftDeleted { get; set; }
         public CarBrand Brand { get; set; }
-        public ICollection<Driver> Drivers { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<Driver> Drivers { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
 
         public void SetFields(IEntity car) 
         {
@@ -33,10 +35,10 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             IsTruck = entityCar.IsTruck;
             Brand = entityCar.Brand;
             SoftDeleted = entityCar.SoftDeleted;
-            Drivers = new List<Driver>();
-            Transportations = new List<Transportation>();
-            if (entityCar.Drivers != null && entityCar.Drivers.Count > 0) (Drivers as List<Driver>).AddRange(entityCar.Drivers);
-            if (entityCar.Transportations != null && entityCar.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(entityCar.Transportations);
+            Drivers = new ObservableCollection<Driver>();
+            Transportations = new ObservableCollection<Transportation>();
+            if (entityCar.Drivers != null && entityCar.Drivers.Count > 0) foreach (var driver in entityCar.Drivers) Drivers.Add(driver);
+            if (entityCar.Transportations != null && entityCar.Transportations.Count > 0) foreach(var transportation in entityCar.Transportations) Transportations.Add(transportation);
         }
 
         public object Clone()

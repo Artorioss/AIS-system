@@ -94,23 +94,7 @@
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Car}" ItemsSource="{Binding Cars}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Номер машины" Width="*" Binding="{Binding Number}" IsReadOnly="True"></DataGridTextColumn>
-
-                                <DataGridTemplateColumn Header="Марка машины" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnCarBrands" SelectedItem="{Binding DataContext.SelectedCarBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.CarBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="CustomEvent">
-                                                        <i:InvokeCommandAction
-                                                           Command="{Binding DataContext.GetCarBrands, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                           CommandParameter="{Binding Text, ElementName=comboBoxColumnCarBrands}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </CustomComponents:CustomComboBox>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
+                                <DataGridTextColumn Header="Марка" Width="*" Binding="{Binding Brand.Name}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="Удалить" Width="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -155,23 +139,7 @@
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Trailler}" ItemsSource="{Binding Traillers}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Номер прицепа" Width="*" Binding="{Binding Number}" IsReadOnly="True"></DataGridTextColumn>
-                                
-                                <DataGridTemplateColumn Header="Марка прицепа" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CustomComponents:CustomComboBox x:Name="comboBoxColumnTraillerBrands" SelectedItem="{Binding DataContext.SelectedTraillerBrand, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=OneWayToSource}" ItemsSource="{Binding DataContext.TraillerBrandSource, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" DisplayMemberPath="Name" Text="{Binding Brand.Name}">
-                                                <i:Interaction.Triggers>
-                                                    <i:EventTrigger EventName="CustomEvent">
-                                                        <i:InvokeCommandAction
-                                                           Command="{Binding DataContext.GetTraillerBrands, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                                                           CommandParameter="{Binding Text, ElementName=comboBoxColumnTraillerBrands}"/>
-                                                    </i:EventTrigger>
-                                                </i:Interaction.Triggers>
-                                            </CustomComponents:CustomComboBox>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                
+                                <DataGridTextColumn Header="Марка" Width="*" Binding="{Binding Brand.Name}" IsReadOnly="True"></DataGridTextColumn>
                                 <DataGridTemplateColumn Header="Удалить" Width="70">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>

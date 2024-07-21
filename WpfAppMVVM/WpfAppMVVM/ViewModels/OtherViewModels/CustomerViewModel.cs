@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Npgsql.PostgresTypes;
 using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
@@ -14,27 +15,39 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         Customer _customer;
         MonthService _monthService;
         public ObservableCollection<Transportation> Transportations { get; set; }
-        public DelegateCommand DeleteCommand { get; set; }
-        public DelegateCommand ShowWindowCommand { get; set; }
+        public AsyncCommand DeleteAsyncCommand { get; set; }
+        public AsyncCommand ShowWindowAsyncCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
         public CustomerViewModel()
         {
             _customer = new Customer();
             mode = Mode.Additing;
-            GroupElementsIsEnabled = false;
-            Transportations = new ObservableCollection<Transportation>();
             settingUp();
         }
 
         public CustomerViewModel(Customer customer)
         {
-            _customer = customer.Clone() as Customer;
             mode = Mode.Editing;
-            Transportations = new ObservableCollection<Transportation>(customer.Transportations);
-            _context.Entry(customer).Collection(tr => tr.Transportations).Load();
+            _customer = customer;
             settingUp();
             WindowName = "Редактирование клиента";
+        }
+
+        protected override void cloneEntity()
+        {
+            _customer = _customer.Clone() as Customer;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_customer).Collection(tr => tr.Transportations).IsLoaded)
+            {
+                _customer.Transportations.Clear();
+                await _context.Entry(_customer).Collection(tr => tr.Transportations).LoadAsync();
+            }
+            setYears();
+            setSelectedYear();
         }
 
         private void settingUp()
@@ -42,8 +55,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _monthService = new MonthService();
             Years = new List<int>();
             Months = new List<string>();
-            setYears();
-            setSelectedYear();
+            Transportations = new ObservableCollection<Transportation>();
         }
 
         private string _windowName = "Создание клиента";
@@ -83,15 +95,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private bool groupElementsIsEnabled = true;
         public bool GroupElementsIsEnabled 
         {
-            get => groupElementsIsEnabled;
-            set 
-            {
-                groupElementsIsEnabled = value;
-                OnPropertyChanged(nameof(GroupElementsIsEnabled));
-            }
+            get => _customer.Transportations.Count > 0;
         }
 
         private List<int> _years;
@@ -128,16 +134,21 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
+
         private void setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(_context.Transportations
-                                                  .Where(t => t.DateLoading.Value.Year == year
-                                                         && t.CustomerId == _customer.CustomerId)
-                                                  .Select(t => t.DateLoading.Value.Month)
-                                                  .Distinct()
-                                                  .ToList());
+            _months = _monthService.GetMonths(getMonthByYear(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
+        }
+
+        private List<int> getMonthByYear(int year) 
+        {
+            return _customer.Transportations
+                            .Where(t => t.DateLoading.Value.Year == year)
+                            .Select(t => t.DateLoading.Value.Month)
+                            .Distinct()
+                            .ToList();
         }
 
         private int _selectedMonth;
@@ -154,11 +165,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private void setYears()
         {
-            Years = _context.Transportations
-                            .Where(t => t.CustomerId == _customer.CustomerId)
-                            .Select(t => t.DateLoading.Value.Date.Year)
-                            .Distinct()
-                            .ToList();
+            Years = _customer.Transportations
+                    .Select(t => t.DateLoading.Value.Date.Year)
+                    .Distinct()
+                    .ToList();
         }
 
         private void setSelectedYear()
@@ -179,11 +189,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
 
-            var list = _context.Transportations
-                .Where(t => t.DateLoading.HasValue &&
+            var list = _customer.Transportations
+                       .Where(t => t.DateLoading.HasValue &&
                             t.DateLoading.Value >= startDate &&
-                            t.DateLoading.Value < endDate
-                            && t.CustomerId == _customer.CustomerId);
+                            t.DateLoading.Value < endDate);
 
             loadData(list);
             OnPropertyChanged(nameof(CountTransportations));
@@ -194,26 +203,27 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SelectedTransportation = null;
         }
 
-        private void loadData(IQueryable<Transportation> list)
+        private void loadData(IEnumerable<Transportation> list)
         {
             Transportations.Clear();
             foreach (var item in list) Transportations.Add(item);
         }
 
-        private void deleteEntity(object obj)
+        private async Task deleteEntityAsync(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{(obj as Transportation).RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) delete(obj as Transportation);
+            if (result == MessageBoxResult.Yes) await delete(obj as Transportation);
         }
 
-        private void delete(Transportation dto)
+        private async Task delete(Transportation dto)
         {
-            _context.Transportations.Remove(_context.Transportations.Single(t => t.TransportationId == dto.TransportationId));
-            _context.SaveChanges();
+            (await _context.Transportations.SingleAsync(t => t.TransportationId == dto.TransportationId)).SoftDeleted = true;
+            await SaveChangesAsync();
             Transportations.Remove(dto);
         }
 
-        protected override bool dataIsCorrect()
+
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrEmpty(_customer.Name)) 
             {
@@ -225,15 +235,16 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            DeleteCommand = new DelegateCommand(deleteEntity);
-            ShowWindowCommand = new DelegateCommand((obj) => showWindowForEdit());
+            DeleteAsyncCommand = new AsyncCommand(deleteEntityAsync);
+            ShowWindowAsyncCommand = new AsyncCommand(async (obj) => await showWindowForEdit());
             SortCommand = new DelegateCommand((obj) => onSort());
         }
 
-        private void showWindowForEdit() 
+        private async Task showWindowForEdit() 
         {
             if (SelectedTransportation != null) 
             {
+
                 CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
                 CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel((SelectedTransportation as Transportation).TransportationId);
                 creatingTransportationWindow.DataContext = creatingTransportationViewModel;
@@ -241,7 +252,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
                 if (creatingTransportationViewModel.IsContextChanged)
                 {
-                    var entity = _context.Transportations.Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
+                    //var entity = _context.Transportations.Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
                     if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
                     {
                         DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
@@ -252,8 +263,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                     {
                         int id = Transportations.IndexOf(SelectedTransportation);
                         Transportations.Remove(SelectedTransportation);
-                        Transportations.Insert(id, entity);
-                        SelectedTransportation = entity;
+                        Transportations.Insert(id, SelectedTransportation);
+                        //SelectedTransportation = entity;
                     }
                 }
             }   
@@ -282,6 +293,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             cm.SetFields(_customer);
         }
 
-        public override IEntity GetEntity() => _customer;
+        public override async Task<IEntity> GetEntity() => await _context.Customers.FindAsync(_customer.CustomerId);
     }
 }

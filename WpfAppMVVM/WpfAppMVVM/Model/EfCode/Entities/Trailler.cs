@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 
@@ -11,13 +13,13 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public int? BrandId { get; set; }
         public bool SoftDeleted { get; set; }
         public TraillerBrand Brand { get; set; }
-        public ICollection<Driver> Drivers { get; set; }
-        public ICollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<Driver> Drivers { get; set; }
+        public ObservableCollection<Transportation> Transportations { get; set; }
 
         public Trailler() 
         {
-            Drivers = new HashSet<Driver>();
-            Transportations = new HashSet<Transportation>();
+            Drivers = new ObservableCollection<Driver>();
+            Transportations = new ObservableCollection<Transportation>();
         }
 
         public Trailler(Trailler trailler)
@@ -31,10 +33,10 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             Number = traiilerEntity.Number;
             BrandId = traiilerEntity.BrandId;
             Brand = traiilerEntity.Brand;
-            Drivers = new List<Driver>();
-            Transportations = new List<Transportation>();
-            if (traiilerEntity.Drivers != null && traiilerEntity.Drivers.Count > 0) (Drivers as List<Driver>).AddRange(traiilerEntity.Drivers);
-            if (traiilerEntity.Transportations != null && traiilerEntity.Transportations.Count > 0) (Transportations as List<Transportation>).AddRange(traiilerEntity.Transportations);
+            Drivers = new ObservableCollection<Driver>();
+            Transportations = new ObservableCollection<Transportation>();
+            if (traiilerEntity.Drivers != null && traiilerEntity.Drivers.Count > 0) foreach(var driver in traiilerEntity.Drivers) Drivers.Add(driver);
+            if (traiilerEntity.Transportations != null && traiilerEntity.Transportations.Count > 0) foreach(var transportation in traiilerEntity.Transportations) Transportations.Add(transportation);
             SoftDeleted = traiilerEntity.SoftDeleted;
         }
 

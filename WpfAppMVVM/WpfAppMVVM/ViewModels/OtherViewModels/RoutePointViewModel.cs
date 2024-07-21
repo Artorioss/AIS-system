@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
@@ -11,35 +13,55 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
     {
         RoutePoint _routePoint;
         MonthService _monthService;
-        public ObservableCollection<Route> Routes { get; set; }
-        public DelegateCommand DeleteCommand { get; set; }
+        public AsyncCommand DeleteAsyncCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
+        public ObservableCollection<Route> FilteredRoutes { get; private set; }
 
         public RoutePointViewModel()
         {
             _routePoint = new RoutePoint();
             mode = Mode.Additing;
-            GroupElementsIsEnabled = false;
             settingUp();
         }
 
         public RoutePointViewModel(RoutePoint routePoint)
         {
-            _routePoint = routePoint.Clone() as RoutePoint;
             mode = Mode.Editing;
+            _routePoint = routePoint;
             settingUp();
-            GroupElementsIsEnabled = Routes.Count > 0;
             WindowName = "Редактирование точки маршрута";
+        }
+
+        protected override void cloneEntity()
+        {
+            _routePoint = _routePoint.Clone() as RoutePoint;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_routePoint).Collection(rp => rp.Routes).IsLoaded)
+            {
+                _routePoint.Routes.Clear();
+                await _context.Entry(_routePoint).Collection(rp => rp.Routes).LoadAsync();
+            }
+            foreach (var route in _routePoint.Routes) 
+            {
+                if (!_context.Entry(route).Collection(r => r.Transportations).IsLoaded) 
+                {
+                    await _context.Entry(route).Collection(r => r.Transportations).LoadAsync();
+                }
+            }
+            setYears();
+            setSelectedYear();
+            OnPropertyChanged(nameof(GroupElementsIsEnabled));
         }
 
         private void settingUp()
         {
-            Routes = new ObservableCollection<Route>();
+            FilteredRoutes = new ObservableCollection<Route>();
             _monthService = new MonthService();
             Years = new List<int>();
             Months = new List<string>();
-            setYears();
-            setSelectedYear();
         }
 
         private string _windowName = "Создание точки маршрута";
@@ -65,7 +87,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         public int CountRoutes
         {
-            get => Routes.Count;
+            get => FilteredRoutes.Count;
         }
 
         private Route _route;
@@ -79,15 +101,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private bool groupElementsIsEnabled = true;
         public bool GroupElementsIsEnabled
         {
-            get => groupElementsIsEnabled;
-            set
-            {
-                groupElementsIsEnabled = value;
-                OnPropertyChanged(nameof(GroupElementsIsEnabled));
-            }
+            get => CountRoutes > 0; 
         }
 
         private List<int> _years;
@@ -126,16 +142,19 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private void setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(_context.Routes
-                                                      .Include(r => r.RoutePoints)
-                                                      .Include(r => r.Transportations)
-                                                      .Where(r => r.RoutePoints.Any(rp => rp.RoutePointId == _routePoint.RoutePointId) && r.Transportations.Any(tr => tr.DateLoading.Value.Year == year))
-                                                      .SelectMany(t => t.Transportations)
-                                                      .Select(t => t.DateLoading.Value.Month)
-                                                      .Distinct()
-                                                      .ToList());
+            _months = _monthService.GetMonths(getMonthsbyYear(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
+        }
+
+        private List<int> getMonthsbyYear(int year) 
+        {
+            return  _routePoint.Routes
+                    .Where(r => r.Transportations.Any(tr => tr.DateLoading.Value.Year == year))
+                    .SelectMany(t => t.Transportations)
+                    .Select(t => t.DateLoading.Value.Month)
+                    .Distinct()
+                    .ToList();
         }
 
         private int _selectedMonth;
@@ -152,15 +171,11 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         private void setYears()
         {
-            Years = _context.Routes
-                            .Include(r => r.RoutePoints)
-                            .Include(r => r.Transportations)
-                            .Where(r => r.RoutePoints.Any(rp => rp.RoutePointId == _routePoint.RoutePointId))
-                            .SelectMany(r => r.Transportations)
-                            .Select(t => t.DateLoading.Value.Date.Year)
-                            .Distinct()
-                            .ToList();
-
+            Years = _routePoint.Routes
+                           .SelectMany(r => r.Transportations)
+                           .Select(t => t.DateLoading.Value.Date.Year)
+                           .Distinct()
+                           .ToList();
         }
 
         private void setSelectedYear()
@@ -181,14 +196,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
 
-            var list = _context.Routes
-                               .Include(r => r.RoutePoints)
-                               .Include(r => r.Transportations)
-                               .Where(r => r.Transportations.Count > 0 && r.Transportations.Any(t => t.DateLoading.HasValue &&
+            var list = _routePoint.Routes.Where(r => r.Transportations.Count > 0 && r.Transportations.Any(t => t.DateLoading.HasValue &&
                                                                           t.DateLoading.Value >= startDate &&
-                                                                          t.DateLoading.Value < endDate) &&
-                                           r.RoutePoints.Any(rp => rp.Name == _routePoint.Name));
-
+                                                                          t.DateLoading.Value < endDate));
             loadData(list);
             OnPropertyChanged(nameof(CountRoutes));
         }
@@ -198,26 +208,26 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SelectedRoute = null;
         }
 
-        private void loadData(IQueryable<Route> list)
+        private void loadData(IEnumerable<Route> list)
         {
-            Routes.Clear();
-            foreach (var item in list) Routes.Add(item);
+            FilteredRoutes.Clear();
+            foreach (var item in list) FilteredRoutes.Add(item);
         }
 
-        private void deleteEntity(object obj)
+        private async Task deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Маршурт - '{(obj as Route).RouteName}' будет удален.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) delete(obj as Route);
+            if (result == MessageBoxResult.Yes) await delete(obj as Route);
         }
 
-        private void delete(Route route)
+        private async Task delete(Route route)
         {
             _context.Routes.Remove(_context.Routes.Single(r => r.RouteId == route.RouteId));
-            _context.SaveChanges();
-            Routes.Remove(route);
+            await SaveChangesAsync();
+            FilteredRoutes.Remove(route);
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrEmpty(_routePoint.Name))
             {
@@ -229,7 +239,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            DeleteCommand = new DelegateCommand(deleteEntity);
+            DeleteAsyncCommand = new AsyncCommand(deleteEntity);
             SortCommand = new DelegateCommand((obj) => onSort());
         }
 
@@ -246,6 +256,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             cm.SetFields(_routePoint);
         }
 
-        public override IEntity GetEntity() => _routePoint;
+        public override async Task<IEntity> GetEntity() => await _context.RoutePoints.FindAsync(_routePoint.RoutePointId);
     }
 }

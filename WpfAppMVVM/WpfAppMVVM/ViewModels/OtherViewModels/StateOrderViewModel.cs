@@ -15,7 +15,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         StateOrder _stateOrder;
         MonthService _monthService;
         public ObservableCollection<Transportation> Transportations { get; set; }
-        public DelegateCommand DeleteCommand { get; set; }
+        public AsyncCommand DeleteAsyncCommand { get; set; }
         public DelegateCommand ShowWindowCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
@@ -28,10 +28,24 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         public StateOrderViewModel(StateOrder stateOrder)
         {
-            _stateOrder = stateOrder.Clone() as StateOrder;
             mode = Mode.Editing;
+            _stateOrder = stateOrder;
             settingUp();
             WindowName = "Редактирование состояния";
+        }
+
+        protected override void cloneEntity()
+        {
+            _stateOrder = _stateOrder.Clone() as StateOrder;   
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_stateOrder).Collection(s => s.Transportations).IsLoaded)
+            {
+                _stateOrder.Transportations.Clear();
+                await _context.Entry(_stateOrder).Collection(s => s.Transportations).LoadAsync();
+            }
         }
 
         private void settingUp()
@@ -192,20 +206,22 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             foreach (var item in list) Transportations.Add(item);
         }
 
-        private void deleteEntity(object obj)
+        private async Task deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{(obj as Transportation).RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) delete(obj as Transportation);
+            if (result == MessageBoxResult.Yes) await delete(obj as Transportation);
         }
 
-        private void delete(Transportation dto)
+        private async Task delete(Transportation dto)
         {
-            _context.Transportations.Remove(_context.Transportations.Single(t => t.TransportationId == dto.TransportationId));
+            var transportation = await _context.Transportations.SingleAsync(t => t.TransportationId == dto.TransportationId);
+            _context.Transportations.Remove(transportation);
+            await SaveChangesAsync();
             _context.SaveChanges();
             Transportations.Remove(dto);
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrEmpty(_stateOrder.Name))
             {
@@ -217,7 +233,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            DeleteCommand = new DelegateCommand(deleteEntity);
+            DeleteAsyncCommand = new AsyncCommand(deleteEntity);
             ShowWindowCommand = new DelegateCommand((obj) => showWindowForEdit());
             SortCommand = new DelegateCommand((obj) => onSort());
         }
@@ -274,6 +290,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             state.SetFields(_stateOrder);
         }
 
-        public override IEntity GetEntity() => _stateOrder;
+        public override async Task<IEntity> GetEntity() => await _context.StateOrders.FindAsync(_stateOrder.StateOrderId);
     }
 }

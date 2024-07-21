@@ -14,8 +14,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         Route _route;
         MonthService _monthService;
         public ObservableCollection<Transportation> Transportations { get; set; }
-        public DelegateCommand DeleteCommand { get; set; }
-        public DelegateCommand ShowWindowCommand { get; set; }
+        public AsyncCommand DeleteAsyncCommand { get; set; }
+        public AsyncCommand ShowWindowAsyncCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
         public RouteViewModel()
@@ -27,19 +27,33 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         public RouteViewModel(Route route)
         {
-            _route = route.Clone() as Route;
-            mode = Mode.Editing;;
+            mode = Mode.Editing;
+            _route = route;
             settingUp();
             WindowName = "Редактирование маршрута";
         }
 
-        private void settingUp()
+        protected override void cloneEntity()
+        {
+            _route = _route.Clone() as Route;
+        }
+
+        protected override async Task loadReferenceData()
+        {
+            if (!_context.Entry(_route).Collection(r => r.Transportations).IsLoaded)
+            {
+                _route.Transportations.Clear();
+                await _context.Entry(_route).Collection(r => r.Transportations).LoadAsync();
+            }
+        }
+
+        private async Task settingUp()
         {
             _monthService = new MonthService();
             Years = new List<int>();
             Months = new List<string>();
             Transportations = new ObservableCollection<Transportation>();
-            setYears();
+            await setYears();
             setSelectedYear();
         }
 
@@ -119,16 +133,21 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void setMonthsByYear(int year)
+        private async Task setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(_context.Transportations
-                                                  .Where(t => t.DateLoading.Value.Year == year
-                                                         && t.RouteId == _route.RouteId)
-                                                  .Select(t => t.DateLoading.Value.Month)
-                                                  .Distinct()
-                                                  .ToList());
+            _months = _monthService.GetMonths(await getMonthsByYearFromDbAsync(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
+        }
+
+        private async Task<List<int>> getMonthsByYearFromDbAsync(int year) 
+        {
+            return await _context.Transportations
+                           .Where(t => t.DateLoading.Value.Year == year
+                                    && t.RouteId == _route.RouteId)
+                           .Select(t => t.DateLoading.Value.Month)
+                           .Distinct()
+                           .ToListAsync();
         }
 
         private int _selectedMonth;
@@ -143,13 +162,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void setYears()
+        private async Task setYears()
         {
-            Years = _context.Transportations
+            Years = await _context.Transportations
                             .Where(t => t.RouteId == _route.RouteId)
                             .Select(t => t.DateLoading.Value.Date.Year)
                             .Distinct()
-                            .ToList();
+                            .ToListAsync();
         }
 
         private void setSelectedYear()
@@ -165,7 +184,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             else SelectedMonth = Months.FirstOrDefault();
         }
 
-        private void getItems()
+        private async Task getItems()
         {
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
@@ -176,7 +195,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                             t.DateLoading.Value < endDate
                             && t.RouteId == _route.RouteId);
 
-            loadData(list);
+            await loadData(list);
             OnPropertyChanged(nameof(CountTransportations));
         }
 
@@ -185,26 +204,26 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SelectedTransportation = null;
         }
 
-        private void loadData(IQueryable<Transportation> list)
+        private async Task loadData(IQueryable<Transportation> list)
         {
             Transportations.Clear();
-            foreach (var item in list) Transportations.Add(item);
+            foreach (var item in await list.ToListAsync()) Transportations.Add(item);
         }
 
-        private void deleteEntity(object obj)
+        private async Task deleteEntity(object obj)
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{(obj as Transportation).RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) delete(obj as Transportation);
+            if (result == MessageBoxResult.Yes) await delete(obj as Transportation);
         }
 
-        private void delete(Transportation dto)
+        private async Task delete(Transportation dto)
         {
             _context.Transportations.Remove(_context.Transportations.Single(t => t.TransportationId == dto.TransportationId));
-            _context.SaveChanges();
+            await SaveChangesAsync();
             Transportations.Remove(dto);
         }
 
-        protected override bool dataIsCorrect()
+        protected override async Task<bool> dataIsCorrect()
         {
             if (string.IsNullOrEmpty(_route.RouteName))
             {
@@ -216,12 +235,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            DeleteCommand = new DelegateCommand(deleteEntity);
-            ShowWindowCommand = new DelegateCommand((obj) => showWindowForEdit());
+            DeleteAsyncCommand = new AsyncCommand(deleteEntity);
+            ShowWindowAsyncCommand = new AsyncCommand(async (obj) => await showWindowForEdit());
             SortCommand = new DelegateCommand((obj) => onSort());
         }
 
-        private void showWindowForEdit()
+        private async Task showWindowForEdit()
         {
             if (SelectedTransportation != null)
             {
@@ -237,7 +256,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                     {
                         DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
                         setDate(date);
-                        getItems();
+                        await getItems();
                     }
                     else
                     {
@@ -273,6 +292,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             route.SetFields(_route);
         }
 
-        public override IEntity GetEntity() => _route;
+        public override async Task<IEntity> GetEntity() => await _context.Routes.FindAsync(_route.RouteId);
     }
 }

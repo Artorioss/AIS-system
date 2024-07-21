@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -9,11 +11,11 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         [MaxLength(32)]
         public string Name { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Driver> Drivers { get; set; }
+        public ObservableCollection<Driver> Drivers { get; set; }
 
         public TransportCompany() 
         {
-            Drivers = new List<Driver>();
+            Drivers = new ObservableCollection<Driver>();
         }
 
         public TransportCompany(TransportCompany transportCompany)
@@ -26,8 +28,8 @@ namespace WpfAppMVVM.Model.EfCode.Entities
             TransportCompany transportCompanyEntity = transportCompany as TransportCompany;
             TransportCompanyId = transportCompanyEntity.TransportCompanyId;
             Name = transportCompanyEntity.Name;
-            Drivers = new List<Driver>();
-            if (transportCompanyEntity.Drivers != null && transportCompanyEntity.Drivers.Count > 0) (Drivers as List<Driver>).AddRange(transportCompanyEntity.Drivers);
+            Drivers = new ObservableCollection<Driver>();
+            if (transportCompanyEntity.Drivers != null && transportCompanyEntity.Drivers.Count > 0) foreach(var driver in transportCompanyEntity.Drivers) Drivers.Add(driver);
             SoftDeleted = transportCompanyEntity.SoftDeleted;
         }
 

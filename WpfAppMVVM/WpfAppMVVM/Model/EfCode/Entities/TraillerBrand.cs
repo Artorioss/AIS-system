@@ -1,4 +1,7 @@
-﻿namespace WpfAppMVVM.Model.EfCode.Entities
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
+
+namespace WpfAppMVVM.Model.EfCode.Entities
 {
     public class TraillerBrand: IEntity
     {
@@ -6,11 +9,11 @@
         public string Name { get; set; }
         public string? RussianName { get; set; }
         public bool SoftDeleted { get; set; }
-        public ICollection<Trailler> Traillers { get; set; }
+        public ObservableCollection<Trailler> Traillers { get; set; }
 
         public TraillerBrand() 
         {
-            Traillers = new List<Trailler>();
+            Traillers = new ObservableCollection<Trailler>();
         }
 
         public TraillerBrand(TraillerBrand traillerBrand)
@@ -24,8 +27,8 @@
             TraillerBrandId = traillerBrandEntity.TraillerBrandId;
             Name = traillerBrandEntity.Name;
             RussianName = traillerBrandEntity.RussianName;
-            Traillers = new List<Trailler>();
-            if (traillerBrandEntity.Traillers != null && traillerBrandEntity.Traillers.Count > 0) (Traillers as List<Trailler>).AddRange(traillerBrandEntity.Traillers);
+            Traillers = new ObservableCollection<Trailler>();
+            if (traillerBrandEntity.Traillers != null && traillerBrandEntity.Traillers.Count > 0) foreach(var trailler in traillerBrandEntity.Traillers) Traillers.Add(trailler);
             SoftDeleted = traillerBrandEntity.SoftDeleted;
         }
 
