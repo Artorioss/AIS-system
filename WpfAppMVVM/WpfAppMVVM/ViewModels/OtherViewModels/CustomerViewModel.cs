@@ -10,7 +10,7 @@ using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CustomerViewModel : ReferenceBook
+    internal class CustomerViewModel : BaseViewModel
     {
         Customer _customer;
         MonthService _monthService;
@@ -244,27 +244,24 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null) 
             {
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
 
-                CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel((SelectedTransportation as Transportation).TransportationId);
-                creatingTransportationWindow.DataContext = creatingTransportationViewModel;
-                creatingTransportationWindow.ShowDialog();
-
-                if (creatingTransportationViewModel.IsContextChanged)
+                if (creatingTransportationViewModel.changedExist)
                 {
-                    //var entity = _context.Transportations.Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                    if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                    var transportation = creatingTransportationViewModel.Transportation;
+                    if (transportation.DateLoading.Value.Month != _selectedMonth || transportation.DateLoading.Value.Year != SelectedYear)
                     {
-                        DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                        DateTime date = transportation.DateLoading.Value;
                         setDate(date);
                         getItems();
                     }
                     else 
                     {
+                        var newTransportation = await creatingTransportationViewModel.GetEntity() as Transportation;
                         int id = Transportations.IndexOf(SelectedTransportation);
                         Transportations.Remove(SelectedTransportation);
-                        Transportations.Insert(id, SelectedTransportation);
-                        //SelectedTransportation = entity;
+                        Transportations.Insert(id, newTransportation);
+                        SelectedTransportation = newTransportation;
                     }
                 }
             }   

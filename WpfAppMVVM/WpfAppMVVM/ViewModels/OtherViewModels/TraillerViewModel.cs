@@ -7,7 +7,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    class TraillerViewModel: ReferenceBook
+    class TraillerViewModel: BaseViewModel
     {
         Trailler _trailler;
         public ObservableHashSet<Driver> Drivers { get; set; }

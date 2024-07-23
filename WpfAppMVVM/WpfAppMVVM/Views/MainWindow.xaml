@@ -23,12 +23,13 @@
             <Label Content="Фильтр"></Label>
             <ComboBox MinWidth="150" ItemsSource="{Binding StateOrders}" SelectedItem="{Binding SelectedState}" DisplayMemberPath="Name"></ComboBox>
             <Separator Margin="10,5,10,5"></Separator>
-            <Button Content="Справочники" Margin="0,0,0,0" Command="{Binding ShowReferencesBook}"></Button>
+            <Button Content="Справочники" Margin="0,0,0,0" Command="{Binding ShowReferencesBookAsync}"></Button>
             <Separator Margin="10,5,10,5"></Separator>
             <Label Content="Месяц"></Label>
-            <ComboBox MinWidth="150" SelectedItem="{Binding SelectedMonth}" ItemsSource="{Binding Months}"></ComboBox>
+            <ComboBox MinWidth="150" SelectedItem="{Binding SelectedMonth}" IsEnabled="{Binding DateFilterIsEnabled}" ItemsSource="{Binding Months}"></ComboBox>
             <Label Content="Год"></Label>
-            <ComboBox MinWidth="100" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" ></ComboBox>
+            <ComboBox MinWidth="100" ItemsSource="{Binding Years}" SelectedItem="{Binding SelectedYear}" IsEnabled="{Binding DateFilterIsEnabled}"></ComboBox>
+            <Label Margin="60,0,0,0"  Content="{Binding StateText}"></Label>
         </ToolBar>
 
         <DataGrid x:Name="dataGridView" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" ItemsSource="{Binding ItemsSource, Mode=TwoWay}" SelectedItem="{Binding TransportationDTO}">
@@ -47,13 +48,18 @@
                     <MenuItem Header="Выставить счет заказчику"/>
                     <MenuItem Header="Выставить счет водителю"/>
                     <MenuItem Header="Копировать название счета" Command="{Binding CopyCommand}"/>
-                    <MenuItem Header="Удалить заявку" Command="{Binding DeleteCommand}"/>
+                    <Separator/>
+                    <MenuItem Header="Закрыть заявку">
+                        <MenuItem Header="Заявка закрыта" Command="{Binding CloseRequestCommand}" CommandParameter="1"/>
+                        <MenuItem Header="Срыв" Command="{Binding CloseRequestCommand}" CommandParameter="0"/>
+                    </MenuItem>
+                    <MenuItem Header="Удалить заявку" Command="{Binding DeleteCommandAsync}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
                     <i:InvokeCommandAction
-                    Command="{Binding EditData}"/>
+                    Command="{Binding EditDataAsync}"/>
                 </i:EventTrigger>
                 <i:EventTrigger EventName="Sorting">
                     <i:InvokeCommandAction
@@ -62,6 +68,6 @@
             </i:Interaction.Triggers>
         </DataGrid>
 
-        <Button Content="Добавить перевозку" Margin="5" Grid.Row="2" Command="{Binding CreateTransportation}"></Button>
+        <Button Content="Добавить перевозку" Margin="5" Grid.Row="2" Command="{Binding CreateTransportationAsync}"></Button>
     </Grid>
 </Window>

@@ -17,10 +17,6 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
-    <Window.DataContext>
-        <vm:ReferenceBookViewModel/>
-    </Window.DataContext>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>

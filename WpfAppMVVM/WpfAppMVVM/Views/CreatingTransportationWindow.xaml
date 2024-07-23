@@ -13,7 +13,7 @@
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">
             <i:InvokeCommandAction
-                Command="{Binding Loaded}"></i:InvokeCommandAction>
+                Command="{Binding OnLoadedCommand}" CommandParameter="{Binding ElementName=Window}"></i:InvokeCommandAction>
         </i:EventTrigger>
     </i:Interaction.Triggers>
 
@@ -269,7 +269,7 @@
         </GroupBox>
 
         <DockPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="5">
-            <Button Name="ButtonAdd" Content="{Binding ButtonName}" Command="{Binding CreateTransportation}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
+            <Button Name="ButtonAdd" Content="{Binding ButtonName}" Command="{Binding AcceptСhangesCommand}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
         </DockPanel>
     </Grid>
 </Window>

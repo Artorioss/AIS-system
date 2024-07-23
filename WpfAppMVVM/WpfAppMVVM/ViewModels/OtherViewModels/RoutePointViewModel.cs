@@ -9,7 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class RoutePointViewModel: ReferenceBook
+    internal class RoutePointViewModel: BaseViewModel
     {
         RoutePoint _routePoint;
         MonthService _monthService;

@@ -13,6 +13,7 @@ using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.Models;
+using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -30,23 +31,27 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         }
         public DelegateCommand GetDrivers { get; private set; }
 
-        Driver _driver;
         public Driver Driver
         {
-            get => _driver;
+            get => Transportation.Driver;
             set
             {
-                _driver = value;
+                Transportation.Driver = value;
                 _accountNameBuilder.Driver = value;
                 AccountName = _accountNameBuilder.ToString();
-                if (_driver != null)
+                if (Transportation.Driver != null)
                 {
                     setTransportCompanyByDriver();
-                    setCarByDriver();
-                    setTraillerByDriver();
+                    setReferenceData();
                 }
                 OnPropertyChanged(nameof(Driver));
             }
+        }
+
+        private async Task setReferenceData() 
+        {
+           await setCarByDriver();
+           await setTraillerByDriver();
         }
 
         private void getDrivers(object e)
@@ -71,13 +76,11 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private void setCarByDriver()
+        private async Task setCarByDriver()
         {
-            CarSource = _context.Cars.Include(car => car.Brand)
-                                                    .Select(s => s)
-                                                    .Where(s => s.Drivers.Any(driver => driver.DriverId == Driver.DriverId))
-                                                    .ToList();
+            await loadReferenceCarData();
 
+            CarSource = Driver.Cars.ToList();
 
             if (CarSource != null && CarSource.Count > 0)
             {
@@ -86,17 +89,40 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private void setTraillerByDriver()
+        private async Task loadReferenceCarData() 
         {
-            TraillerSource = _context.Traillers
-                                               .Include(trailler => trailler.Brand)
-                                               .Where(t => t.Drivers.Any(driver => driver.DriverId == Driver.DriverId))
-                                               .ToList();
+            if (!_context.Entry(Driver).Collection(d => d.Cars).IsLoaded)
+            {
+                await _context.Entry(Driver).Collection(d => d.Cars).LoadAsync();
+                foreach (var car in Driver.Cars)
+                {
+                    await _context.Entry(car).Reference(c => c.Brand).LoadAsync();
+                }
+            }
+        }
+
+        private async Task setTraillerByDriver()
+        {
+            await loadReferenceTraillerData();
+
+            TraillerSource = Driver.Traillers.ToList();
 
             if (TraillerSource != null && TraillerSource.Count > 0)
             {
                 TraillerBrandSource = TraillerSource.Select(trailler => trailler.Brand).Distinct(new TraillerBrandComparer()).ToList();
                 Trailler = TraillerSource.FirstOrDefault();
+            }
+        }
+
+        private async Task loadReferenceTraillerData()
+        {
+            if (!_context.Entry(Driver).Collection(d => d.Traillers).IsLoaded)
+            {
+                await _context.Entry(Driver).Collection(d => d.Traillers).LoadAsync();
+                foreach (var trailler in Driver.Traillers)
+                {
+                    await _context.Entry(trailler).Reference(c => c.Brand).LoadAsync();
+                }
             }
         }
 
@@ -114,14 +140,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         }
         public DelegateCommand GetCompanies { get; private set; }
 
-        TransportCompany _company;
         public TransportCompany TransportCompany
         {
-            get => _company;
+            get => Transportation.Driver != null ? Transportation.Driver.TransportCompany : null;
             set
             {
-                _company = value;
-                if (Driver != null) Driver.TransportCompany = _company;
+                Transportation.Driver.TransportCompany = value;
                 OnPropertyChanged(nameof(TransportCompany));
             }
         }
@@ -136,26 +160,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                                       .ToList();
         }
 
-        //private void setDriversByCompany() 
-        //{
-        //    List<Driver> list = _context.Drivers.AsNoTracking()
-        //                                    .Where(driver => driver.TransportCompanyId == TransportCompany.TransportCompanyId)
-        //                                    .OrderBy(d => d.Name)
-        //                                    .Take(5)
-        //                                    .ToList();
-
-        //    if (Driver != null) 
-        //    {
-        //        var val = list.SingleOrDefault(d => d.DriverId == Driver.DriverId);
-        //        if (val == null) list.Add(Driver);
-        //        else val = Driver;
-        //    }
-                
-        //    DriversSource = list;
-        //}
-
-
-
         //------------------------ CarBrand --------------------------------
         public DelegateCommand GetCarBrands { get; private set; }
         private List<CarBrand> _carBrandSource;
@@ -169,13 +173,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private CarBrand _carBrand;
         public CarBrand CarBrand
         {
-            get => _carBrand;
+            get => Car != null ? Car.Brand : null;
             set
             {
-                _carBrand = value;
+                Car.Brand = value;
                 _accountNameBuilder.CarBrand = value;
                 AccountName = _accountNameBuilder.ToString();
                 OnPropertyChanged(nameof(CarBrand));
@@ -205,13 +208,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private TraillerBrand _traillerBrand;
         public TraillerBrand TraillerBrand 
         {
-            get => _traillerBrand;
+            get =>  Trailler != null ? Trailler.Brand : null;
             set 
             {
-                _traillerBrand = value;
+                Trailler.Brand = value;
                 _accountNameBuilder.TraillerBrand = value;
                 AccountName = _accountNameBuilder.ToString();
                 OnPropertyChanged(nameof(TraillerBrand));
@@ -242,25 +244,24 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             }
         }
 
-        private Car _car;
         public Car Car 
         {
-            get => _car;
+            get => Transportation.Car;
             set 
             {
-                _car = value;
+                Transportation.Car = value;
                 _accountNameBuilder.Car = value;
                 AccountName = _accountNameBuilder.ToString();
-                if (_car != null) 
+                if (Transportation.Car != null) 
                 {
-                    if (_car.Brand != null)
+                    if (Transportation.Car.Brand != null)
                     {
-                        if (!CarBrandSource.Contains(_car.Brand)) CarBrandSource.Add(_car.Brand);
-                        CarBrand = _car.Brand;
+                        if (!CarBrandSource.Contains(Transportation.Car.Brand)) CarBrandSource.Add(Transportation.Car.Brand);
+                        CarBrand = Transportation.Car.Brand;
                     }
                     else if(CarBrand != null) 
                     {
-                        _car.Brand = CarBrand;
+                        Transportation.Car.Brand = CarBrand;
                     }
                 }
                 OnPropertyChanged(nameof(Car));
@@ -291,25 +292,25 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 OnPropertyChanged(nameof(TraillerSource));
             }
         }
-        private Trailler _trailler;
+
         public Trailler Trailler 
         {
-            get => _trailler;
+            get => Transportation.Trailler;
             set 
             {
-                _trailler = value;
-                _accountNameBuilder.Trailler = _trailler;
+                Transportation.Trailler = value;
+                _accountNameBuilder.Trailler = value;
                 AccountName = _accountNameBuilder.ToString();
-                if (_trailler != null)
+                if (Transportation.Trailler != null)
                 {
-                    if (_trailler.Brand != null)
+                    if (Transportation.Trailler.Brand != null)
                     {
-                        if (!TraillerBrandSource.Contains(_trailler.Brand)) TraillerBrandSource.Add(_trailler.Brand);
-                        TraillerBrand = _trailler.Brand;
+                        if (!TraillerBrandSource.Contains(Transportation.Trailler.Brand)) TraillerBrandSource.Add(Transportation.Trailler.Brand);
+                        TraillerBrand = Transportation.Trailler.Brand;
                     }
                     else if(TraillerBrand != null)
                     {
-                        _trailler.Brand = TraillerBrand;
+                        Transportation.Trailler.Brand = TraillerBrand;
                     }
                     
                 }

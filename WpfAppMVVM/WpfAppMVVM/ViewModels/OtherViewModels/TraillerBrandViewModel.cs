@@ -7,7 +7,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class TraillerBrandViewModel: ReferenceBook
+    internal class TraillerBrandViewModel: BaseViewModel
     {
         private TraillerBrand _brand;
         public ObservableCollection<Trailler> Traillers { get; set; }

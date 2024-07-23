@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode.Entities;
+using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
@@ -25,13 +26,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         public DelegateCommand GetCustomers { get; set; }
 
-        Customer _customer;
         public Customer Customer
         {
-            get => _customer;
+            get => Transportation.Customer;
             set
             {
-                _customer = value;
+                Transportation.Customer = value;
                 OnPropertyChanged(nameof(Customer));
             }
         }

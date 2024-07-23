@@ -25,7 +25,6 @@ namespace WpfAppMVVM
 
         private void registrationWindows() 
         {
-            DisplayRootRegistry.RegisterWindowType<MainWindowViewModel, MainWindow>();
             DisplayRootRegistry.RegisterWindowType<CreatingTransportationViewModel, CreatingTransportationWindow>();
             DisplayRootRegistry.RegisterWindowType<ReferenceBookViewModel, WindowReferencesBook>();
             DisplayRootRegistry.RegisterWindowType<CarBrandViewModel, CarBrandWindow>();

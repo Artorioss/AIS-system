@@ -62,6 +62,8 @@ namespace WpfAppMVVM {
         [System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "8.0.4.0")]
         public static void Main() {
+            SplashScreen splashScreen = new SplashScreen("resources/14.png");
+            splashScreen.Show(true);
             WpfAppMVVM.App app = new WpfAppMVVM.App();
             app.InitializeComponent();
             app.Run();

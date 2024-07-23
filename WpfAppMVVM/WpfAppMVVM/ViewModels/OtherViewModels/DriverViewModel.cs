@@ -9,7 +9,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class DriverViewModel : ReferenceBook
+    internal class DriverViewModel : BaseViewModel
     {
         public AsyncCommand GetCustomers { get; private set; }
         public AsyncCommand GetCars { get; private set; }

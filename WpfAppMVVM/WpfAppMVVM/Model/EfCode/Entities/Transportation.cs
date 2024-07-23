@@ -12,7 +12,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         }
 
         public int TransportationId { get; set; }
-        public DateTime? DateLoading { get; set; }
+        public DateTime? DateLoading { get; set; } = DateTime.Now;
         public int CustomerId { get; set; }
         public int? DriverId { get; set; }
         public int? RouteId { get; set; }

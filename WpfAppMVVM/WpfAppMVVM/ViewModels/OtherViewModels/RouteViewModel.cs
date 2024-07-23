@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
@@ -9,7 +10,7 @@ using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class RouteViewModel: ReferenceBook
+    internal class RouteViewModel: BaseViewModel
     {
         Route _route;
         MonthService _monthService;
@@ -45,16 +46,17 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 _route.Transportations.Clear();
                 await _context.Entry(_route).Collection(r => r.Transportations).LoadAsync();
             }
+            
+            setYears();
+            setSelectedYear();
         }
 
-        private async Task settingUp()
+        private void settingUp()
         {
             _monthService = new MonthService();
             Years = new List<int>();
             Months = new List<string>();
             Transportations = new ObservableCollection<Transportation>();
-            await setYears();
-            setSelectedYear();
         }
 
         private string _windowName = "Создание маршрута";
@@ -133,21 +135,20 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private async Task setMonthsByYear(int year)
+        private void setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(await getMonthsByYearFromDbAsync(year));
+            _months = _monthService.GetMonths(getMonthsByYear(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
         }
 
-        private async Task<List<int>> getMonthsByYearFromDbAsync(int year) 
+        private List<int> getMonthsByYear(int year) 
         {
-            return await _context.Transportations
-                           .Where(t => t.DateLoading.Value.Year == year
-                                    && t.RouteId == _route.RouteId)
-                           .Select(t => t.DateLoading.Value.Month)
-                           .Distinct()
-                           .ToListAsync();
+            return _route.Transportations
+                   .Where(t => t.DateLoading.Value.Year == year)
+                   .Select(t => t.DateLoading.Value.Month)
+                   .Distinct()
+                   .ToList();
         }
 
         private int _selectedMonth;
@@ -162,13 +163,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private async Task setYears()
+        private void setYears()
         {
-            Years = await _context.Transportations
-                            .Where(t => t.RouteId == _route.RouteId)
-                            .Select(t => t.DateLoading.Value.Date.Year)
-                            .Distinct()
-                            .ToListAsync();
+            Years = _route.Transportations
+                    .Select(t => t.DateLoading.Value.Date.Year)
+                    .Distinct()
+                    .ToList();
         }
 
         private void setSelectedYear()
@@ -184,18 +184,17 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             else SelectedMonth = Months.FirstOrDefault();
         }
 
-        private async Task getItems()
+        private void getItems()
         {
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
 
-            var list = _context.Transportations
+            var list = _route.Transportations
                 .Where(t => t.DateLoading.HasValue &&
                             t.DateLoading.Value >= startDate &&
-                            t.DateLoading.Value < endDate
-                            && t.RouteId == _route.RouteId);
+                            t.DateLoading.Value < endDate);
 
-            await loadData(list);
+            loadData(list);
             OnPropertyChanged(nameof(CountTransportations));
         }
 
@@ -204,10 +203,10 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             SelectedTransportation = null;
         }
 
-        private async Task loadData(IQueryable<Transportation> list)
+        private void loadData(IEnumerable<Transportation> list)
         {
             Transportations.Clear();
-            foreach (var item in await list.ToListAsync()) Transportations.Add(item);
+            foreach (var item in list) Transportations.Add(item);
         }
 
         private async Task deleteEntity(object obj)
@@ -244,26 +243,25 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null)
             {
-                CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel((SelectedTransportation as Transportation).TransportationId);
-                creatingTransportationWindow.DataContext = creatingTransportationViewModel;
-                creatingTransportationWindow.ShowDialog();
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
+                await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(creatingTransportationViewModel);
 
-                if (creatingTransportationViewModel.IsContextChanged)
+                if (creatingTransportationViewModel.changedExist)
                 {
-                    var entity = _context.Transportations.Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                    if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                    var transportation = creatingTransportationViewModel.Transportation;
+                    if (transportation.DateLoading.Value.Month != _selectedMonth || transportation.DateLoading.Value.Year != SelectedYear)
                     {
-                        DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                        DateTime date = transportation.DateLoading.Value;
                         setDate(date);
-                        await getItems();
+                        getItems();
                     }
                     else
                     {
+                        var newTransportation = await creatingTransportationViewModel.GetEntity() as Transportation;
                         int id = Transportations.IndexOf(SelectedTransportation);
                         Transportations.Remove(SelectedTransportation);
-                        Transportations.Insert(id, entity);
-                        SelectedTransportation = entity;
+                        Transportations.Insert(id, newTransportation);
+                        SelectedTransportation = newTransportation;
                     }
                 }
             }

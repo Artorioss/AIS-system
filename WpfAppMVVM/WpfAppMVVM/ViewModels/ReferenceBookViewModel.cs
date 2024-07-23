@@ -12,7 +12,7 @@ using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels
 {
-    internal class ReferenceBookViewModel : BaseViewModel, IObservable
+    internal class ReferenceBookViewModel : NotifyService, IObservable
     {
         public AsyncCommand GetCarsDataAsync { get; private set; }
         public AsyncCommand GetCarBrandsDataAsync { get; private set; }
@@ -31,12 +31,13 @@ namespace WpfAppMVVM.ViewModels
 
         private TransportationEntities _context;
         private PaginationService _paginationService;
-        private ReferenceBook _referenceBook;
+        private BaseViewModel _viewModel;
         private Type _typeVM;
         private Dictionary<Type, EntityTable> _entityTablesDict;
         private DispatcherTimer _loadingTimer;
         private EntityTable _entityTable;
         private List<IObserver> _observers;
+        public bool ChangedExists { get; private set; } = false;
 
         public EntityTable EntityTable
         {
@@ -72,7 +73,7 @@ namespace WpfAppMVVM.ViewModels
 
             _loadingTimer = new DispatcherTimer
             {
-                Interval = TimeSpan.FromMilliseconds(400)
+                Interval = TimeSpan.FromMilliseconds(300)
             };
             _loadingTimer.Tick += LoadingTimer_Tick;
 
@@ -300,17 +301,21 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task addData() 
         {
-            _referenceBook = Activator.CreateInstance(_typeVM) as ReferenceBook;
-            await _referenceBook.ShowDialog();
-            if (_referenceBook.changedExist) _entityTable.AddItem(await _referenceBook.GetEntity());
+            _viewModel = Activator.CreateInstance(_typeVM) as BaseViewModel;
+            await _viewModel.ShowDialog();
+            if (_viewModel.changedExist) _entityTable.AddItem(await _viewModel.GetEntity());
             NotifyObservers();
         }
 
         private async Task editData()
         {
-            _referenceBook = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as ReferenceBook;
-            await _referenceBook.ShowDialog();
-            if (_referenceBook.changedExist) _entityTable.InsertItem(SelectedItem, await _referenceBook.GetEntity());
+            _viewModel = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as BaseViewModel;
+            await _viewModel.ShowDialog();
+            if (_viewModel.changedExist) 
+            {
+                _entityTable.InsertItem(SelectedItem, await _viewModel.GetEntity());
+                ChangedExists = true;
+            } 
             NotifyObservers();
         }
 
@@ -325,9 +330,7 @@ namespace WpfAppMVVM.ViewModels
         {
             string text = obj as string;
             EntityTable.LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
-            OnPropertyChanged(nameof(CountPages));
-            OnPropertyChanged(nameof(CanGetNextPage));
-            OnPropertyChanged(nameof(CanGetPreviosPage));
+            notifyElements();
         }
 
         public void RegisterObserver(IObserver observer) => _observers.Add(observer);

@@ -3,103 +3,59 @@
   "WorkspaceRootPath": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\transportcompanyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\transportcompanyviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\traillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\traillerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\views\\windowreferencesbook.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\windowreferencesbook.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\traillerbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\traillerbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\creatingtransportation\\routepart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\creatingtransportation\\routepart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\customerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\customerwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\creatingtransportation\\driverpart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\creatingtransportation\\driverpart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\referencebook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\referencebook.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\creatingtransportation\\customerpart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\creatingtransportation\\customerpart.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\routepointviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\routepointviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\routepoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\routepoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\routepointwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\routepointwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\transportation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\transportation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\creatingtransportation\\creatingtransportationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\creatingtransportation\\creatingtransportationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\creatingtransportation\\creatingtransportationviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Artemiy\\AppData\\Local\\SourceServer\\e6e88614afe5693a0bc60af644719237cf52103a078e3b1ce37d8d6deb3f34a9\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\baseviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\referencebookviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\carbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\carbrandviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\creatingtransportationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\creatingtransportationwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\viewmodels\\otherviewmodels\\driverviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\driverviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\transportation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\transportation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\model\\efcode\\entities\\transportcompany.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\transportcompany.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Artemiy\\AppData\\Local\\Temp\\.vsdbgsrc\\baf221bb997c1d79e0e5c2a5bb67d1b6663d80d6abf43858f2778540752481af\\SplashScreen.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\traillerbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\traillerbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|c:\\users\\artemiy\\desktop\\\u0434\u0438\u043F\u043B\u043E\u043C\\ais-system\\wpfappmvvm\\wpfappmvvm\\model\\iobservable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\iobservable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\trailler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\trailler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\stateorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\stateorder.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\route.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\route.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\paymentmethod.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\driver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\driver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\customer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\model\\efcode\\entities\\carbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\model\\efcode\\entities\\carbrand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\wpfappmvvm.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\wpfappmvvm.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\stateorderviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -110,40 +66,8 @@
       "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\routeviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\carviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\driverwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\driverwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\states.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\states.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\customcomponents\\customcombobox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\customcomponents\\customcombobox.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\carbrandwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\carbrandwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\routewindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\routewindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\views\\otherviews\\carwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\customcomponents\\tables\\entitytable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\customcomponents\\tables\\entitytable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\wpfappmvvm\\viewmodels\\otherviewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7B6ACD8-B317-4AF8-9D5F-107BF0E7781A}|WpfAppMVVM\\WpfAppMVVM.csproj|solutionrelative:wpfappmvvm\\viewmodels\\otherviewmodels\\customerviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -162,178 +86,77 @@
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "CustomerViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
-              "ViewState": "AQIAAFwAAAAAAAAAAAAmwGwAAAAfAAAA",
+              "Title": "RoutePart.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\RoutePart.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\RoutePart.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\RoutePart.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\RoutePart.cs",
+              "ViewState": "AQIAAEAAAAAAAAAAAAAcwBkAAAAbAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T10:15:50.459Z",
+              "WhenOpened": "2024-07-23T16:44:18.84Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "CustomerWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CustomerWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CustomerWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CustomerWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CustomerWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T10:08:54.508Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TraillerBrandViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerBrandViewModel.cs",
-              "ViewState": "AQIAAJcAAAAAAAAAAAAqwK0AAAAAAAAA",
+              "Title": "DriverPart.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\DriverPart.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\DriverPart.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\DriverPart.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\DriverPart.cs",
+              "ViewState": "AQIAAEMBAAAAAAAAAAAhwCwAAAAnAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T12:06:57.99Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TraillerViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TraillerViewModel.cs",
-              "ViewState": "AQIAAOQAAAAAAAAAAAAuwPoAAABBAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T12:07:58.966Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TransportCompanyViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TransportCompanyViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TransportCompanyViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\TransportCompanyViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\TransportCompanyViewModel.cs",
-              "ViewState": "AQIAAKAAAAAAAAAAAAAAALsAAACMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T12:10:19.393Z",
+              "WhenOpened": "2024-07-23T16:37:03.929Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "ReferenceBook.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\ReferenceBook.cs",
-              "ViewState": "AQIAAE0AAAAAAAAAAAAUwA0AAAAbAAAA",
+              "Title": "CustomerPart.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CustomerPart.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CustomerPart.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CustomerPart.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CustomerPart.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAB4AAAAmAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-19T08:18:32.702Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Car.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Car.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAACUAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T14:50:20.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "CreatingTransportationViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
-              "ViewState": "AQIAAEoAAAAAAAAAAAASwFoAAAAMAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-20T14:35:28.447Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "RoutePointWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\RoutePointWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\RoutePointWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\RoutePointWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\RoutePointWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T11:17:35.643Z",
+              "WhenOpened": "2024-07-23T16:29:05.24Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "RoutePointViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "ViewState": "AQIAAPIAAAAAAAAAAAAmwP8AAAAmAAAA",
+              "Title": "CreatingTransportationViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\CreatingTransportation\\CreatingTransportationViewModel.cs",
+              "ViewState": "AQIAAMIAAAAAAAAAAAAUwHIAAAAxAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T11:11:13.909Z",
+              "WhenOpened": "2024-07-22T14:44:56.315Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "CarBrand.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\CarBrand.cs",
-              "ViewState": "AQIAAAEAAAAAAAAAAAAAAA0AAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:45:37.033Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "CustomComboBox.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
-              "RelativeToolTip": "WpfAppMVVM\\CustomComponents\\CustomComboBox.cs",
-              "ViewState": "AQIAAGgAAAAAAAAAAAAUwIcAAABNAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T09:55:16.623Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 32,
-              "Title": "CarBrandWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarBrandWindow.xaml",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\MainWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T10:14:40Z"
+              "WhenOpened": "2024-07-22T14:36:52.475Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "RoutePoint.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\RoutePoint.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\RoutePoint.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\RoutePoint.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\RoutePoint.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAAABYAAAAlAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:52:21.437Z",
+              "DocumentIndex": 1,
+              "Title": "WindowReferencesBook.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\WindowReferencesBook.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\WindowReferencesBook.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\WindowReferencesBook.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\WindowReferencesBook.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-23T17:21:50.84Z",
               "EditorCaption": ""
             },
             {
@@ -344,275 +167,135 @@
               "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Transportation.cs",
               "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Transportation.cs",
               "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Transportation.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAIAAAA",
+              "ViewState": "AQIAACAAAAAAAAAAAIA+wCoAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:56:00.728Z",
+              "WhenOpened": "2024-07-22T14:32:37.544Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "Trailler.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Trailler.cs",
-              "ViewState": "AQIAAAsAAAAAAAAAAAAAACQAAAA2AAAA",
+              "DocumentIndex": 7,
+              "Title": "BaseViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\BaseViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\BaseViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\BaseViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\BaseViewModel.cs",
+              "ViewState": "AQIAADQAAAAAAAAAAAA+wEgAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:54:13.721Z",
+              "WhenOpened": "2024-07-22T14:46:33.184Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "RoutePointViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\AppData\\Local\\SourceServer\\e6e88614afe5693a0bc60af644719237cf52103a078e3b1ce37d8d6deb3f34a9\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\e6e88614afe5693a0bc60af644719237cf52103a078e3b1ce37d8d6deb3f34a9\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\AppData\\Local\\SourceServer\\e6e88614afe5693a0bc60af644719237cf52103a078e3b1ce37d8d6deb3f34a9\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
-              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\SourceServer\\e6e88614afe5693a0bc60af644719237cf52103a078e3b1ce37d8d6deb3f34a9\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RoutePointViewModel.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
-              "ViewState": "AQIAALMAAAAAAAAAAAAawNAAAAAIAAAA",
+              "DocumentIndex": 9,
+              "Title": "CreatingTransportationWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\CreatingTransportationWindow.xaml",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\CreatingTransportationWindow.xaml",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\CreatingTransportationWindow.xaml",
+              "RelativeToolTip": "WpfAppMVVM\\Views\\CreatingTransportationWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-07-22T14:46:43.221Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "SplashScreen.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\AppData\\Local\\Temp\\.vsdbgsrc\\baf221bb997c1d79e0e5c2a5bb67d1b6663d80d6abf43858f2778540752481af\\SplashScreen.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\baf221bb997c1d79e0e5c2a5bb67d1b6663d80d6abf43858f2778540752481af\\SplashScreen.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\AppData\\Local\\Temp\\.vsdbgsrc\\baf221bb997c1d79e0e5c2a5bb67d1b6663d80d6abf43858f2778540752481af\\SplashScreen.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
+              "RelativeToolTip": "..\\..\\..\\..\\AppData\\Local\\Temp\\.vsdbgsrc\\baf221bb997c1d79e0e5c2a5bb67d1b6663d80d6abf43858f2778540752481af\\SplashScreen.cs [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]",
+              "ViewState": "AQIAAEwAAAAAAAAAAAAtwHYAAABQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-20T16:04:23.671Z",
+              "WhenOpened": "2024-07-22T14:14:37.138Z",
               "EditorCaption": " [\u0422\u043E\u043B\u044C\u043A\u043E \u0447\u0442\u0435\u043D\u0438\u0435]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 13,
-              "Title": "ReferenceBookViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
-              "ViewState": "AQIAAO8AAAAAAAAAAAD4v/sAAAA6AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T10:03:19.095Z",
+              "Title": "WpfAppMVVM",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\WpfAppMVVM.csproj",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\WpfAppMVVM.csproj",
+              "RelativeToolTip": "WpfAppMVVM\\WpfAppMVVM.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-07-22T14:19:49.495Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "StateOrderViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
-              "ViewState": "AQIAAA4BAAAAAAAAAAAAACQBAABBAAAA",
+              "DocumentIndex": 12,
+              "Title": "IObservable.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\IObservable.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\IObservable.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\IObservable.cs",
+              "RelativeToolTip": "WpfAppMVVM\\Model\\IObservable.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T11:29:02.86Z",
+              "WhenOpened": "2024-07-23T15:21:39.551Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "RouteViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
-              "ViewState": "AQIAABMBAAAAAAAAAAAAACYBAABAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T11:19:02.417Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 27,
-              "Title": "CarViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarViewModel.cs",
-              "ViewState": "AQIAAOoAAAAAAAAAAAAAAP8AAAAFAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T09:58:24.212Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 28,
+              "DocumentIndex": 2,
               "Title": "MainWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\MainWindowViewModel.cs",
               "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\MainWindowViewModel.cs",
               "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\MainWindowViewModel.cs",
               "RelativeToolTip": "WpfAppMVVM\\ViewModels\\MainWindowViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEAAAAAAAAAA",
+              "ViewState": "AQIAAA0BAAAAAAAAAAAhwGUBAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T09:45:14.41Z",
+              "WhenOpened": "2024-07-22T14:23:50.09Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "StateOrder.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\StateOrder.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\StateOrder.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\StateOrder.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\StateOrder.cs",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAAAB0AAAA2AAAA",
+              "DocumentIndex": 8,
+              "Title": "ReferenceBookViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\ReferenceBookViewModel.cs",
+              "ViewState": "AQIAACcBAAAAAAAAAAAAAD0BAAAOAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:53:12.976Z",
+              "WhenOpened": "2024-07-22T16:18:53.7Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "TransportCompany.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\TransportCompany.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\TransportCompany.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\TransportCompany.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\TransportCompany.cs",
-              "ViewState": "AQIAAA0AAAAAAAAAAAA5wBkAAAA4AAAA",
+              "Title": "CustomerViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CustomerViewModel.cs",
+              "ViewState": "AQIAAOQAAAAAAAAAAAAhwAkBAAARAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-20T14:34:53.908Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "TraillerBrand.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\TraillerBrand.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAAAB0AAAAwAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:55:24.178Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-22T14:46:56.05Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 15,
-              "Title": "DriverViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\DriverViewModel.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAAnwCQAAAAQAAAA",
+              "Title": "RouteViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\RouteViewModel.cs",
+              "ViewState": "AQIAAOIAAAAAAAAAAAApwPgAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T10:55:57.358Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-07-22T14:47:03.362Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "CarBrandViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\CarBrandViewModel.cs",
-              "ViewState": "AQIAABQAAAAAAAAAAAAswAwAAAAjAAAA",
+              "Title": "StateOrderViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
+              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
+              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
+              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\StateOrderViewModel.cs",
+              "ViewState": "AQIAAOEAAAAAAAAAAAApwPcAAAA0AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T10:10:03.162Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Route.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Route.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Route.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Route.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Route.cs",
-              "ViewState": "AQIAAAUAAAAAAAAAAAAAABoAAAAtAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:50:39.264Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "PaymentMethod.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\PaymentMethod.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\PaymentMethod.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\PaymentMethod.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\PaymentMethod.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:49:45.031Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "Driver.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Driver.cs",
-              "ViewState": "AQIAAAgAAAAAAAAAAAAAwBAAAAAkAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:12:40.59Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
-              "Title": "Customer.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Customer.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Model\\EfCode\\Entities\\Customer.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Model\\EfCode\\Entities\\Customer.cs",
-              "RelativeToolTip": "WpfAppMVVM\\Model\\EfCode\\Entities\\Customer.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAwB4AAAA2AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T15:46:20.072Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
-              "Title": "DriverWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\DriverWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T11:18:25.658Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "States.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\States.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\ViewModels\\OtherViewModels\\States.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\ViewModels\\OtherViewModels\\States.cs",
-              "RelativeToolTip": "WpfAppMVVM\\ViewModels\\OtherViewModels\\States.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-18T12:06:55.659Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 33,
-              "Title": "RouteWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\RouteWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\RouteWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\RouteWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\RouteWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T11:25:35.461Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
-              "Title": "CarWindow.xaml",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "RelativeToolTip": "WpfAppMVVM\\Views\\OtherViews\\CarWindow.xaml",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-07-16T10:09:13.32Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 35,
-              "Title": "EntityTable.cs",
-              "DocumentMoniker": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\CustomComponents\\Tables\\EntityTable.cs",
-              "RelativeDocumentMoniker": "WpfAppMVVM\\CustomComponents\\Tables\\EntityTable.cs",
-              "ToolTip": "C:\\Users\\Artemiy\\Desktop\\\u0414\u0438\u043F\u043B\u043E\u043C\\AIS-system\\WpfAppMVVM\\WpfAppMVVM\\CustomComponents\\Tables\\EntityTable.cs",
-              "RelativeToolTip": "WpfAppMVVM\\CustomComponents\\Tables\\EntityTable.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAA3AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-16T09:56:55.583Z"
+              "WhenOpened": "2024-07-22T14:47:08.654Z"
             }
           ]
         }

@@ -7,7 +7,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CarBrandViewModel : ReferenceBook
+    internal class CarBrandViewModel : BaseViewModel
     {
         private CarBrand _brand;
         public ObservableCollection<Car> Cars { get; set; }

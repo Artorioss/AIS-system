@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Windows;
+using System.Windows.Threading;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
@@ -12,17 +16,19 @@ using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels
 {
-    internal class MainWindowViewModel : BaseViewModel
+    internal class MainWindowViewModel : NotifyService
     {
         public TransportationEntities _transportationEntities { get; set; }
-        public DelegateCommand CreateTransportation { get; private set; }
-        public DelegateCommand ShowReferencesBook { get; private set; }
-        public DelegateCommand EditData { get; private set; }
-        public DelegateCommand DeleteCommand { get; set; }
+        public AsyncCommand CreateTransportationAsync { get; private set; }
+        public AsyncCommand ShowReferencesBookAsync { get; private set; }
+        public AsyncCommand EditDataAsync { get; private set; }
+        public AsyncCommand DeleteCommandAsync { get; set; }
         public DelegateCommand GetItemsByFilter { get; set; }
         public DelegateCommand CopyCommand { get; set; }
-        public DelegateCommand SortCommand {get; set;}
+        public DelegateCommand SortCommand { get; set; }
+        public DelegateCommand CloseRequestCommand { get; set; }
 
+        private DispatcherTimer _loadingTimer;
         private MonthService _monthService;
         public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
         private List<StateOrder> _stateOrders;
@@ -35,6 +41,23 @@ namespace WpfAppMVVM.ViewModels
                 OnPropertyChanged(nameof(StateOrders));
             }
         }
+       
+
+        private string _stateText = "Данные не найдены";
+        public string StateText
+        {
+            get => _stateText;
+            set
+            {
+                _stateText = value;
+                OnPropertyChanged(nameof(StateText));
+            }
+        }
+
+        public bool DateFilterIsEnabled 
+        {
+            get => Years.Count > 0;
+        }
 
         private StateOrder _selectedState;
         public StateOrder SelectedState
@@ -44,7 +67,7 @@ namespace WpfAppMVVM.ViewModels
             {
                 _selectedState = value;
                 OnPropertyChanged(nameof(SelectedState));
-                getItems();
+                loadItemsInItemSource();
             }
         }
 
@@ -84,13 +107,18 @@ namespace WpfAppMVVM.ViewModels
 
         private void setMonthsByYear(int year) 
         {
-            _months = _monthService.GetMonths(_context.Transportations
-                                                  .Where(t => t.DateLoading.Value.Year == year)
-                                                  .Select(t => t.DateLoading.Value.Month)
-                                                  .Distinct()
-                                                  .ToList());
+            _months = _monthService.GetMonths(getMonthsByYearFromDb(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
+        }
+
+        private List<int> getMonthsByYearFromDb(int year) 
+        {
+            return  _context.Transportations
+                    .Where(t => t.DateLoading.Value.Year == year)
+                    .Select(t => t.DateLoading.Value.Month)
+                    .Distinct()
+                    .ToList();
         }
 
         private int _selectedMonth;
@@ -101,7 +129,7 @@ namespace WpfAppMVVM.ViewModels
             {
                 _selectedMonth = _monthService.GetMonth(value);
                 OnPropertyChanged(nameof(SelectedMonth));
-                getItems();
+                loadItemsInItemSource();
             }
         }
 
@@ -121,9 +149,19 @@ namespace WpfAppMVVM.ViewModels
             if (!Months.Contains(_monthService.GetMonth(dateTime.Month))) Months.Add(_monthService.GetMonth(dateTime.Month));
             _selectedMonth = dateTime.Month;
             OnPropertyChanged(nameof(SelectedMonth));
-            if(!Years.Contains(dateTime.Year)) Years.Add(dateTime.Year);
+            if (!Years.Contains(dateTime.Year)) Years.Add(dateTime.Year);
             _selectedYear = dateTime.Year;
             OnPropertyChanged(nameof(SelectedYear));
+        }
+
+        private void setNewDate(DateTime dateTime) 
+        {
+            _years = new List<int> { dateTime.Year };
+            SelectedYear = _years.First();
+            OnPropertyChanged(nameof(Years));
+            _months = new List<string> { _monthService.GetMonth(dateTime.Month) };
+            SelectedMonth = _months.First();
+            OnPropertyChanged(nameof(Months));
         }
 
         public MainWindowViewModel()
@@ -135,16 +173,29 @@ namespace WpfAppMVVM.ViewModels
             _selectedState = StateOrders.First();
             OnPropertyChanged(nameof(SelectedState));
 
+            _loadingTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(300)
+            };
+            _loadingTimer.Tick += LoadingTimer_Tick;
+
             _monthService = new MonthService();
             setYears();
             setSelectedYear();
 
-            CreateTransportation = new DelegateCommand((obj) => showTransportationWindow());
-            ShowReferencesBook = new DelegateCommand((obj) => showWindowReferencesBook());
-            EditData = new DelegateCommand((obj) => showTransportationForEditWindow());
-            DeleteCommand = new DelegateCommand((obj) => onDelete());
+            CreateTransportationAsync = new AsyncCommand(async (obj) => await showTransportationWindow());
+            ShowReferencesBookAsync = new AsyncCommand(async (obj) => await showWindowReferencesBook());
+            EditDataAsync = new AsyncCommand(async (obj) => await showTransportationForEditWindow());
+            DeleteCommandAsync = new AsyncCommand(async (obj) => await onDelete());
             CopyCommand = new DelegateCommand((obj) => copy());
             SortCommand = new DelegateCommand((obj) => onSorting());
+        }
+
+        private void LoadingTimer_Tick(object sender, EventArgs e) 
+        {
+            if (StateText.Contains("Найдено") || StateText == "Загрузка данных ...") StateText = "Загрузка данных .";
+            else if (StateText == "Загрузка данных .") StateText = "Загрузка данных ..";
+            else if (StateText == "Загрузка данных ..") StateText = "Загрузка данных ...";
         }
 
         private void setYears() 
@@ -154,11 +205,12 @@ namespace WpfAppMVVM.ViewModels
                             .Distinct()
                             .ToList();
         }
+       
 
         private void setSelectedYear() 
         {
             if (Years.Contains(DateTime.Now.Year)) SelectedYear = DateTime.Now.Year;
-            else SelectedYear = Years.Last();
+            else if(Years.Count > 0) SelectedYear = Years.Last();
         }
 
         private void setSelectedMonth() 
@@ -167,12 +219,19 @@ namespace WpfAppMVVM.ViewModels
             else SelectedMonth = Months.FirstOrDefault();
         }
 
-        private void getItems() 
+        private async Task loadItemsInItemSource() 
+        {
+            _loadingTimer.Start();
+            loadData(await getItems());
+            _loadingTimer.Stop();
+            StateText = $"Найдено {ItemsSource.Count} записей";
+        }
+
+        private async Task<List<TransportationDTO>> getItems() 
         {
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
-
-            var list = _transportationEntities.Transportations
+            return await _transportationEntities.Transportations
                 .Include(t => t.Driver)
                 .Include(t => t.Customer)
                 .Include(t => t.StateOrder)
@@ -180,81 +239,137 @@ namespace WpfAppMVVM.ViewModels
                             t.DateLoading.Value >= startDate &&
                             t.DateLoading.Value < endDate &&
                             t.StateOrderId == SelectedState.StateOrderId)
-                .TransportationToDTO();
-
-            loadData(list);
+                .TransportationToDTO()
+                .ToListAsync();
         }
 
-        private void loadData(IQueryable<TransportationDTO> list) 
+        private void loadData(List<TransportationDTO> list) 
         {
             ItemsSource.Clear();
             foreach (var item in list) ItemsSource.Add(item);
         }
 
-        private void showTransportationWindow()
+        private async Task showTransportationWindow()
         {
-            CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
             CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel();
-            creatingTransportationWindow.DataContext = creatingTransportationViewModel;
-            creatingTransportationWindow.ShowDialog();
+            await creatingTransportationViewModel.ShowDialog();
 
-            if (creatingTransportationViewModel.IsContextChanged)
+            if (creatingTransportationViewModel.changedExist)
             {
-                if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear) 
+                var transportation = creatingTransportationViewModel.Transportation;
+                if (transportation.DateLoading.Value.Month != _selectedMonth || transportation.DateLoading.Value.Year != SelectedYear)
                 {
-                    DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
-                    setDate(date);
-                    getItems();
+                    DateTime date = transportation.DateLoading.Value;
+                    try
+                    {
+                        setDate(date);
+                        await loadItemsInItemSource();
+                    }
+                    catch (NullReferenceException) 
+                    {
+                        setNewDate(date);
+                        OnPropertyChanged(nameof(DateFilterIsEnabled));
+                    }
                 }
-                else ItemsSource.Add(_context.Transportations
-                                             .TransportationToDTO()
-                                             .Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId));
+                else ItemsSource.Add(createTransportationDTO(transportation)); // TODO проверить, возможны ошибки
             }
         }
 
-        private void showTransportationForEditWindow()
+        private TransportationDTO createTransportationDTO(Transportation transportation) 
+        {
+            TransportationDTO transportationDTO = new TransportationDTO()
+            {
+                TransportationId = transportation.TransportationId,
+                DateLoading = transportation.DateLoading.Value.Date.ToString(),
+                CustomerName = transportation.Customer.Name,
+                DriverName = transportation.Driver.Name,
+                TransportCompanyName = transportation.Driver.TransportCompany.Name,
+                Price = transportation.Price,
+                PaymentToDriver = transportation.PaymentToDriver,
+                Delta = transportation.Price - transportation.PaymentToDriver,
+                RouteName = transportation.RouteName,
+                State = transportation.StateOrder.StateOrderId
+            };
+
+            return transportationDTO;
+        }
+
+        private async Task showTransportationForEditWindow()
         {
             if (TransportationDTO != null) 
             {
-                CreatingTransportationWindow creatingTransportationWindow = new CreatingTransportationWindow();
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(TransportationDTO.TransportationId);
-                creatingTransportationWindow.DataContext = creatingTransportationViewModel;
-                creatingTransportationWindow.ShowDialog();
+                _loadingTimer.Start();
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(await getTransportationById(TransportationDTO.TransportationId));
+                _loadingTimer.Stop();
+                StateText = "Редактирование заявки";
+                await creatingTransportationViewModel.ShowDialog();
 
-                if (creatingTransportationViewModel.IsContextChanged)
+                if (creatingTransportationViewModel.changedExist)
                 {
-                    var entity = _context.Transportations.TransportationToDTO().Single(tr => tr.TransportationId == creatingTransportationViewModel.Transportation.TransportationId);
-                    if (creatingTransportationViewModel.Transportation.DateLoading.Value.Month != _selectedMonth || creatingTransportationViewModel.Transportation.DateLoading.Value.Year != SelectedYear)
+                    var transportation = creatingTransportationViewModel.Transportation;
+                    if (transportation.DateLoading.Value.Month != _selectedMonth || transportation.DateLoading.Value.Year != SelectedYear)
                     {
-                        DateTime date = creatingTransportationViewModel.Transportation.DateLoading.Value;
+                        DateTime date = transportation.DateLoading.Value;
                         setDate(date);
-                        getItems();
+                        await loadItemsInItemSource();
+                        TransportationDTO = null;
                     }
-                    else ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), entity);
-                    ItemsSource.Remove(TransportationDTO);
-                    TransportationDTO = entity;
+                    else 
+                    {
+                        var transportationDTO = createTransportationDTO(transportation);
+                        ItemsSource.Insert(ItemsSource.IndexOf(TransportationDTO), transportationDTO);
+                        ItemsSource.Remove(TransportationDTO);
+                        TransportationDTO = transportationDTO;
+                    }
                 }
+                StateText = $"Найдено {ItemsSource.Count} записей";
             }
         }
 
-        private void showWindowReferencesBook()
+        private async Task<Transportation> getTransportationById(int id) 
         {
-            WindowReferencesBook windowReferencesBook = new WindowReferencesBook();
-            windowReferencesBook.ShowDialog();
+            var transportation = _context.Transportations.Local.SingleOrDefault(t => t.TransportationId == id);
+            if (transportation is null) transportation = await getTransportationFromDbAsync(id);
+            return transportation;
         }
 
-        private void onDelete() 
+        private async Task<Transportation> getTransportationFromDbAsync(int id) 
+        {
+            Transportation transportation = await _context.Transportations.Include(t => t.Car)
+                                                 .ThenInclude(c => c.Brand)
+                                                 .Include(t => t.Trailler)
+                                                 .ThenInclude(t => t.Brand)
+                                                 .Include(t => t.Route)
+                                                 .Include(t => t.Customer)
+                                                 .Include(t => t.Driver)
+                                                 .ThenInclude(d => d.TransportCompany)
+                                                 .Include(t => t.StateOrder)
+                                                 .Include(t => t.PaymentMethod)
+                         .SingleAsync(t => t.TransportationId == id);
+            return transportation;
+        }
+
+        private async Task showWindowReferencesBook()
+        {
+            ReferenceBookViewModel referenceBookViewModel = new ReferenceBookViewModel();
+            StateText = $"В отделе 'Справочники'";
+            await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(referenceBookViewModel);
+            if (referenceBookViewModel.ChangedExists) await loadItemsInItemSource();
+            else StateText = $"Найдено {ItemsSource.Count} записей";
+        }
+
+        private async Task onDelete() 
         {
             MessageBoxResult result = MessageBox.Show($"Заявка - '{TransportationDTO.RouteName}' будет удалена.", "Вы уверены?", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes) delete();          
+            if (result == MessageBoxResult.Yes) await delete();          
         }
 
-        private void delete() 
+        private async Task delete() 
         {
-            _context.Transportations.Remove(_context.Transportations.Single(t => t.TransportationId == TransportationDTO.TransportationId));
-            _context.SaveChanges();
+            var transportation = await _context.Transportations.FindAsync(TransportationDTO.TransportationId);
+            _context.Transportations.Remove(transportation);
+            await _context.SaveChangesAsync();
             ItemsSource.Remove(TransportationDTO);
-            OnPropertyChanged(nameof(ItemsSource));
         }
 
         private void copy() 

@@ -7,7 +7,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class TransportCompanyViewModel: ReferenceBook
+    internal class TransportCompanyViewModel: BaseViewModel
     {
         TransportCompany _transportCompany;
         public ObservableHashSet<Driver> Drivers { get; set; }

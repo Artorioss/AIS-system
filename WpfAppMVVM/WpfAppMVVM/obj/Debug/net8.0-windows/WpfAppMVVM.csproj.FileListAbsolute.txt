@@ -245,3 +245,5 @@ C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\StateWindow.baml
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\TransportCompanyWindow.g.cs
 C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\Views\OtherViews\TransportCompanyWindow.baml
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\WpfAppMVVM.Properties.Resources.resources
+C:\Users\Artemiy\Desktop\Диплом\AIS-system\WpfAppMVVM\WpfAppMVVM\obj\Debug\net8.0-windows\WpfAppMVVM.csproj.GenerateResource.cache
