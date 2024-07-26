@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.DirectoryServices.ActiveDirectory;
+using System.Net;
 using System.Windows;
 using System.Windows.Threading;
 using WpfAppMVVM.Model;
@@ -26,22 +27,43 @@ namespace WpfAppMVVM.ViewModels
         public DelegateCommand GetItemsByFilter { get; set; }
         public DelegateCommand CopyCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
-        public DelegateCommand CloseRequestCommand { get; set; }
+        public AsyncCommand CloseRequestAsyncCommand { get; set; }
 
         private DispatcherTimer _loadingTimer;
         private MonthService _monthService;
         public ObservableCollection<TransportationDTO> ItemsSource { get; set; }
-        private List<StateOrder> _stateOrders;
-        public List<StateOrder> StateOrders
+
+        private List<StateFilter> _stateFilters;
+        public List<StateFilter> StateFilters
         {
-            get => _stateOrders;
+            get => _stateFilters;
             set
             {
-                _stateOrders = value;
-                OnPropertyChanged(nameof(StateOrders));
+                _stateFilters = value;
+                OnPropertyChanged(nameof(StateFilters));
             }
         }
-       
+
+        private List<StateOrder> _states;
+        public List<StateOrder> States
+        {
+            get => _states;
+            set
+            {
+                _states = value;
+                OnPropertyChanged(nameof(States));
+            }
+        }
+
+        public Visibility ContextMenuVisible
+        {
+            get => TransportationDTO != null ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public List<StateOrder> StateOrdersForContextMenu
+        {
+            get => States.Where(st => st.StateOrderId != TransportationDTO.State).ToList();
+        }
 
         private string _stateText = "Данные не найдены";
         public string StateText
@@ -54,20 +76,23 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
-        public bool DateFilterIsEnabled 
+        public bool DateFilterIsEnabled
         {
-            get => Years.Count > 0;
+            get => Years == null ? false : Years.Count > 0;
         }
 
-        private StateOrder _selectedState;
-        public StateOrder SelectedState
+        private StateFilter _selectedFilter;
+        public StateFilter SelectedFilter
         {
-            get => _selectedState;
+            get => _selectedFilter;
             set
             {
-                _selectedState = value;
-                OnPropertyChanged(nameof(SelectedState));
-                loadItemsInItemSource();
+                if (value != null)
+                {
+                    _selectedFilter = value;
+                    OnPropertyChanged(nameof(SelectedFilter));
+                    updateDateFiltres();
+                }
             }
         }
 
@@ -83,10 +108,10 @@ namespace WpfAppMVVM.ViewModels
         }
 
         private List<string> _months;
-        public List<string> Months 
+        public List<string> Months
         {
             get => _months;
-            set 
+            set
             {
                 _months = value;
                 OnPropertyChanged(nameof(Months));
@@ -94,10 +119,10 @@ namespace WpfAppMVVM.ViewModels
         }
 
         private int _selectedYear;
-        public int SelectedYear 
+        public int SelectedYear
         {
             get => _selectedYear;
-            set 
+            set
             {
                 _selectedYear = value;
                 OnPropertyChanged(nameof(SelectedYear));
@@ -105,20 +130,20 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
-        private void setMonthsByYear(int year) 
+        private async Task setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(getMonthsByYearFromDb(year));
+            _months = _monthService.GetMonths(await getMonthsByYearFromDbAsync(year));
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
         }
 
-        private List<int> getMonthsByYearFromDb(int year) 
+        private async Task<List<int>> getMonthsByYearFromDbAsync(int year)
         {
-            return  _context.Transportations
-                    .Where(t => t.DateLoading.Value.Year == year)
+            return await _context.Transportations
+                    .Where(t => t.DateLoading.Value.Year == year && t.StateOrder.StateFilters.Any(sf => sf.StateFilterId == SelectedFilter.StateFilterId))
                     .Select(t => t.DateLoading.Value.Month)
                     .Distinct()
-                    .ToList();
+                    .ToListAsync();
         }
 
         private int _selectedMonth;
@@ -141,10 +166,11 @@ namespace WpfAppMVVM.ViewModels
             {
                 _transportation = value;
                 OnPropertyChanged(nameof(TransportationDTO));
+                OnPropertyChanged(nameof(ContextMenuVisible));
             }
         }
 
-        private void setDate(DateTime dateTime) 
+        private void setDate(DateTime dateTime)
         {
             if (!Months.Contains(_monthService.GetMonth(dateTime.Month))) Months.Add(_monthService.GetMonth(dateTime.Month));
             _selectedMonth = dateTime.Month;
@@ -154,7 +180,7 @@ namespace WpfAppMVVM.ViewModels
             OnPropertyChanged(nameof(SelectedYear));
         }
 
-        private void setNewDate(DateTime dateTime) 
+        private void setNewDate(DateTime dateTime)
         {
             _years = new List<int> { dateTime.Year };
             SelectedYear = _years.First();
@@ -164,14 +190,23 @@ namespace WpfAppMVVM.ViewModels
             OnPropertyChanged(nameof(Months));
         }
 
+        private async Task setNewStatusAsync(object obj) 
+        {
+            var selectedStateOrderId = (obj as StateOrder).StateOrderId;
+            var transportation = await _context.Transportations.FindAsync(TransportationDTO.TransportationId);
+            transportation.StateOrderId = selectedStateOrderId;
+            if (SelectedFilter.StateOrders.FirstOrDefault(st => st.StateOrderId == selectedStateOrderId) is null)
+            {
+                ItemsSource.Remove(TransportationDTO);
+                TransportationDTO = null;
+            }
+            await _context.SaveChangesAsync();
+        }
+
         public MainWindowViewModel()
         {
             _transportationEntities = (Application.Current as App)._context;
             ItemsSource = new ObservableCollection<TransportationDTO>();
-
-            StateOrders = _context.StateOrders.ToList();
-            _selectedState = StateOrders.First();
-            OnPropertyChanged(nameof(SelectedState));
 
             _loadingTimer = new DispatcherTimer
             {
@@ -180,8 +215,10 @@ namespace WpfAppMVVM.ViewModels
             _loadingTimer.Tick += LoadingTimer_Tick;
 
             _monthService = new MonthService();
-            setYears();
-            setSelectedYear();
+
+            States = _context.StateOrders.ToList();
+            StateFilters = _context.StateFilter.Include(sf => sf.StateOrders).ToList();
+            SelectedFilter = StateFilters.FirstOrDefault();
 
             CreateTransportationAsync = new AsyncCommand(async (obj) => await showTransportationWindow());
             ShowReferencesBookAsync = new AsyncCommand(async (obj) => await showWindowReferencesBook());
@@ -189,6 +226,23 @@ namespace WpfAppMVVM.ViewModels
             DeleteCommandAsync = new AsyncCommand(async (obj) => await onDelete());
             CopyCommand = new DelegateCommand((obj) => copy());
             SortCommand = new DelegateCommand((obj) => onSorting());
+            CloseRequestAsyncCommand = new AsyncCommand(setNewStatusAsync);
+        }
+
+        private async Task updateDateFiltres() 
+        {
+            await setYears();
+            if (Years.Count > 0) setSelectedYear();
+            else 
+            {
+                Months.Clear();
+                Months.Add(string.Empty);
+                _selectedMonth = 0;
+                OnPropertyChanged(nameof(SelectedMonth));
+                ItemsSource.Clear();
+                StateText = "Данные не найдены";
+            }
+            OnPropertyChanged(nameof(DateFilterIsEnabled));
         }
 
         private void LoadingTimer_Tick(object sender, EventArgs e) 
@@ -198,12 +252,13 @@ namespace WpfAppMVVM.ViewModels
             else if (StateText == "Загрузка данных ..") StateText = "Загрузка данных ...";
         }
 
-        private void setYears() 
+        private async Task setYears() 
         {
-            Years = _context.Transportations
+            Years = await _context.Transportations
+                            .Where(t => t.StateOrder.StateFilters.Any(sf => sf.StateFilterId == SelectedFilter.StateFilterId))
                             .Select(t => t.DateLoading.Value.Date.Year)
                             .Distinct()
-                            .ToList();
+                            .ToListAsync();
         }
        
 
@@ -216,7 +271,7 @@ namespace WpfAppMVVM.ViewModels
         private void setSelectedMonth() 
         {
             if (Months.Contains(_monthService.GetMonth(DateTime.Now.Month))) SelectedMonth = _monthService.GetMonth(DateTime.Now.Month);
-            else SelectedMonth = Months.FirstOrDefault();
+            else if(Months.Count > 0) SelectedMonth = Months.FirstOrDefault();
         }
 
         private async Task loadItemsInItemSource() 
@@ -232,15 +287,15 @@ namespace WpfAppMVVM.ViewModels
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
             return await _transportationEntities.Transportations
-                .Include(t => t.Driver)
-                .Include(t => t.Customer)
-                .Include(t => t.StateOrder)
-                .Where(t => t.DateLoading.HasValue &&
-                            t.DateLoading.Value >= startDate &&
-                            t.DateLoading.Value < endDate &&
-                            t.StateOrderId == SelectedState.StateOrderId)
-                .TransportationToDTO()
-                .ToListAsync();
+                                                .Include(t => t.Driver)
+                                                .Include(t => t.Customer)
+                                                .Include(t => t.StateOrder)
+                                                .Where(t => t.DateLoading.HasValue &&
+                                                t.DateLoading.Value >= startDate &&
+                                                t.DateLoading.Value < endDate &&
+                                                t.StateOrder.StateFilters.Any(sf => sf.StateFilterId == SelectedFilter.StateFilterId))
+                                    .TransportationToDTO()
+                                    .ToListAsync();
         }
 
         private void loadData(List<TransportationDTO> list) 
@@ -354,7 +409,11 @@ namespace WpfAppMVVM.ViewModels
             ReferenceBookViewModel referenceBookViewModel = new ReferenceBookViewModel();
             StateText = $"В отделе 'Справочники'";
             await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(referenceBookViewModel);
-            if (referenceBookViewModel.ChangedExists) await loadItemsInItemSource();
+            if (referenceBookViewModel.ChangedExists) 
+            {
+                if (Years.Count != 0) await loadItemsInItemSource();
+                else await updateDateFiltres();
+            } 
             else StateText = $"Найдено {ItemsSource.Count} записей";
         }
 

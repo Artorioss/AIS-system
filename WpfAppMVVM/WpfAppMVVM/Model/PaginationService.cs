@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections;
+using System.DirectoryServices.ActiveDirectory;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -56,7 +57,7 @@ namespace WpfAppMVVM.Model
                 UpdatePagination(_func(obj));
                 mode = Mode.SearchingObjects;
             } 
-            return await GetCurrentPageAsync();
+            return await getObjectsAsync();
         }
 
         private void UpdatePagination(IQueryable queryable)
@@ -105,7 +106,14 @@ namespace WpfAppMVVM.Model
 
         public async Task<IEnumerable> GetCurrentPageAsync()
         {
-            return await getObjectsAsync();
+            mode = Mode.AllObjects;
+            CanGetNext = false; 
+            CanGetPrevios = false;
+            IEnumerable objects = await getObjectsAsync();
+            CurrentPage = 1;
+            CanGetNext = CountPages > 1;
+            CanGetPrevios = false;
+            return objects;
         }
 
         private async Task<IEnumerable> getObjectsAsync()

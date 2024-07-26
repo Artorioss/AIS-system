@@ -67,6 +67,21 @@ namespace WpfAppMVVM.Migrations
                     b.ToTable("RouteRoutePoint");
                 });
 
+            modelBuilder.Entity("StateFilterStateOrder", b =>
+                {
+                    b.Property<int>("StateFiltersStateFilterId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("StateOrdersStateOrderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("StateFiltersStateFilterId", "StateOrdersStateOrderId");
+
+                    b.HasIndex("StateOrdersStateOrderId");
+
+                    b.ToTable("StateFilterStateOrder");
+                });
+
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.Car", b =>
                 {
                     b.Property<string>("Number")
@@ -220,6 +235,26 @@ namespace WpfAppMVVM.Migrations
                     b.HasKey("RoutePointId");
 
                     b.ToTable("RoutePoints");
+                });
+
+            modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.StateFilter", b =>
+                {
+                    b.Property<int>("StateFilterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("StateFilterId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("SoftDeleted")
+                        .HasColumnType("boolean");
+
+                    b.HasKey("StateFilterId");
+
+                    b.ToTable("StateFilter");
                 });
 
             modelBuilder.Entity("WpfAppMVVM.Model.EfCode.Entities.StateOrder", b =>
@@ -412,6 +447,21 @@ namespace WpfAppMVVM.Migrations
                     b.HasOne("WpfAppMVVM.Model.EfCode.Entities.Route", null)
                         .WithMany()
                         .HasForeignKey("RoutesRouteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("StateFilterStateOrder", b =>
+                {
+                    b.HasOne("WpfAppMVVM.Model.EfCode.Entities.StateFilter", null)
+                        .WithMany()
+                        .HasForeignKey("StateFiltersStateFilterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WpfAppMVVM.Model.EfCode.Entities.StateOrder", null)
+                        .WithMany()
+                        .HasForeignKey("StateOrdersStateOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

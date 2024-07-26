@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace WpfAppMVVM.Model.EfCode.Entities
@@ -11,6 +10,7 @@ namespace WpfAppMVVM.Model.EfCode.Entities
         public string Name { get; set; }
         public bool SoftDeleted { get; set; }
         public ObservableCollection<Transportation> Transportations { get; set; }
+        public ObservableCollection<StateFilter> StateFilters { get; set; }
 
         public StateOrder() 
         {

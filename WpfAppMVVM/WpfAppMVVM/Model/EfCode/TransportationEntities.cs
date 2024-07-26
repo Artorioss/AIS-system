@@ -24,6 +24,7 @@ namespace WpfAppMVVM.Model.EfCode
         public DbSet<Transportation> Transportations { get; set; }
         public DbSet<TransportCompany> TransportCompanies { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<StateFilter> StateFilter { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=Transportations;Username=postgres;Password=qwerty");
@@ -55,6 +56,7 @@ namespace WpfAppMVVM.Model.EfCode
             modelBuilder.Entity<TransportCompany>().HasQueryFilter(t => !t.SoftDeleted);
             modelBuilder.Entity<PaymentMethod>().HasQueryFilter(t => !t.SoftDeleted);
             modelBuilder.Entity<Car>().HasQueryFilter(t => !t.SoftDeleted);
+            modelBuilder.Entity<StateFilter>().HasQueryFilter(t => !t.SoftDeleted);
         }
     }
 }

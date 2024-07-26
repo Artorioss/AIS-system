@@ -89,8 +89,11 @@ namespace WpfAppMVVM.CustomComponents.Tables
             if (CanDelete()) 
             {
                 await asyncFunction.Invoke();
-                deletedItems.Add(SelectedItem);
-                ItemsSource.Remove(SelectedItem);
+                if (ItemsSource.Contains(SelectedItem)) 
+                {
+                    deletedItems.Add(SelectedItem);
+                    ItemsSource.Remove(SelectedItem);
+                }
             }
         }
 

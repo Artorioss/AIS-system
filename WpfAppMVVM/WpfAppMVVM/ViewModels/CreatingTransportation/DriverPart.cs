@@ -41,7 +41,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 AccountName = _accountNameBuilder.ToString();
                 if (Transportation.Driver != null)
                 {
-                    setTransportCompanyByDriver();
                     setReferenceData();
                 }
                 OnPropertyChanged(nameof(Driver));
@@ -50,6 +49,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         private async Task setReferenceData() 
         {
+           await setTransportCompanyByDriver();
            await setCarByDriver();
            await setTraillerByDriver();
         }
@@ -64,9 +64,9 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                             .ToList();
         }
 
-        private void setTransportCompanyByDriver()
+        private async Task setTransportCompanyByDriver()
         {
-            var val = _context.TransportCompanies.Find(Driver.TransportCompanyId);
+            var val = await _context.TransportCompanies.FindAsync(Driver.TransportCompanyId);
 
             if (val != null)
             {
@@ -178,9 +178,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             get => Car != null ? Car.Brand : null;
             set
             {
-                Car.Brand = value;
-                _accountNameBuilder.CarBrand = value;
-                AccountName = _accountNameBuilder.ToString();
+                if (Car != null) 
+                {
+                    Car.Brand = value;
+                    _accountNameBuilder.CarBrand = value;
+                    AccountName = _accountNameBuilder.ToString();
+                }
                 OnPropertyChanged(nameof(CarBrand));
             }
         }
@@ -213,10 +216,13 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             get =>  Trailler != null ? Trailler.Brand : null;
             set 
             {
-                Trailler.Brand = value;
-                _accountNameBuilder.TraillerBrand = value;
-                AccountName = _accountNameBuilder.ToString();
-                OnPropertyChanged(nameof(TraillerBrand));
+                if (Trailler != null) 
+                {
+                    Trailler.Brand = value;
+                    _accountNameBuilder.TraillerBrand = value;
+                    AccountName = _accountNameBuilder.ToString();
+                    OnPropertyChanged(nameof(TraillerBrand));
+                }
             }
         }
 
@@ -252,19 +258,21 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 Transportation.Car = value;
                 _accountNameBuilder.Car = value;
                 AccountName = _accountNameBuilder.ToString();
-                if (Transportation.Car != null) 
+                if (Transportation.Car != null)
                 {
                     if (Transportation.Car.Brand != null)
                     {
                         if (!CarBrandSource.Contains(Transportation.Car.Brand)) CarBrandSource.Add(Transportation.Car.Brand);
                         CarBrand = Transportation.Car.Brand;
                     }
-                    else if(CarBrand != null) 
+                    else if (CarBrand != null)
                     {
                         Transportation.Car.Brand = CarBrand;
                     }
                 }
+                else OnPropertyChanged(nameof(CarBrand));
                 OnPropertyChanged(nameof(Car));
+
             }
         }
 
@@ -308,12 +316,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                         if (!TraillerBrandSource.Contains(Transportation.Trailler.Brand)) TraillerBrandSource.Add(Transportation.Trailler.Brand);
                         TraillerBrand = Transportation.Trailler.Brand;
                     }
-                    else if(TraillerBrand != null)
+                    else if (TraillerBrand != null)
                     {
                         Transportation.Trailler.Brand = TraillerBrand;
                     }
-                    
                 }
+                else OnPropertyChanged(nameof(TraillerBrand));
                 OnPropertyChanged(nameof(Trailler));
             }
         }

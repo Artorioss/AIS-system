@@ -21,7 +21,7 @@
 
         <ToolBar Grid.Row="0">
             <Label Content="Фильтр"></Label>
-            <ComboBox MinWidth="150" ItemsSource="{Binding StateOrders}" SelectedItem="{Binding SelectedState}" DisplayMemberPath="Name"></ComboBox>
+            <ComboBox MinWidth="150" ItemsSource="{Binding StateFilters}" SelectedItem="{Binding SelectedFilter}" DisplayMemberPath="Name"></ComboBox>
             <Separator Margin="10,5,10,5"></Separator>
             <Button Content="Справочники" Margin="0,0,0,0" Command="{Binding ShowReferencesBookAsync}"></Button>
             <Separator Margin="10,5,10,5"></Separator>
@@ -44,14 +44,18 @@
                 <DataGridTextColumn Header="Компания перевозчик" Binding="{Binding TransportCompanyName}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu Visibility="{Binding ContextMenuVisible}">
                     <MenuItem Header="Выставить счет заказчику"/>
                     <MenuItem Header="Выставить счет водителю"/>
                     <MenuItem Header="Копировать название счета" Command="{Binding CopyCommand}"/>
                     <Separator/>
-                    <MenuItem Header="Закрыть заявку">
-                        <MenuItem Header="Заявка закрыта" Command="{Binding CloseRequestCommand}" CommandParameter="1"/>
-                        <MenuItem Header="Срыв" Command="{Binding CloseRequestCommand}" CommandParameter="0"/>
+                    <MenuItem Header="Присвоить статус" ItemsSource="{Binding StateOrdersForContextMenu}" DisplayMemberPath="Name">
+                        <MenuItem.ItemContainerStyle>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="Command" Value="{Binding DataContext.CloseRequestAsyncCommand, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                                <Setter Property="CommandParameter" Value="{Binding}" />
+                            </Style>
+                        </MenuItem.ItemContainerStyle>
                     </MenuItem>
                     <MenuItem Header="Удалить заявку" Command="{Binding DeleteCommandAsync}"/>
                 </ContextMenu>

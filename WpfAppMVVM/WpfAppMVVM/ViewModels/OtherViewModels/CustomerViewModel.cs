@@ -279,8 +279,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var customer = await _context.Customers.FirstOrDefaultAsync(c => c.Name == _customer.Name && c.SoftDeleted);
-            if (customer != null) customer.SetFields(_customer);
+            var customer = await _context.Customers.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Name == _customer.Name && c.SoftDeleted);
+            if (customer != null) 
+            {
+                _customer.CustomerId = customer.CustomerId;
+                customer.SetFields(_customer);
+            }
             else await _context.AddAsync(_customer);
         }
 

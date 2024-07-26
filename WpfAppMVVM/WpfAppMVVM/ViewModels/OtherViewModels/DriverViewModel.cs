@@ -11,9 +11,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
     internal class DriverViewModel : BaseViewModel
     {
-        public AsyncCommand GetCustomers { get; private set; }
-        public AsyncCommand GetCars { get; private set; }
-        public AsyncCommand GetTraillers { get; private set; }
+        public DelegateCommand GetCustomers { get; private set; }
+        public DelegateCommand GetCars { get; private set; }
+        public DelegateCommand GetTraillers { get; private set; }
         public AsyncCommand AddCar { get; private set; }
         public DelegateCommand AddCarByKeyboard { get; private set; }
         public DelegateCommand DeleteCar { get; private set; }
@@ -215,9 +215,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands() 
         {
-            GetCustomers = new AsyncCommand(getCustomers);
-            GetCars = new AsyncCommand(getCars);
-            GetTraillers = new AsyncCommand(getTraillers);
+            GetCustomers = new DelegateCommand(getCustomers);
+            GetCars = new DelegateCommand(getCars);
+            GetTraillers = new DelegateCommand(getTraillers);
             AddCar = new AsyncCommand(async (obj) => await addCar());
             AddCarByKeyboard = new DelegateCommand(addCarByKeyboard);
             DeleteCar = new DelegateCommand(deleteCar);
@@ -226,38 +226,38 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             DeleteTrailler = new DelegateCommand(deleteTrailler);
         }
 
-        private async Task getCustomers(object obj)
+        private void getCustomers(object obj)
         {
             string text = obj as string;
-            TransportCompanySource = await _context.TransportCompanies
+            TransportCompanySource = _context.TransportCompanies
                                              .Where(c => c.Name.ToLower().Contains(text.ToLower()))
                                              .Take(5)
-                                             .ToListAsync();
+                                             .ToList();
         }
 
-        private async Task getCars(object obj) 
+        private void getCars(object obj) 
         {
             string text = obj as string;
             if (!string.IsNullOrEmpty(text)) 
             {
-                CarSource = await _context.Cars
+                CarSource = _context.Cars
                                     .Include(car => car.Brand)
                                     .Where(c => c.Number.ToLower().Contains(text.ToLower()))
                                     .Take(5)
-                                    .ToListAsync();
+                                    .ToList();
             }
         }
 
-        private async Task getTraillers(object obj) 
+        private void getTraillers(object obj) 
         {
             string text = obj as string;
             if (!string.IsNullOrEmpty(text)) 
             {
-                TraillerSource = await _context.Traillers
+                TraillerSource = _context.Traillers
                                          .Include(trailler => trailler.Brand)
                                          .Where(t => t.Number.ToLower().Contains(text.ToLower()))
                                          .Take(5)
-                                         .ToListAsync();
+                                         .ToList();
             }
         }
 
@@ -361,8 +361,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var driver = await _context.Drivers.FirstOrDefaultAsync(d => d.Name == _driver.Name && d.SoftDeleted);
-            if (driver != null) driver.SetFields(_driver);
+            var driver = await _context.Drivers.IgnoreQueryFilters().FirstOrDefaultAsync(d => d.Name == _driver.Name && d.SoftDeleted);
+            if (driver != null) 
+            {
+                _driver.DriverId = driver.DriverId;
+                driver.SetFields(_driver);
+            }
             else await _context.AddAsync(_driver);
         }
 

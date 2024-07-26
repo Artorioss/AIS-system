@@ -278,8 +278,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var state = await _context.StateOrders.FirstOrDefaultAsync(s => s.Name == _stateOrder.Name && s.SoftDeleted);
-            if (state != null) state.SetFields(_stateOrder);
+            var state = await _context.StateOrders.IgnoreQueryFilters().FirstOrDefaultAsync(s => s.Name == _stateOrder.Name && s.SoftDeleted);
+            if (state != null) 
+            {
+                _stateOrder.StateOrderId = state.StateOrderId;
+                state.SetFields(_stateOrder);    
+            } 
             else await _context.AddAsync(_stateOrder);
         }
 

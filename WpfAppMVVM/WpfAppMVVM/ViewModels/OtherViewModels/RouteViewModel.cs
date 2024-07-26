@@ -279,8 +279,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var route = await _context.Routes.FirstOrDefaultAsync(r => r.RouteName == _route.RouteName && r.SoftDeleted);
-            if (route != null) route.SetFields(_route);
+            var route = await _context.Routes.IgnoreQueryFilters().FirstOrDefaultAsync(r => r.RouteName == _route.RouteName && r.SoftDeleted);
+            if (route != null) 
+            {
+                _route.RouteId = route.RouteId;
+                route.SetFields(_route);
+            }
             else await _context.AddAsync(_route);
         }
 

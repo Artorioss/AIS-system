@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
@@ -10,16 +11,25 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
     internal class TransportCompanyViewModel: BaseViewModel
     {
         TransportCompany _transportCompany;
-        public ObservableHashSet<Driver> Drivers { get; set; }
         public DelegateCommand GetDriversCommand { get; set; }
         public AsyncCommand AddDriverAsyncCommand { get; set; }
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
+
+        public ObservableCollection<Driver> Drivers 
+        {
+            get => _transportCompany.Drivers;
+            set 
+            {
+                _transportCompany.Drivers = value;
+                OnPropertyChanged(nameof(Drivers));
+            } 
+        }
+
         public TransportCompanyViewModel()
         {
             mode = Mode.Additing;
             _transportCompany = new TransportCompany();
-            Drivers = new ObservableHashSet<Driver>();
         }
 
         public TransportCompanyViewModel(TransportCompany transportCompany)
@@ -27,7 +37,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             mode = Mode.Editing;
             _transportCompany = transportCompany;
             WindowName = "Редактирование транспортной компании";
-            Drivers = new ObservableHashSet<Driver>(_transportCompany.Drivers);
         }
 
         protected override void cloneEntity()
@@ -174,8 +183,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var transportCompany = await _context.TransportCompanies.FirstOrDefaultAsync(t => t.Name == _transportCompany.Name && t.SoftDeleted);
-            if (transportCompany != null) transportCompany.SetFields(_transportCompany);
+            var transportCompany = await _context.TransportCompanies.IgnoreQueryFilters().FirstOrDefaultAsync(t => t.Name == _transportCompany.Name && t.SoftDeleted);
+            if (transportCompany != null) 
+            {
+                _transportCompany.TransportCompanyId = transportCompany.TransportCompanyId;
+                transportCompany.SetFields(_transportCompany);
+            } 
             else await _context.AddAsync(_transportCompany);
         }
 

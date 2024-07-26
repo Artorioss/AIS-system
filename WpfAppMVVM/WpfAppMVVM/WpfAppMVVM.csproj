@@ -9,10 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\10.png" />
     <None Remove="Resources\14.png" />
-    <None Remove="Resources\Intro.jpg" />
-    <None Remove="Resources\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,18 +24,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\Intro.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\logo.png" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\10.png" />
   </ItemGroup>
 
   <ItemGroup>

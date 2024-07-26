@@ -34,6 +34,7 @@
             <Button Content="Состояния" Margin="5,0,0,0" Command="{Binding GetStateOrdersDataAsync}"></Button>
             <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersDataAsync}"></Button>
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesDataAsync}"></Button>
+            <Button Content="Фильтры состояний" Margin="5,0,0,0" Command="{Binding GetFiltresDataAsync}"></Button>
 
         </ToolBar>
         <DataGrid Name="dataGridView" DataContext="{Binding EntityTable}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="True" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
@@ -60,7 +61,7 @@
             </Grid.ColumnDefinitions>
             <Button Content="Добавить запись" Margin="5" Width="200" IsEnabled="{Binding ButtonEnabled}" HorizontalAlignment="Left" Command="{Binding AddData}"></Button>
             <Label Content="Поиск:" Grid.Column="1"></Label>
-            <TextBox x:Name="TextBoxSearch" Grid.Column="2" MinWidth="150" Margin="5" Text="{Binding SearchingValue}">
+            <TextBox x:Name="TextBoxSearch" Grid.Column="2" MinWidth="150" Margin="5" Text="{Binding SearchingValue, UpdateSourceTrigger=PropertyChanged}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="TextChanged">
                         <i:InvokeCommandAction

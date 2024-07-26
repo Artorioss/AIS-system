@@ -14,7 +14,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public bool changedExist { get; set; } = false;
 
         public DelegateCommand OnLoadedCommand { get; set; }
-        public DelegateCommand AcceptСhangesCommand { get; set; }
+        public AsyncCommand AcceptСhangesCommand { get; set; }
 
         public Mode mode
         {
@@ -41,7 +41,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             _context = (Application.Current as App)._context;
             OnLoadedCommand = new DelegateCommand(onLoaded);
-            AcceptСhangesCommand = new DelegateCommand((obj) => action());
+            AcceptСhangesCommand = new AsyncCommand(async (obj) => await action());
             setCommands();
         }
 
@@ -96,6 +96,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                 }
             }
         }
+
         protected abstract void cloneEntity();
         protected abstract Task loadReferenceData();
         protected abstract void setCommands();

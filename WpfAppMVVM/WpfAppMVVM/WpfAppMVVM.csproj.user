@@ -22,6 +22,9 @@
     <Compile Update="Views\OtherViews\CustomerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherViews\FilterStateWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\OtherViews\RoutePointWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -42,6 +45,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -58,6 +66,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\CustomerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\FilterStateWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\RoutePointWindow.xaml">

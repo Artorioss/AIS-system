@@ -23,7 +23,6 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
     internal partial class CreatingTransportationViewModel: BaseViewModel
     {
         public Transportation Transportation { get; set; }
-        protected RoutePointBuilder RoutePointLoader { get; set; }
         private AccountNameBuilder _accountNameBuilder { get; set; }
 
         public CreatingTransportationViewModel()
@@ -210,26 +209,40 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             return route;
         }
 
+        private void setData() // TODO 
+        {
+            if (Driver != null && Trailler != null)
+            {
+                if (Driver.Traillers.FirstOrDefault(t => t.Number == Trailler.Number) is null) Driver.Traillers.Add(Trailler);
+                Trailler.Drivers.Add(Driver);
+            }
+
+            if (Driver != null && Car != null)
+            {
+                if (Driver.Cars.FirstOrDefault(t => t.Number == Car.Number) is null) Driver.Cars.Add(Car);
+                Car.Drivers.Add(Driver);
+            }
+
+        }
+
         protected override void cloneEntity() 
         {
             Transportation = Transportation.Clone() as Transportation;
         }
         protected override async Task loadReferenceData() 
         {
-            if (Car is null) Car = new Car();
-            if (Trailler is null) Trailler = new Trailler();
-            if (Transportation.Route is null) Transportation.Route = new Route();
-            if (Customer is null) Customer = new Customer();
-            if (Driver is null) Driver = new Driver();
+            if(Transportation.Route is null) Transportation.Route = new Route();
         }
 
         protected override async Task updateEntity() 
         {
+            setData();
             var transportation = await _context.Transportations.FindAsync(Transportation.TransportationId);
             transportation.SetFields(Transportation);
         }
         protected override async Task addEntity() 
         {
+            setData();
             await _context.Transportations.AddAsync(Transportation);
         }
 

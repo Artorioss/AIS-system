@@ -161,8 +161,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var traillerBrand = await _context.TraillerBrands.FirstOrDefaultAsync(tb => tb.Name == _brand.Name && tb.SoftDeleted);
-            if (traillerBrand != null) traillerBrand.SetFields(_brand);
+            var traillerBrand = await _context.TraillerBrands.IgnoreQueryFilters().FirstOrDefaultAsync(tb => tb.Name == _brand.Name && tb.SoftDeleted);
+            if (traillerBrand != null) 
+            {
+                _brand.TraillerBrandId = traillerBrand.TraillerBrandId;
+                traillerBrand.SetFields(_brand);
+            }
             else await _context.AddAsync(_brand);
         }
 

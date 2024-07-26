@@ -10,11 +10,20 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
     internal class CarBrandViewModel : BaseViewModel
     {
         private CarBrand _brand;
-        public ObservableCollection<Car> Cars { get; set; }
         public DelegateCommand AddCarCommand { get; set; }
         public DelegateCommand AddCarByKeyboardCommand { get; set; }
         public AsyncCommand GetCarSourceAsyncCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
+
+        public ObservableCollection<Car> Cars 
+        {
+            get => _brand.Cars;
+            set 
+            {
+                _brand.Cars = value;
+                OnPropertyChanged(nameof(Cars));
+            }
+        }
 
         private List<Car> _carSource;
         public List<Car> CarSource 
@@ -166,8 +175,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task addEntity()
         {
-            var cb = await _context.CarBrands.FirstOrDefaultAsync(cb => cb.Name == _brand.Name && cb.SoftDeleted);
-            if (cb != null) cb.SetFields(_brand);
+            var cb = await _context.CarBrands.IgnoreQueryFilters().FirstOrDefaultAsync(cb => cb.Name == _brand.Name && cb.SoftDeleted);
+            if (cb != null) 
+            {
+                _brand.CarBrandId = cb.CarBrandId;
+                cb.SetFields(_brand);
+            } 
             else await _context.AddAsync(_brand);
         }
 

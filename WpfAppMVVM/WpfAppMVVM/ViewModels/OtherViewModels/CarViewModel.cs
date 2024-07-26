@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppMVVM.Model.Command;
@@ -9,18 +10,22 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
     internal class CarViewModel : BaseViewModel
     {
+        private const string _pattern = "[А-Я]\\d{3}[А-Я]{2}\\d";
+        private Regex _regex;
         Car _car;
+        
         public ObservableHashSet<Driver> Drivers { get; set; }
-        public AsyncCommand GetDriversAsyncCommand { get; set; }
+        public DelegateCommand GetDriversCommand { get; set; }
         public DelegateCommand AddDriverCommand { get; set; }
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
-        public AsyncCommand GetBrandsAsyncCommand { get; set; }
+        public DelegateCommand GetBrandsCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
         public CarViewModel()
         {
             mode = Mode.Additing;
             _car = new Car();
             Drivers = new ObservableHashSet<Driver>();
+            _regex = new Regex(_pattern);
         }
 
         public CarViewModel(Car car)
@@ -30,6 +35,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             WindowName = "Редактирование автомобиля";
             BrandSource = new List<CarBrand>() { car.Brand };
             Drivers = [.. _car.Drivers];
+            _regex = new Regex(_pattern);
         }
 
         protected override void cloneEntity()
@@ -109,12 +115,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private async Task getBrandsAsync(object obj) 
+        private void getBrands(object obj) 
         {
             string text = obj as string;
-            BrandSource = await _context.CarBrands.Where(cb => cb.Name.ToLower().Contains(text)
-                                               || cb.RussianName.ToLower().Contains(text))
-                                        .ToListAsync();
+            BrandSource = _context.CarBrands.Where(cb => cb.Name.ToLower().Contains(text.ToLower())
+                                               || cb.RussianName.ToLower().Contains(text.ToLower()))
+                                        .ToList();
         }
 
         private List<Driver> _drivers;
@@ -150,13 +156,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private async Task getDriversAsync(object obj) 
+        private void getDriversAsync(object obj) 
         {
             string text = obj as string;
-            DriverSource = await _context.Drivers
-                                   .Where(d => d.Name.Contains(text.ToLower()))
+            DriverSource = _context.Drivers
+                                   .Where(d => d.Name.ToLower().Contains(text.ToLower()))
                                    .Take(5)
-                                   .ToListAsync();
+                                   .ToList();
         }
 
         private void addDriver()
@@ -220,9 +226,9 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
             if (mode == Mode.Additing) 
             {
-                if (string.IsNullOrEmpty(_car.Number) || _car.Number.Length < 8 || _car.Number.Length > 9) 
+                if (string.IsNullOrEmpty(CarNumber) || !_regex.IsMatch(CarNumber)) 
                 {
-                    MessageBox.Show("Неверно указан номер автомобиля. Минимальная длина: 8 символов, максимальная длина: 9 символов.", "Неправильно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    MessageBox.Show("Неверно указан номер автомобиля. Пример правильного формата: А135АА3", "Неправильно заполнены данные", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
             }
@@ -232,17 +238,21 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override void setCommands()
         {
-            GetDriversAsyncCommand = new AsyncCommand(getDriversAsync);
+            GetDriversCommand = new DelegateCommand(getDriversAsync);
             AddDriverCommand = new DelegateCommand((obj) => addDriver());
             AddDriverByKeyboardCommand = new DelegateCommand(addDriverByKeyboard);
-            GetBrandsAsyncCommand = new AsyncCommand(getBrandsAsync);
+            GetBrandsCommand = new DelegateCommand(getBrands);
             DeleteCommand = new DelegateCommand(deleteEntity);
         }
 
         protected override async Task addEntity()
         {
             var car = await _context.Cars.IgnoreQueryFilters().FirstOrDefaultAsync(c => c.Number == _car.Number && c.SoftDeleted);
-            if (car != null) car.SetFields(_car);
+            if (car != null) 
+            {
+                _car.Number = car.Number;
+                car.SetFields(_car);
+            } 
             else await _context.AddAsync(_car);
         }
 

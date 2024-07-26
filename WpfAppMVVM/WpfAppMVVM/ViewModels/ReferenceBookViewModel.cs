@@ -24,6 +24,7 @@ namespace WpfAppMVVM.ViewModels
         public AsyncCommand GetStateOrdersDataAsync { get; private set; }
         public AsyncCommand GetTraillersDataAsync { get; private set; }
         public AsyncCommand GetTransportCompaniesDataAsync { get; private set; }
+        public AsyncCommand GetFiltresDataAsync { get; private set; }
         public AsyncCommand AddData { get; private set; }
         public AsyncCommand GetDataByValue { get; private set; }
         public AsyncCommand GetNextPageAsync { get; private set; }
@@ -66,8 +67,9 @@ namespace WpfAppMVVM.ViewModels
             GetStateOrdersDataAsync = new AsyncCommand(async (obj) => await getStateOrdersData());
             GetTraillersDataAsync = new AsyncCommand(async (obj) => await getTraillersData());
             GetTransportCompaniesDataAsync = new AsyncCommand(async (obj) => await getTransportCompaniesData());
+            GetFiltresDataAsync = new AsyncCommand(async (obj) => await getFilterData());
             AddData = new AsyncCommand(async (obj) => await addData());
-            GetDataByValue = new AsyncCommand(getDataByValue);
+            //GetDataByValue = new AsyncCommand(getDataByValue);
             GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
             GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
 
@@ -97,9 +99,11 @@ namespace WpfAppMVVM.ViewModels
             set 
             {
                 _searchingValue = value;
+                loadDataInTableByValue(value);
                 OnPropertyChanged(nameof(SearchingValue));
             }
         }
+
 
         public bool CanGetNextPage 
         {
@@ -122,6 +126,12 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
+        private void clearSearchValueIfExist() 
+        {
+            _searchingValue = null;
+            OnPropertyChanged(nameof(SearchingValue));
+        }
+
         private async Task getNextPage() 
         {
             _loadingTimer.Start();
@@ -132,6 +142,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getPreviosPage() 
         {
+
             _loadingTimer.Start();
             EntityTable.LoadDataInCollection(await _paginationService.GetPreviosPageAsync());
             _loadingTimer.Stop();
@@ -187,8 +198,19 @@ namespace WpfAppMVVM.ViewModels
             _loadingTimer.Stop();
         }
 
+        private async Task loadDataInTableByValue(object obj)
+        {
+            string text = obj as string;
+            _loadingTimer.Start();
+            EntityTable.LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
+            EntityTable.changedExist = true;
+            _loadingTimer.Stop();
+            notifyElements();
+        }
+
         private async Task getCarsData() 
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(CarViewModel);
 
             EntityTable = getEntityTable(typeof(CarTable));
@@ -203,8 +225,9 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getTraillerBrandsData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(TraillerBrandViewModel);
-
+            
             EntityTable = getEntityTable(typeof(TraillerBrandTable));
             _paginationService.SetQuery(_context.TraillerBrands);
             _paginationService.SetSearchFunction(obj => _context.TraillerBrands.Where(b => b.Name.ToLower().Contains(obj.ToLower())
@@ -215,6 +238,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getCarBrandsDataAsync()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(CarBrandViewModel);
             EntityTable = getEntityTable(typeof(CarBrandTable));
             _paginationService.SetQuery(_context.CarBrands);
@@ -226,6 +250,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getCustomersData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(CustomerViewModel);
             EntityTable = getEntityTable(typeof(CustomerTable));
             _paginationService.SetQuery(_context.Customers);
@@ -236,6 +261,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getDriversData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(DriverViewModel);
             EntityTable = getEntityTable(typeof(DriverTable));
             _paginationService.SetQuery(_context.Drivers.Include(driver => driver.TransportCompany));
@@ -248,6 +274,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getRoutePointsData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(RoutePointViewModel);
             EntityTable = getEntityTable(typeof(RoutePointTable));
             _paginationService.SetQuery(_context.RoutePoints);
@@ -258,6 +285,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getRoutesData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(RouteViewModel);
             EntityTable = getEntityTable(typeof(RouteTable));
             _paginationService.SetQuery(_context.Routes.Include(r => r.Transportations));
@@ -268,6 +296,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getStateOrdersData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(StateOrderViewModel);
             EntityTable = getEntityTable(typeof(StateOrderTable));
             _paginationService.SetQuery(_context.StateOrders);
@@ -278,6 +307,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getTraillersData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(TraillerViewModel);
             EntityTable = getEntityTable(typeof(TraillerTable));
             _paginationService.SetQuery(_context.Traillers.Include(trailer => trailer.Brand));
@@ -291,10 +321,22 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task getTransportCompaniesData()
         {
+            clearSearchValueIfExist();
             _typeVM = typeof(TransportCompanyViewModel);
             EntityTable = getEntityTable(typeof(TransportCompanyTable));
             _paginationService.SetQuery(_context.TransportCompanies);
             _paginationService.SetSearchFunction(obj => _context.TransportCompanies.Where(b => b.Name.ToLower().Contains(obj.ToLower())));
+            if (EntityTable.changedExist) await LoadDataInTable();
+            notifyElements();
+        }
+
+        private async Task getFilterData()
+        {
+            clearSearchValueIfExist();
+            _typeVM = typeof(FilterStateViewModel);
+            EntityTable = getEntityTable(typeof(FilterTable)); 
+            _paginationService.SetQuery(_context.StateFilter);
+            _paginationService.SetSearchFunction(obj => _context.StateFilter.Where(f => f.Name.ToLower().Contains(obj.ToLower())));
             if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }
@@ -323,14 +365,8 @@ namespace WpfAppMVVM.ViewModels
         {
             SelectedItem.SoftDeleted = true;
             await saveChangesAsync();
-            if (EntityTable.ItemsSource.Count == 0) await getPreviosPage();
-        }
-
-        private async Task getDataByValue(object obj) 
-        {
-            string text = obj as string;
-            EntityTable.LoadDataInCollection(await _paginationService.GetDataByValueAsync(text));
-            notifyElements();
+            if (EntityTable.ItemsSource.Count == 1) await getPreviosPage();
+            
         }
 
         public void RegisterObserver(IObserver observer) => _observers.Add(observer);
