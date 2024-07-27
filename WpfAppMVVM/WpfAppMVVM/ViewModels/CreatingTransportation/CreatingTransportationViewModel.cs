@@ -31,6 +31,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
             mode = Mode.Additing;
             settingsUp();
+            getPaymentMethods();
         }
 
         public CreatingTransportationViewModel(Transportation transportation)
@@ -41,6 +42,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             mode = Mode.Editing;
             settingsUp();
             setFields();
+            getPaymentMethods();
         }
 
         private void settingsUp() 
@@ -53,6 +55,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             TraillerSource = new List<Trailler>();
             TraillerBrandSource = new List<TraillerBrand>();
             RoutePointSource = new List<RoutePoint>();
+            PaymentMethodsSource = new List<PaymentMethod>();
             _routePointBuilder = new RoutePointBuilder();
             _accountNameBuilder = new AccountNameBuilder();
         }
@@ -72,6 +75,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             AddDispatcherRouteByKeyboard = new DelegateCommand(RouteDispatcher_KeyDown);
             GetPointRouteLoadings = new DelegateCommand(getPointRouteLoadings);
             GetPointRouteDispatchers = new DelegateCommand(getPointRouteDispatchers);
+            GetPaymentMethods = new DelegateCommand(getPaymentMethods);
         }
 
         private void setFields() 
@@ -96,6 +100,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 {
                     TraillerBrandSource.Add(TraillerBrand);
                 }
+            }
+            if (PaymentMethodsSource.Count == 0 && PaymentMethod != null) 
+            {
+                PaymentMethodsSource.Add(PaymentMethod);
             }
 
             _accountNameBuilder.Driver = Driver;
@@ -168,6 +176,13 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 _buttonName = value;
                 OnPropertyChanged(nameof(ButtonName));
             }
+        }
+
+        private async Task getPaymentMethods() 
+        {
+            var list = await _context.PaymentMethods.ToListAsync();
+            if (PaymentMethodsSource.Count != 0) list.Remove(PaymentMethodsSource.Single());
+            PaymentMethodsSource.AddRange(list); 
         }
 
         protected override async Task<bool> dataIsCorrect() 

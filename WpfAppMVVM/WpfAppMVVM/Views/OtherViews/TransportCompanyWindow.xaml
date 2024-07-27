@@ -59,7 +59,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Введите инициалы водителя" Grid.Column="0" Margin="3"></Label>
-                        <CustomComponents:CustomComboBox Grid.Column="1" Margin="3" x:Name="ComboBoxDrivers" VerticalAlignment="Center" ItemsSource="{Binding DriverSource}" SelectedItem="{Binding SelectedDriver}" Text="{Binding DriverName}" DisplayMemberPath="Name">
+                        <CustomComponents:CustomComboBox Grid.Column="1" Margin="3,3,3,0" x:Name="ComboBoxDrivers" VerticalAlignment="Center" ItemsSource="{Binding DriverSource}" SelectedItem="{Binding SelectedDriver}" Text="{Binding DriverName}" DisplayMemberPath="Name">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
@@ -72,7 +72,7 @@
                                 KeyUpCommand="{Binding AddDriverByKeyboard}" />
                             </i:Interaction.Behaviors>
                         </CustomComponents:CustomComboBox>
-                        <Button Grid.Column="2" MinWidth="200" Margin="3" Content="Добавить" VerticalAlignment="Center" Command="{Binding AddDriverCommand}"></Button>
+                        <Button Grid.Column="2" MinWidth="200" Margin="3,3,3,0" Content="Добавить" VerticalAlignment="Center" Command="{Binding AddDriverCommand}"></Button>
 
                         <DataGrid IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Drivers}">
                             <DataGrid.Columns>

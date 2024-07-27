@@ -44,9 +44,9 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Margin="5" Content="Наименование бренда" Grid.Column="0"></Label>
-                    <TextBox Margin="5" Grid.Column="1" Text="{Binding Name}"></TextBox>
+                    <TextBox Margin="3,3,3,0" VerticalAlignment="Center" Grid.Column="1" Text="{Binding Name}"></TextBox>
                     <Label Margin="5" Content="Русский аналог" Grid.Column="2"></Label>
-                    <TextBox Margin="5" Grid.Column="3" Text="{Binding RussianName}"></TextBox>
+                    <TextBox Margin="3,3,3,0" VerticalAlignment="Center" Grid.Column="3" Text="{Binding RussianName}"></TextBox>
                 </Grid>
 
                 <GroupBox Grid.Row="1" Grid.ColumnSpan="2" Header="Прицепы" Margin="5">
@@ -63,7 +63,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Введите номер прицепа" Grid.Column="0" Margin="5"></Label>
-                        <CustomComponents:CustomComboBox Grid.Column="1" Margin="5" x:Name="ComboBoxCars" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding SelectedTrailler}" DisplayMemberPath="Number">
+                        <CustomComponents:CustomComboBox Grid.Column="1" Margin="3,3,3,0" VerticalAlignment="Center" x:Name="ComboBoxCars" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding SelectedTrailler}" DisplayMemberPath="Number">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction

@@ -339,22 +339,37 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
 
         //------------------------ PaymentMethod --------------------------------
 
-        public bool PaymentIncludingVAT
+        public DelegateCommand GetPaymentMethods { get; private set; }
+
+        private List<PaymentMethod> _paymentMethodsSource;
+        public List<PaymentMethod> PaymentMethodsSource
         {
-            get => Transportation.PaymentMethodId.HasValue ? Transportation.PaymentMethodId.Value == 1 : false;
-            set 
+            get => _paymentMethodsSource;
+            set
             {
-                if (value) Transportation.PaymentMethodId = 1;
+                _paymentMethodsSource = value;
+                OnPropertyChanged(nameof(PaymentMethodsSource));
             }
         }
 
-        public bool PaymentWithNoVAR 
+        public PaymentMethod PaymentMethod
         {
-            get => Transportation.PaymentMethodId.HasValue ? Transportation.PaymentMethodId.Value == 2 : false;
-            set 
+            get => Transportation.PaymentMethod;
+            set
             {
-                if (value) Transportation.PaymentMethodId = 2;
+                Transportation.PaymentMethod = value;
+                OnPropertyChanged(nameof(PaymentMethod));
             }
+        }
+
+        private void getPaymentMethods(object e)
+        {
+            string text = e as string;
+            PaymentMethodsSource = _context.PaymentMethods
+                            .Where(pm => pm.Name.ToLower().Contains(text.ToLower()))
+                            .OrderBy(t => t.Name)
+                            .Take(5)
+                            .ToList();
         }
     }
 }

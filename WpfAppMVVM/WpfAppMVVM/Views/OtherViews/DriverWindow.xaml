@@ -48,10 +48,10 @@
                     </Grid.ColumnDefinitions>
 
                     <Label Content="Инициалы водителя" Margin="5" Grid.Column="0"></Label>
-                    <TextBox Grid.Column="1" Margin="5" Text="{Binding Name}"></TextBox>
+                    <TextBox Grid.Column="1" Margin="3,3,3,0" VerticalAlignment="Center" Text="{Binding Name}"></TextBox>
 
                     <Label Content="Компания" Margin="5" Grid.Row="1" Grid.Column="2"></Label>
-                    <CustomComponents:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="5" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}" Text="{Binding CompanyText, Mode=OneWayToSource}">
+                    <CustomComponents:CustomComboBox x:Name="comboBoxTransportCompanies" Margin="3,3,3,0" VerticalAlignment="Center" Grid.Row="1" Grid.Column="3" DisplayMemberPath="Name" SelectedItem="{Binding TransportCompany}" ItemsSource="{Binding TransportCompanySource}" Text="{Binding CompanyText, Mode=OneWayToSource}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="CustomEvent">
                                 <i:InvokeCommandAction
@@ -75,7 +75,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Номер машины" Grid.Column="0" Margin="5"></Label>
-                        <CustomComponents:CustomComboBox x:Name="comboBoxCars" Margin="5" Grid.Column="1" DisplayMemberPath="Number" Text="{Binding CarText}" ItemsSource="{Binding CarSource}" SelectedItem="{Binding Car}">
+                        <CustomComponents:CustomComboBox x:Name="comboBoxCars" Margin="3,3,3,0" VerticalAlignment="Center" Grid.Column="1" DisplayMemberPath="Number" Text="{Binding CarText}" ItemsSource="{Binding CarSource}" SelectedItem="{Binding Car}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
@@ -89,7 +89,7 @@
                             </i:Interaction.Behaviors>
                         </CustomComponents:CustomComboBox>
 
-                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddCar}"></Button>
+                        <Button Content="Добавить" Grid.Column="2" Margin="3,3,3,0" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddCar}"></Button>
 
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Car}" ItemsSource="{Binding Cars}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
@@ -121,7 +121,7 @@
                         </Grid.ColumnDefinitions>
 
                         <Label Content="Номер прицепа" Grid.Column="0" Margin="5"></Label>
-                        <CustomComponents:CustomComboBox Margin="5" Grid.Column="1" x:Name="ComboBoxTraillers" DisplayMemberPath="Number" Text="{Binding TraillerText}" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}">
+                        <CustomComponents:CustomComboBox Margin="3,3,3,0" VerticalAlignment="Center" Grid.Column="1" x:Name="ComboBoxTraillers" DisplayMemberPath="Number" Text="{Binding TraillerText}" ItemsSource="{Binding TraillerSource}" SelectedItem="{Binding Trailler}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="CustomEvent">
                                     <i:InvokeCommandAction
@@ -134,7 +134,7 @@
                                 KeyUpCommand="{Binding AddTraillerByKeyboard}" />
                             </i:Interaction.Behaviors>
                         </CustomComponents:CustomComboBox>
-                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" VerticalAlignment="Center" Command="{Binding AddTrailler}"></Button>
+                        <Button Content="Добавить" Grid.Column="2" Grid.Row="0" Margin="3,3,3,0" VerticalAlignment="Center" Command="{Binding AddTrailler}"></Button>
 
                         <DataGrid Grid.Row="2" Grid.ColumnSpan="3" MinHeight="150" SelectedItem="{Binding Trailler}" ItemsSource="{Binding Traillers}" AutoGenerateColumns="False" CanUserAddRows="False">
                             <DataGrid.Columns>
