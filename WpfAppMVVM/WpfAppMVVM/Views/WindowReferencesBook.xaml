@@ -35,7 +35,7 @@
             <Button Content="Прицепы" Margin="5,0,0,0" Command="{Binding GetTraillersDataAsync}"></Button>
             <Button Content="Транспортные компании" Margin="5,0,0,0" Command="{Binding GetTransportCompaniesDataAsync}"></Button>
             <Button Content="Фильтры состояний" Margin="5,0,0,0" Command="{Binding GetFiltresDataAsync}"></Button>
-
+            <Button Content="Способы оплаты" Margin="5,0,0,0" Command="{Binding GetPaymentMethodsDataAsync}"></Button>
         </ToolBar>
         <DataGrid Name="dataGridView" DataContext="{Binding EntityTable}" SelectedItem="{Binding SelectedItem}" AutoGenerateColumns="False" Grid.Row="1" Margin="5" IsReadOnly="True" ItemsSource="{Binding ItemsSource}" Behaviors:DataGridColumnsBehavior.BindableColumns="{Binding ColumnCollection}">
             <i:Interaction.Triggers>

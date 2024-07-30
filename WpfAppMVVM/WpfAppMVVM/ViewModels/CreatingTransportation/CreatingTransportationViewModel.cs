@@ -31,18 +31,14 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
             mode = Mode.Additing;
             settingsUp();
-            getPaymentMethods();
         }
 
         public CreatingTransportationViewModel(Transportation transportation)
         {
             Transportation = transportation;
             WindowName = "Редактирование заявки";
-            ButtonName = "Сохранить изменения";
             mode = Mode.Editing;
             settingsUp();
-            setFields();
-            getPaymentMethods();
         }
 
         private void settingsUp() 
@@ -81,8 +77,12 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         private void setFields() 
         {
             CustomerSource.Add(Customer);
-            DriversSource.Add(Driver);   
-            if (Driver != null && Driver.TransportCompany != null) CompaniesSource.Add(TransportCompany);        
+            DriversSource.Add(Driver);
+            if (Driver != null && Driver.TransportCompany != null) 
+            {
+                CompaniesSource.Add(TransportCompany);
+                OnPropertyChanged(nameof(TransportCompany));
+            }
 
             if (Car != null) 
             {
@@ -90,6 +90,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 if (Car.Brand != null) 
                 {
                     CarBrandSource.Add(Car.Brand);
+                    OnPropertyChanged(nameof(CarBrand));
                 }
             }
 ;
@@ -99,9 +100,10 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
                 if (TraillerBrand != null) 
                 {
                     TraillerBrandSource.Add(TraillerBrand);
+                    OnPropertyChanged(nameof(TraillerBrand));
                 }
             }
-            if (PaymentMethodsSource.Count == 0 && PaymentMethod != null) 
+            if (PaymentMethod != null) 
             {
                 PaymentMethodsSource.Add(PaymentMethod);
             }
@@ -224,7 +226,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
             return route;
         }
 
-        private void setData() // TODO 
+        private void setData() 
         {
             if (Driver != null && Trailler != null)
             {
@@ -246,7 +248,30 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         }
         protected override async Task loadReferenceData() 
         {
-            if(Transportation.Route is null) Transportation.Route = new Route();
+            var contextEnty = _context.Entry(Transportation);
+            if (!contextEnty.Reference(t => t.Car).IsLoaded) 
+            {
+                await contextEnty.Reference(t => t.Car).LoadAsync();
+                if(Transportation.Car != null) await _context.Entry(Transportation.Car).Reference(c => c.Brand).LoadAsync();
+            }
+            if (!contextEnty.Reference(t => t.Trailler).IsLoaded) 
+            {
+                await contextEnty.Reference(t => t.Trailler).LoadAsync();
+                if(Transportation.Trailler != null) await _context.Entry(Transportation.Trailler).Reference(t => t.Brand).LoadAsync();
+            }
+
+            if (!contextEnty.Reference(t => t.Route).IsLoaded) await contextEnty.Reference(t => t.Route).LoadAsync();
+            if (!contextEnty.Reference(t => t.Customer).IsLoaded) await contextEnty.Reference(t => t.Customer).LoadAsync();
+            if (!contextEnty.Reference(t => t.Driver).IsLoaded) 
+            {
+                await contextEnty.Reference(t => t.Driver).LoadAsync();
+                if (Transportation.Driver != null) await _context.Entry(Transportation.Driver).Reference(d => d.TransportCompany).LoadAsync();
+            } 
+            if (!contextEnty.Reference(t => t.StateOrder).IsLoaded) await contextEnty.Reference(t => t.StateOrder).LoadAsync();
+            if (!contextEnty.Reference(t => t.PaymentMethod).IsLoaded) await contextEnty.Reference(t => t.PaymentMethod).LoadAsync();
+            if (Transportation.Route is null) Transportation.Route = new Route();
+            await getPaymentMethods();
+            setFields();
         }
 
         protected override async Task updateEntity() 

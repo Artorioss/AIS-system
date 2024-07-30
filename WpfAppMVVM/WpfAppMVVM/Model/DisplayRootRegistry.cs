@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics.Eventing.Reader;
+using System.Windows;
 
 namespace WpfApp
 {
@@ -16,6 +17,11 @@ namespace WpfApp
                 throw new InvalidOperationException(
                     $"Type {vmType.FullName} is already registered");
             vmToWindowMapping[vmType] = typeof(Win);
+        }
+
+        public bool CheckExistWindowType(Type vmType)
+        {
+            return vmToWindowMapping.ContainsKey(vmType);
         }
 
         public void UnregisterWindowType<VM>()

@@ -38,6 +38,7 @@ namespace WpfAppMVVM
             DisplayRootRegistry.RegisterWindowType<TraillerViewModel, TraillerWindow>();
             DisplayRootRegistry.RegisterWindowType<TransportCompanyViewModel, TransportCompanyWindow>();
             DisplayRootRegistry.RegisterWindowType<FilterStateViewModel, FilterStateWindow>();
+            DisplayRootRegistry.RegisterWindowType<PaymentMethodViewModel, PaymentMethodWindow>();
         }
     }
 

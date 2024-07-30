@@ -16,7 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="0.1*" MaxHeight="50"></RowDefinition>
+            <RowDefinition Height="auto" MaxHeight="36"></RowDefinition>
         </Grid.RowDefinitions>
 
         <ToolBar Grid.Row="0">
@@ -72,6 +72,6 @@
             </i:Interaction.Triggers>
         </DataGrid>
 
-        <Button Content="Добавить перевозку" Margin="5" Grid.Row="2" Command="{Binding CreateTransportationAsync}"></Button>
+        <Button Content="Добавить перевозку" Margin="5" Grid.Row="2" MaxWidth="500"  Command="{Binding CreateTransportationAsync}"></Button>
     </Grid>
 </Window>

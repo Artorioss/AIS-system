@@ -25,6 +25,7 @@ namespace WpfAppMVVM.ViewModels
         public AsyncCommand GetTraillersDataAsync { get; private set; }
         public AsyncCommand GetTransportCompaniesDataAsync { get; private set; }
         public AsyncCommand GetFiltresDataAsync { get; private set; }
+        public AsyncCommand GetPaymentMethodsDataAsync { get; set; }
         public AsyncCommand AddData { get; private set; }
         public AsyncCommand GetDataByValue { get; private set; }
         public AsyncCommand GetNextPageAsync { get; private set; }
@@ -68,8 +69,8 @@ namespace WpfAppMVVM.ViewModels
             GetTraillersDataAsync = new AsyncCommand(async (obj) => await getTraillersData());
             GetTransportCompaniesDataAsync = new AsyncCommand(async (obj) => await getTransportCompaniesData());
             GetFiltresDataAsync = new AsyncCommand(async (obj) => await getFilterData());
+            GetPaymentMethodsDataAsync = new AsyncCommand(async (obj) => await getPaymentMethodData());
             AddData = new AsyncCommand(async (obj) => await addData());
-            //GetDataByValue = new AsyncCommand(getDataByValue);
             GetNextPageAsync = new AsyncCommand(async (obj) => await getNextPage());
             GetPreviosPageAsync = new AsyncCommand(async (obj) => await getPreviosPage());
 
@@ -177,7 +178,11 @@ namespace WpfAppMVVM.ViewModels
 
         private EntityTable getEntityTable(Type typeEntityTable)
         {
-            if (!_entityTablesDict.ContainsKey(typeEntityTable)) _entityTablesDict[typeEntityTable] = createEntityTable(typeEntityTable);
+            if (!_entityTablesDict.ContainsKey(typeEntityTable)) 
+            {
+                if(!registeredInDisplayRootRegistry(_typeVM)) throw new Exception("Данный класс ViewModel не зарегестрирован в DisplayRootRegistry.");
+                _entityTablesDict[typeEntityTable] = createEntityTable(typeEntityTable);
+            } 
             return _entityTablesDict[typeEntityTable];
         }
 
@@ -188,6 +193,11 @@ namespace WpfAppMVVM.ViewModels
             entityTable.asyncFunction += deleteItem;
             RegisterObserver(entityTable);
             return entityTable;
+        }
+
+        private bool registeredInDisplayRootRegistry(Type typeVM) 
+        {
+            return (Application.Current as App).DisplayRootRegistry.CheckExistWindowType(typeVM);
         }
 
         private async Task LoadDataInTable() 
@@ -337,6 +347,17 @@ namespace WpfAppMVVM.ViewModels
             EntityTable = getEntityTable(typeof(FilterTable)); 
             _paginationService.SetQuery(_context.StateFilter);
             _paginationService.SetSearchFunction(obj => _context.StateFilter.Where(f => f.Name.ToLower().Contains(obj.ToLower())));
+            if (EntityTable.changedExist) await LoadDataInTable();
+            notifyElements();
+        }
+
+        private async Task getPaymentMethodData()
+        {
+            clearSearchValueIfExist();
+            _typeVM = typeof(PaymentMethodViewModel);
+            EntityTable = getEntityTable(typeof(PaymentMethodTable));
+            _paginationService.SetQuery(_context.PaymentMethods);
+            _paginationService.SetSearchFunction(obj => _context.PaymentMethods.Where(f => f.Name.ToLower().Contains(obj.ToLower())));
             if (EntityTable.changedExist) await LoadDataInTable();
             notifyElements();
         }

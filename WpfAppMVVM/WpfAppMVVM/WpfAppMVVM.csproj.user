@@ -19,6 +19,9 @@
     <Compile Update="Views\OtherViews\FilterStateWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OtherViews\PaymentMethodWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\OtherViews\RoutePointWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -57,6 +60,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\FilterStateWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OtherViews\PaymentMethodWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\OtherViews\RoutePointWindow.xaml">

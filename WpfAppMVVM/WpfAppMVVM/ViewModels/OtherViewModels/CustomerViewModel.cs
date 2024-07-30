@@ -41,11 +41,6 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task loadReferenceData()
         {
-            if (!_context.Entry(_customer).Collection(tr => tr.Transportations).IsLoaded)
-            {
-                _customer.Transportations.Clear();
-                await _context.Entry(_customer).Collection(tr => tr.Transportations).LoadAsync();
-            }
             setYears();
             setSelectedYear();
         }

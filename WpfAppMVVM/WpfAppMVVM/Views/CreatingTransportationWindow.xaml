@@ -280,7 +280,7 @@
         </GroupBox>
 
         <DockPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="5">
-            <Button Name="ButtonAdd" Content="{Binding ButtonName}" Command="{Binding AcceptСhangesCommand}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
+            <Button Name="ButtonAdd" Content="{Binding ButtonText}" Command="{Binding AcceptСhangesCommand}" CommandParameter="{Binding ElementName=Window}" MaxHeight="60"></Button>
         </DockPanel>
     </Grid>
 </Window>

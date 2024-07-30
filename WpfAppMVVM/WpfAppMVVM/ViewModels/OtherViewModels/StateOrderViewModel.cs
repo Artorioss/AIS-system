@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.CodeDom;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Windows;
@@ -41,11 +42,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
 
         protected override async Task loadReferenceData()
         {
-            if (!_context.Entry(_stateOrder).Collection(s => s.Transportations).IsLoaded)
-            {
-                _stateOrder.Transportations.Clear();
-                await _context.Entry(_stateOrder).Collection(s => s.Transportations).LoadAsync();
-            }
+            await setYears();
+            setSelectedYear();
         }
 
         private void settingUp()
@@ -54,8 +52,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _monthService = new MonthService();
             Years = new List<int>();
             Months = new List<string>();
-            setYears();
-            setSelectedYear();
+
         }
 
         private string _windowName = "Создание состояния";
@@ -134,14 +131,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void setMonthsByYear(int year)
+        private async Task setMonthsByYear(int year)
         {
-            _months = _monthService.GetMonths(_context.Transportations
+            _months = _monthService.GetMonths(await _context.Transportations
                                                   .Where(t => t.DateLoading.Value.Year == year
                                                          && t.StateOrderId == _stateOrder.StateOrderId)
                                                   .Select(t => t.DateLoading.Value.Month)
                                                   .Distinct()
-                                                  .ToList());
+                                                  .ToListAsync());
             setSelectedMonth();
             OnPropertyChanged(nameof(Months));
         }
@@ -158,13 +155,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        private void setYears()
+        private async Task setYears()
         {
-            Years = _context.Transportations
+            Years = await _context.Transportations
                             .Where(t => t.StateOrderId == _stateOrder.StateOrderId)
                             .Select(t => t.DateLoading.Value.Date.Year)
                             .Distinct()
-                            .ToList();
+                            .ToListAsync();
         }
 
         private void setSelectedYear()
@@ -243,7 +240,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             if (SelectedTransportation != null)
             {
                 CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
-                await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(creatingTransportationViewModel);
+                await creatingTransportationViewModel.ShowDialog();
 
                 if (creatingTransportationViewModel.changedExist)
                 {
