@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class TransportCompanyViewModel: BaseViewModel
+    public class TransportCompanyViewModel: BaseViewModel
     {
         TransportCompany _transportCompany;
         public DelegateCommand GetDriversCommand { get; set; }
@@ -26,13 +28,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             } 
         }
 
-        public TransportCompanyViewModel()
+        public TransportCompanyViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _transportCompany = new TransportCompany();
         }
 
-        public TransportCompanyViewModel(TransportCompany transportCompany)
+        public TransportCompanyViewModel(TransportCompany transportCompany, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _transportCompany = transportCompany;

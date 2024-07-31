@@ -3,12 +3,13 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    class PaymentMethodViewModel: BaseViewModel
+    public class PaymentMethodViewModel: BaseViewModel
     {
         PaymentMethod _paymentMethod;
         MonthService _monthService;
@@ -17,14 +18,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand ShowWindowCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
-        public PaymentMethodViewModel()
+        public PaymentMethodViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _paymentMethod = new PaymentMethod();
             mode = Mode.Additing;
             settingUp();
         }
 
-        public PaymentMethodViewModel(PaymentMethod paymentMethod)
+        public PaymentMethodViewModel(PaymentMethod paymentMethod, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _paymentMethod = paymentMethod;
@@ -235,7 +236,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null)
             {
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation, _context, _rootRegistry);
                 await creatingTransportationViewModel.ShowDialog();
 
                 if (creatingTransportationViewModel.changedExist)

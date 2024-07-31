@@ -11,10 +11,12 @@ using WpfAppMVVM.Model.EfCode.Entities;
 using System.Windows.Input;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using WpfAppMVVM.Model.EfCode;
+using WpfAppMVVM.Model;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class FilterStateViewModel : BaseViewModel
+    public class FilterStateViewModel : BaseViewModel
     {
         StateFilter _stateFilter;
         public DelegateCommand GetStatesCommand { get; set; }
@@ -25,13 +27,13 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             get => _stateFilter.StateOrders;
         }
-        public FilterStateViewModel()
+        public FilterStateViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _stateFilter = new StateFilter();
         }
 
-        public FilterStateViewModel(StateFilter stateFilter)
+        public FilterStateViewModel(StateFilter stateFilter, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _stateFilter = stateFilter;

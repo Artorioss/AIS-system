@@ -3,12 +3,14 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CarViewModel : BaseViewModel
+    public class CarViewModel : BaseViewModel
     {
         private const string _pattern = "[А-Я]\\d{3}[А-Я]{2}\\d";
         private Regex _regex;
@@ -20,7 +22,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
         public DelegateCommand GetBrandsCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
-        public CarViewModel()
+        public CarViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _car = new Car();
@@ -28,7 +30,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             _regex = new Regex(_pattern);
         }
 
-        public CarViewModel(Car car)
+        public CarViewModel(Car car, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _car = car;

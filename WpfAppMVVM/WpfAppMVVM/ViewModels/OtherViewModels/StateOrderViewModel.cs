@@ -5,13 +5,14 @@ using System.Diagnostics.Eventing.Reader;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class StateOrderViewModel: BaseViewModel
+    public class StateOrderViewModel: BaseViewModel
     {
         StateOrder _stateOrder;
         MonthService _monthService;
@@ -20,14 +21,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand ShowWindowCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
-        public StateOrderViewModel()
+        public StateOrderViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _stateOrder = new StateOrder();
             mode = Mode.Additing;
             settingUp();
         }
 
-        public StateOrderViewModel(StateOrder stateOrder)
+        public StateOrderViewModel(StateOrder stateOrder, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _stateOrder = stateOrder;
@@ -239,7 +240,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null)
             {
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation, _context, _rootRegistry);
                 await creatingTransportationViewModel.ShowDialog();
 
                 if (creatingTransportationViewModel.changedExist)

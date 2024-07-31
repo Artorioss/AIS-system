@@ -4,12 +4,14 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class DriverViewModel : BaseViewModel
+    public class DriverViewModel : BaseViewModel
     {
         public DelegateCommand GetCustomers { get; private set; }
         public DelegateCommand GetCars { get; private set; }
@@ -161,14 +163,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public DriverViewModel() 
+        public DriverViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _driver = new Driver();
             _context.Add(_driver);
             mode = Mode.Additing;
         }
 
-        public DriverViewModel(Driver driver)
+        public DriverViewModel(Driver driver, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _driver = driver;
             TransportCompanySource = new List<TransportCompany>() { _driver.TransportCompany };

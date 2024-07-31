@@ -3,7 +3,7 @@ using System.Net;
 
 namespace WpfAppMVVM.Model
 {
-    internal interface IObserver
+    public interface IObserver
     {
         public void Update();
     }

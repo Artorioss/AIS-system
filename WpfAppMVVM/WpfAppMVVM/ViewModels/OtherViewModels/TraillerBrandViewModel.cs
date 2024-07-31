@@ -2,12 +2,14 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class TraillerBrandViewModel: BaseViewModel
+    public class TraillerBrandViewModel: BaseViewModel
     {
         private TraillerBrand _brand;
         public ObservableCollection<Trailler> Traillers { get; set; }
@@ -68,14 +70,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public TraillerBrandViewModel()
+        public TraillerBrandViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _brand = new TraillerBrand();
             Traillers = new ObservableCollection<Trailler>();
         }
 
-        public TraillerBrandViewModel(TraillerBrand brand)
+        public TraillerBrandViewModel(TraillerBrand brand, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _brand = brand;

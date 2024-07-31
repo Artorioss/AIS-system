@@ -6,6 +6,7 @@ using System.DirectoryServices.ActiveDirectory;
 using System.Net;
 using System.Windows;
 using System.Windows.Threading;
+using WpfApp;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
@@ -13,13 +14,16 @@ using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.Models;
 using WpfAppMVVM.Models.QueryObjects;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
+using WpfAppMVVM.ViewModels.OtherViewModels;
 using WpfAppMVVM.Views;
+using WpfAppMVVM.Views.OtherViews;
 
 namespace WpfAppMVVM.ViewModels
 {
     internal class MainWindowViewModel : NotifyService
     {
-        public TransportationEntities _transportationEntities { get; set; }
+        private DisplayRootRegistry _displayRootRegistry;
+        public TransportationEntities _context { get; set; }
         public AsyncCommand CreateTransportationAsync { get; private set; }
         public AsyncCommand ShowReferencesBookAsync { get; private set; }
         public AsyncCommand EditDataAsync { get; private set; }
@@ -205,7 +209,8 @@ namespace WpfAppMVVM.ViewModels
 
         public MainWindowViewModel()
         {
-            _transportationEntities = (Application.Current as App)._context;
+            _context = new TransportationEntities();
+            _displayRootRegistry = createDisplayRootRegistry();
             ItemsSource = new ObservableCollection<TransportationDTO>();
 
             _loadingTimer = new DispatcherTimer
@@ -227,6 +232,31 @@ namespace WpfAppMVVM.ViewModels
             CopyCommand = new DelegateCommand((obj) => copy());
             SortCommand = new DelegateCommand((obj) => onSorting());
             CloseRequestAsyncCommand = new AsyncCommand(setNewStatusAsync);
+        }
+
+        private DisplayRootRegistry createDisplayRootRegistry() 
+        {
+            DisplayRootRegistry displayRootRegistry = new DisplayRootRegistry();
+            registrationWindows(displayRootRegistry);
+            return displayRootRegistry;
+        }
+
+        private void registrationWindows(DisplayRootRegistry DisplayRootRegistry)
+        {
+            DisplayRootRegistry.RegisterWindowType<CreatingTransportationViewModel, CreatingTransportationWindow>();
+            DisplayRootRegistry.RegisterWindowType<ReferenceBookViewModel, WindowReferencesBook>();
+            DisplayRootRegistry.RegisterWindowType<CarBrandViewModel, CarBrandWindow>();
+            DisplayRootRegistry.RegisterWindowType<CarViewModel, CarWindow>();
+            DisplayRootRegistry.RegisterWindowType<CustomerViewModel, CustomerWindow>();
+            DisplayRootRegistry.RegisterWindowType<DriverViewModel, DriverWindow>();
+            DisplayRootRegistry.RegisterWindowType<RouteViewModel, RouteWindow>();
+            DisplayRootRegistry.RegisterWindowType<RoutePointViewModel, RoutePointWindow>();
+            DisplayRootRegistry.RegisterWindowType<StateOrderViewModel, StateWindow>();
+            DisplayRootRegistry.RegisterWindowType<TraillerBrandViewModel, TraillerBrandWindow>();
+            DisplayRootRegistry.RegisterWindowType<TraillerViewModel, TraillerWindow>();
+            DisplayRootRegistry.RegisterWindowType<TransportCompanyViewModel, TransportCompanyWindow>();
+            DisplayRootRegistry.RegisterWindowType<FilterStateViewModel, FilterStateWindow>();
+            DisplayRootRegistry.RegisterWindowType<PaymentMethodViewModel, PaymentMethodWindow>();
         }
 
         private async Task updateDateFiltres() 
@@ -286,7 +316,7 @@ namespace WpfAppMVVM.ViewModels
         {
             var startDate = new DateTime(SelectedYear, _selectedMonth, 1);
             var endDate = startDate.AddMonths(1);
-            return await _transportationEntities.Transportations
+            return await _context.Transportations
                                                 .Include(t => t.Driver)
                                                 .Include(t => t.Customer)
                                                 .Include(t => t.StateOrder)
@@ -306,7 +336,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task showTransportationWindow()
         {
-            CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel();
+            CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(_context, _displayRootRegistry);
             await creatingTransportationViewModel.ShowDialog();
 
             if (creatingTransportationViewModel.changedExist)
@@ -354,7 +384,7 @@ namespace WpfAppMVVM.ViewModels
             if (TransportationDTO != null) 
             {
                 _loadingTimer.Start();
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(await getTransportationById(TransportationDTO.TransportationId));
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(await getTransportationById(TransportationDTO.TransportationId), _context, _displayRootRegistry);
                 _loadingTimer.Stop();
                 StateText = "Редактирование заявки";
                 await creatingTransportationViewModel.ShowDialog();
@@ -406,9 +436,9 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task showWindowReferencesBook()
         {
-            ReferenceBookViewModel referenceBookViewModel = new ReferenceBookViewModel();
+            ReferenceBookViewModel referenceBookViewModel = new ReferenceBookViewModel(_context, _displayRootRegistry);
             StateText = $"В отделе 'Справочники'";
-            await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(referenceBookViewModel);
+            await _displayRootRegistry.ShowModalPresentation(referenceBookViewModel);
             if (referenceBookViewModel.ChangedExists) 
             {
                 if (Years.Count != 0) await loadItemsInItemSource();

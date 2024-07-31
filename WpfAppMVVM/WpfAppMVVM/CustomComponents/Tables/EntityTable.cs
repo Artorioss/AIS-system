@@ -10,7 +10,7 @@ using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
-    internal abstract class EntityTable: IObserver
+    public abstract class EntityTable: IObserver
     {
         protected TransportationEntities _context;
         DataGridTemplateColumn dataGridColumnDelete;
@@ -24,7 +24,7 @@ namespace WpfAppMVVM.CustomComponents.Tables
         public delegate Task AsyncFunction();
         public AsyncFunction asyncFunction;
 
-        public EntityTable() 
+        public EntityTable(TransportationEntities Context) 
         {
             ColumnCollection = new ObservableCollection<DataGridColumn>();
             ItemsSource = new ObservableCollection<IEntity>();
@@ -32,7 +32,7 @@ namespace WpfAppMVVM.CustomComponents.Tables
             changedExist = true;
             createEntityTable();
             addDeleteColumn();
-            _context = (Application.Current as App)._context;
+            _context = Context;
         }
 
         private void addDeleteColumn()

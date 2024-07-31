@@ -1,19 +1,18 @@
 ﻿using System.Windows;
 using WpfApp;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
 using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal abstract class BaseViewModel : NotifyService
+    public abstract class BaseViewModel : NotifyService
     {
+        protected IDisplayRootRegistry _rootRegistry;
         protected TransportationEntities _context;
         private Mode _mode;
-        private Window _wind;
         public bool changedExist { get; set; } = false;
-
-        public DelegateCommand OnLoadedCommand { get; set; }
         public AsyncCommand AcceptСhangesCommand { get; set; }
 
         public Mode mode
@@ -37,17 +36,12 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public BaseViewModel()
+        public BaseViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry)
         {
-            _context = (Application.Current as App)._context;
-            OnLoadedCommand = new DelegateCommand(onLoaded);
+            _context = Context;
+            _rootRegistry = displayRootRegistry;
             AcceptСhangesCommand = new AsyncCommand(async (obj) => await action());
             setCommands();
-        }
-
-        private void onLoaded(object obj) 
-        {
-            _wind = obj as Window;
         }
 
         public async Task SaveChangesAsync() 
@@ -66,7 +60,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             await loadReferenceData();
             cloneEntity();
-            await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(this);
+            await _rootRegistry.ShowModalPresentation(this);
         }
 
         private void setButtonText() 
@@ -88,7 +82,7 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
                     else await updateEntity();
                     await SaveChangesAsync();
                     changedExist = true;
-                    _wind?.Close();
+                    _rootRegistry.ClosePresentation(this);
                 }
                 catch (Exception ex) 
                 {

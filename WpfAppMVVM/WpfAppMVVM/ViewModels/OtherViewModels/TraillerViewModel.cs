@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Windows;
 using System.Windows.Input;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    class TraillerViewModel: BaseViewModel
+    public class TraillerViewModel: BaseViewModel
     {
         Trailler _trailler;
         public ObservableHashSet<Driver> Drivers { get; set; }
@@ -16,14 +18,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand AddDriverByKeyboardCommand { get; set; }
         public DelegateCommand GetBrandsCommand { get; set; }
         public DelegateCommand DeleteCommand { get; set; }
-        public TraillerViewModel()
+        public TraillerViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _trailler = new Trailler();
             Drivers = new ObservableHashSet<Driver>();
         }
 
-        public TraillerViewModel(Trailler trailler)
+        public TraillerViewModel(Trailler trailler, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _trailler = trailler;   

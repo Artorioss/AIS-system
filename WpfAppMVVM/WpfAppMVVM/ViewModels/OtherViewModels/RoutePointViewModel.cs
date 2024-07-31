@@ -4,12 +4,13 @@ using System.Net;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class RoutePointViewModel: BaseViewModel
+    public class RoutePointViewModel: BaseViewModel
     {
         RoutePoint _routePoint;
         MonthService _monthService;
@@ -17,14 +18,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public DelegateCommand SortCommand { get; set; }
         public ObservableCollection<Route> FilteredRoutes { get; private set; }
 
-        public RoutePointViewModel()
+        public RoutePointViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _routePoint = new RoutePoint();
             mode = Mode.Additing;
             settingUp();
         }
 
-        public RoutePointViewModel(RoutePoint routePoint)
+        public RoutePointViewModel(RoutePoint routePoint, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _routePoint = routePoint;

@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics.Eventing.Reader;
 using System.Windows;
+using WpfAppMVVM.Model;
 
 namespace WpfApp
 {
-    public class DisplayRootRegistry
+    public class DisplayRootRegistry: IDisplayRootRegistry
     {
         Dictionary<Type, Type> vmToWindowMapping = new Dictionary<Type, Type>();
 
@@ -67,7 +68,7 @@ namespace WpfApp
             openWindows[vm] = window;
         }
 
-        public void HidePresentation(object vm)
+        public void ClosePresentation(object vm)
         {
             Window window;
             if (!openWindows.TryGetValue(vm, out window))

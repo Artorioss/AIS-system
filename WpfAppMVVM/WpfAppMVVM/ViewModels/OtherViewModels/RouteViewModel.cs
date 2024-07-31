@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class RouteViewModel: BaseViewModel
+    public class RouteViewModel: BaseViewModel
     {
         Route _route;
         MonthService _monthService;
@@ -19,14 +20,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public AsyncCommand ShowWindowAsyncCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
-        public RouteViewModel()
+        public RouteViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _route = new Route();
             mode = Mode.Additing;
             settingUp();
         }
 
-        public RouteViewModel(Route route)
+        public RouteViewModel(Route route, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _route = route;
@@ -243,8 +244,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null)
             {
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
-                await (Application.Current as App).DisplayRootRegistry.ShowModalPresentation(creatingTransportationViewModel);
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation, _context, _rootRegistry);
+                await creatingTransportationViewModel.ShowDialog();
 
                 if (creatingTransportationViewModel.changedExist)
                 {

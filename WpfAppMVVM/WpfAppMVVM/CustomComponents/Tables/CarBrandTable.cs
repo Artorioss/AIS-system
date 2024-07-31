@@ -3,12 +3,17 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Xaml;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
     internal class CarBrandTable : EntityTable
     {
+        public CarBrandTable(TransportationEntities Context) : base(Context)
+        {
+        }
+
         protected override void createEntityTable()
         {
             DataGridTextColumn columnName = new DataGridTextColumn();

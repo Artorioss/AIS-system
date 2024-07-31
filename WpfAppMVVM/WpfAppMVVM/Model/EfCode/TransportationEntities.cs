@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Text;
-using System.Threading.Tasks;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.Model.EfCode
@@ -25,9 +19,18 @@ namespace WpfAppMVVM.Model.EfCode
         public DbSet<TransportCompany> TransportCompanies { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<StateFilter> StateFilter { get; set; }
+
+        bool _testing = false; // Нужно для тестов
+
+        public TransportationEntities(DbContextOptions<TransportationEntities> options): base(options)
+        { _testing = true; }
+
+        public TransportationEntities()
+        { }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=Transportations;Username=postgres;Password=qwerty");
+            if(!_testing) optionsBuilder.UseNpgsql("Host=localhost;Port=5433;Database=Transportations;Username=postgres;Password=qwerty");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

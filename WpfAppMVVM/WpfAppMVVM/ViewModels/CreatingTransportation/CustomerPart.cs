@@ -11,7 +11,7 @@ using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
-    internal partial class CreatingTransportationViewModel : BaseViewModel
+    public partial class CreatingTransportationViewModel : BaseViewModel
     {
         private List<Customer> _customerSource;
         public List<Customer> CustomerSource 

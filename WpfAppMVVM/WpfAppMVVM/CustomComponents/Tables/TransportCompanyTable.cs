@@ -1,12 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
     internal class TransportCompanyTable : EntityTable
     {
+        public TransportCompanyTable(TransportationEntities Context) : base(Context) 
+        { }
+
         protected override void createEntityTable()
         {
             DataGridTextColumn columnBrandName = new DataGridTextColumn();

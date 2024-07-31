@@ -10,13 +10,6 @@
         mc:Ignorable="d"
         Title="Справочники" Height="550" Width="1200" FontSize="16">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Closing">
-            <i:InvokeCommandAction
-        Command="{Binding SaveChanges}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>

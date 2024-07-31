@@ -11,14 +11,6 @@
         mc:Ignorable="d"
         Title="{Binding WindowName}" ResizeMode="NoResize" Height="600" Width="600" FontSize="16" Name="Window" WindowStartupLocation="CenterScreen">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction
-                Command="{Binding OnLoadedCommand}"
-                CommandParameter="{Binding ElementName=Window}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>

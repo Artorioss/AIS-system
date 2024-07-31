@@ -7,11 +7,16 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows;
 using WpfAppMVVM.Model.EfCode.Entities;
+using WpfAppMVVM.Model.EfCode;
 
 namespace WpfAppMVVM.CustomComponents.Tables
 {
     class PaymentMethodTable: EntityTable
     {
+        public PaymentMethodTable(TransportationEntities Context) : base(Context)
+        {
+        }
+
         protected override void createEntityTable()
         {
             DataGridTextColumn columnName = new DataGridTextColumn();

@@ -2,12 +2,15 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
+using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CarBrandViewModel : BaseViewModel
+    public class CarBrandViewModel : BaseViewModel
     {
         private CarBrand _brand;
         public DelegateCommand AddCarCommand { get; set; }
@@ -77,14 +80,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
             }
         }
 
-        public CarBrandViewModel() 
+        public CarBrandViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry): base(Context, displayRootRegistry)
         {
             mode = Mode.Additing;
             _brand = new CarBrand();
             Cars = new ObservableCollection<Car>();
         }
 
-        public CarBrandViewModel(CarBrand brand) 
+        public CarBrandViewModel(CarBrand brand, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _brand = brand;

@@ -11,14 +11,6 @@
         mc:Ignorable="d"
         Name="Window" Height="600" Width="850" FontSize="16" Title="{Binding WindowName}">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction
-            Command="{Binding OnLoadedCommand}"
-            CommandParameter="{Binding ElementName=Window}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <Grid>
         <GroupBox Header="Введите данные" Margin="5">
             <Grid>

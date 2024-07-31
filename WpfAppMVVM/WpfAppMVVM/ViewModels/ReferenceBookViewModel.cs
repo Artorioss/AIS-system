@@ -12,7 +12,7 @@ using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels
 {
-    internal class ReferenceBookViewModel : NotifyService, IObservable
+    public class ReferenceBookViewModel : NotifyService, IObservable
     {
         public AsyncCommand GetCarsDataAsync { get; private set; }
         public AsyncCommand GetCarBrandsDataAsync { get; private set; }
@@ -31,6 +31,7 @@ namespace WpfAppMVVM.ViewModels
         public AsyncCommand GetNextPageAsync { get; private set; }
         public AsyncCommand GetPreviosPageAsync { get; private set; }
 
+        private IDisplayRootRegistry _rootRegistry;
         private TransportationEntities _context;
         private PaginationService _paginationService;
         private BaseViewModel _viewModel;
@@ -51,9 +52,10 @@ namespace WpfAppMVVM.ViewModels
             }
         }
 
-        public ReferenceBookViewModel() 
+        public ReferenceBookViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) 
         {
-            _context = (Application.Current as App)._context;
+            _context = Context;
+            _rootRegistry = displayRootRegistry;
             _paginationService = new PaginationService();
             _entityTablesDict = new Dictionary<Type, EntityTable>();
             _observers = new List<IObserver>();
@@ -188,7 +190,7 @@ namespace WpfAppMVVM.ViewModels
 
         private EntityTable createEntityTable(Type type) 
         {
-            EntityTable entityTable = Activator.CreateInstance(type) as EntityTable;
+            EntityTable entityTable = Activator.CreateInstance(type, _context) as EntityTable;
             entityTable.DoubleClick = new AsyncCommand(async (obj) => await editData());
             entityTable.asyncFunction += deleteItem;
             RegisterObserver(entityTable);
@@ -197,7 +199,7 @@ namespace WpfAppMVVM.ViewModels
 
         private bool registeredInDisplayRootRegistry(Type typeVM) 
         {
-            return (Application.Current as App).DisplayRootRegistry.CheckExistWindowType(typeVM);
+            return _rootRegistry.CheckExistWindowType(typeVM);
         }
 
         private async Task LoadDataInTable() 
@@ -364,7 +366,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task addData() 
         {
-            _viewModel = Activator.CreateInstance(_typeVM) as BaseViewModel;
+            _viewModel = Activator.CreateInstance(_typeVM, _context, _rootRegistry) as BaseViewModel;
             await _viewModel.ShowDialog();
             if (_viewModel.changedExist) _entityTable.AddItem(await _viewModel.GetEntity());
             NotifyObservers();
@@ -372,7 +374,7 @@ namespace WpfAppMVVM.ViewModels
 
         private async Task editData()
         {
-            _viewModel = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem) as BaseViewModel;
+            _viewModel = Activator.CreateInstance(_typeVM, EntityTable.SelectedItem, _context, _rootRegistry) as BaseViewModel;
             await _viewModel.ShowDialog();
             if (_viewModel.changedExist) 
             {

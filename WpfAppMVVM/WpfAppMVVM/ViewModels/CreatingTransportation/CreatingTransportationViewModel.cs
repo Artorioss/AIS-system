@@ -17,23 +17,24 @@ using WpfAppMVVM.Model;
 using System.Net;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.OtherViewModels;
+using WpfAppMVVM.Model.EfCode;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
-    internal partial class CreatingTransportationViewModel: BaseViewModel
+    public partial class CreatingTransportationViewModel: BaseViewModel
     {
         public Transportation Transportation { get; set; }
         private AccountNameBuilder _accountNameBuilder { get; set; }
 
-        public CreatingTransportationViewModel()
+        public CreatingTransportationViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             Transportation = new Transportation();
-            Transportation.StateOrder = _context.StateOrders.Single(s => s.StateOrderId == 1);
+
             mode = Mode.Additing;
             settingsUp();
         }
 
-        public CreatingTransportationViewModel(Transportation transportation)
+        public CreatingTransportationViewModel(Transportation transportation, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             Transportation = transportation;
             WindowName = "Редактирование заявки";
@@ -283,6 +284,7 @@ namespace WpfAppMVVM.ViewModels.CreatingTransportation
         protected override async Task addEntity() 
         {
             setData();
+            Transportation.StateOrder = await _context.StateOrders.FirstOrDefaultAsync();
             await _context.Transportations.AddAsync(Transportation);
         }
 

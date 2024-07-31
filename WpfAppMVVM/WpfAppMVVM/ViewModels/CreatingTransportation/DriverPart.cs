@@ -17,7 +17,7 @@ using WpfAppMVVM.ViewModels.OtherViewModels;
 
 namespace WpfAppMVVM.ViewModels.CreatingTransportation
 {
-    internal partial class CreatingTransportationViewModel : BaseViewModel
+    public partial class CreatingTransportationViewModel : BaseViewModel
     {
         private List<Driver> _driversSource;
         public List<Driver> DriversSource

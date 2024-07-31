@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using WpfAppMVVM.Model;
 using WpfAppMVVM.Model.Command;
+using WpfAppMVVM.Model.EfCode;
 using WpfAppMVVM.Model.EfCode.Entities;
 using WpfAppMVVM.ViewModels.CreatingTransportation;
 using WpfAppMVVM.Views;
 
 namespace WpfAppMVVM.ViewModels.OtherViewModels
 {
-    internal class CustomerViewModel : BaseViewModel
+    public class CustomerViewModel : BaseViewModel
     {
         Customer _customer;
         MonthService _monthService;
@@ -19,14 +20,14 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         public AsyncCommand ShowWindowAsyncCommand { get; set; }
         public DelegateCommand SortCommand { get; set; }
 
-        public CustomerViewModel()
+        public CustomerViewModel(TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             _customer = new Customer();
             mode = Mode.Additing;
             settingUp();
         }
 
-        public CustomerViewModel(Customer customer)
+        public CustomerViewModel(Customer customer, TransportationEntities Context, IDisplayRootRegistry displayRootRegistry) : base(Context, displayRootRegistry)
         {
             mode = Mode.Editing;
             _customer = customer;
@@ -239,7 +240,8 @@ namespace WpfAppMVVM.ViewModels.OtherViewModels
         {
             if (SelectedTransportation != null) 
             {
-                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation);
+                CreatingTransportationViewModel creatingTransportationViewModel = new CreatingTransportationViewModel(SelectedTransportation, _context, _rootRegistry);
+                await creatingTransportationViewModel.ShowDialog();
 
                 if (creatingTransportationViewModel.changedExist)
                 {
